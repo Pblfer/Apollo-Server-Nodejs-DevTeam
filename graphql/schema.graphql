@@ -1,0 +1,104 @@
+# Valores por defecto
+enum Plan {
+  silver
+  gold
+  diamond
+}
+
+
+type Developer {
+  _id: ID!
+  name: String!
+  plan: Plan!
+  description: String
+  phone_area: String
+  phone: String
+  email: String
+  website: String
+  social_fb: String
+  social_ig: String
+  social_linkedin: String
+  img_logo: String
+  img_header: String
+  cc_token: String
+  admin_id: ID
+  admin_email: String
+  sellers: [Seller]
+}
+
+type Seller {
+  _id: ID!
+  first_name: String!
+  last_name: String!
+  email: String!
+  company: String!
+  phone: String
+  pic: String
+  job: String
+  blocked: Boolean
+  
+}
+
+"""
+⚡🚀Este es el listado de todos los Querys para el API de conversion,
+encontrara emogis para recordar y visualizar de forma más rapida.
+"""
+type Query {
+    "🏢🏢🏢 - Todas las Desarrolladoras"
+  getAllDevelopers: [Developer]
+    
+    "☝🏢 - Obtener una Desarrolladora"
+  getDeveloper(id:ID!): Developer
+   
+   "☝👨‍💼 - Obtener Vendedor"
+  getSeller(id:ID!) : Seller
+
+    "👨‍💼👩‍💼🏢 - Obtener Vendedores por Desarrolladora"
+  getSellersByCompany(company: String!) : [Seller]
+
+   "👨‍💼👩‍💼👨‍💼👩‍💼 - Obtener Todos los Vendedores"
+  getAllSellers: [Seller]
+
+}
+
+input DeveloperInput{
+    name: String!
+    email: String!
+    website: String!
+    plan: Plan!
+    admin_email: String!
+    description: String
+    phone_area: String
+    phone: String
+    social_fb: String
+    social_ig: String
+    social_linkedin: String
+    img_logo: String
+    img_header: String
+    cc_token: String
+    admin_id: ID
+    
+}
+
+input SellerInput{
+    first_name: String!
+    last_name: String!
+    email: String!
+    company: String!
+    phone: String
+    pic: String
+    job: String
+    blocked: Boolean
+  
+}
+
+type Mutation{
+    "🏢 - Crear Desarrolladora"
+    newDeveloper(input: DeveloperInput!): Developer
+
+     "👨‍💼 - Crear Vendedor"
+    newSeller(input: SellerInput!): Seller
+
+    "👨‍💼💼 - Agregar Vendedor a Desarrolladora"
+    addSellerToDeveloper(developerID: ID!, sellerID: ID!) : Developer
+}
