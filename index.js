@@ -8,19 +8,9 @@ const typeDefs = readFileSync(
 )
 
 // graphQl
-const { makeExecutableSchema } = require('graphql-tools')
-
 const resolvers = require('./graphql/resolvers')
 
-const mySchema = makeExecutableSchema(
-  {typeDefs, resolvers}
-)
-
-const server = new ApolloServer({
-  schema: mySchema,
-  typeDefs,
-  resolvers,
-});
+const server = new ApolloServer({ typeDefs, resolvers });
 
 server.listen(process.env.PORT || 4000).then(({ url }) => {
   console.log(`🚀 Server ready at ${url}`);
