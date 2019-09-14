@@ -21,7 +21,8 @@ async function connectDB () {
   try {
     client = await MongoClient.connect(mongoUrl, {
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      poolSize: 10
     })
     connection = client.db(DB_NAME)
   } catch (error) {

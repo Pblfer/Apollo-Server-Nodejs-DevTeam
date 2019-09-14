@@ -1,3 +1,4 @@
+require('dotenv').config()
 const { ApolloServer } = require('apollo-server');
 const {readFileSync} = require('fs')
 const {join} = require('path')

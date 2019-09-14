@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "scripts": {
     "start": "nodemon index.js",
-    "build": "echo \"Nothing to build ;)\"" 
+    "build": "echo \"Nothing to build ;)\""
   },
   "dependencies": {
     "apollo-server": "^2.0.0-rc.5",
+    "dotenv": "^8.1.0",
     "graphql": "^0.13.2",
     "mongodb": "^3.3.2",
     "nodemon": "^1.17.5"
