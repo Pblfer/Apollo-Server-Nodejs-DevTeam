@@ -2,6 +2,7 @@
 const connectDB = require("./db");
 const { ObjectID } = require("mongodb");
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 module.exports = {
   newDeveloper: async (root, { input }) => {
@@ -84,5 +85,41 @@ module.exports = {
         console.log(error)
     }
     return desarrolladora;
+  },
+  login: async (root, { username, password }) => {
+     let db;
+     let user;
+     try {
+      db = await connectDB();
+      user = await db
+      .collection("users")
+      .findOne({ email: username });
+      if (!user) {
+        throw new Error('Invalid Login, ErrM01')
+      }
+    
+      const isEqual = await bcrypt.compare(password, user.password)
+    
+      if (!isEqual ) {
+        throw new Error('Invalid Login, ErrM02')
+      }
+     } catch (error) {
+       throw error
+     }
+     const token = jwt.sign(
+      {
+        userID: user.id,
+        email: user.email,
+      },
+      '67D89823E8A7382CC78D5285B1C42',
+      {
+        expiresIn: '1h', // token will expire in 30days
+      },
+    )
+    return {
+      token,
+      user,
+    }
+        
   }
 };

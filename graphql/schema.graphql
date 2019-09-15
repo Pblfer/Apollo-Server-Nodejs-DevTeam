@@ -98,6 +98,11 @@ type Mutation{
       phone: String!
       ): User
 
+      login(username: String!, password: String!) : LoginResponse
+
     "👨‍💼💼 - Agregar Usuario a Equipo de Ventas"
     addUserToSellersTeam(developerID: ID!, userID: ID!) : Developer
+
 }
+
+type LoginResponse { token: String, user: User }
