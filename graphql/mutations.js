@@ -113,7 +113,7 @@ module.exports = {
       },
       '67D89823E8A7382CC78D5285B1C42',
       {
-        expiresIn: '1h', // token will expire in 30days
+        expiresIn: '12h', // token will expire in 30days
       },
     )
     return {
