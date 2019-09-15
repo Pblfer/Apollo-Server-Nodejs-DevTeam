@@ -4,15 +4,15 @@ const { ObjectID } = require("mongodb");
 
 module.exports = {
     Developer:{
-        sellers: async ({sellers}) =>{
+        sellers_team: async ({sellers_team}) =>{
             let db
             let sellersData
             let ids
             try {
                 db = await connectDB()
-                ids= sellers ? sellers.map(id => ObjectID(id)) : []
+                ids= sellers_team ? sellers_team.map(id => ObjectID(id)) : []
                 sellersData = ids.length > 0 ?
-                await db.collection('vendedores').find(
+                await db.collection('users').find(
                     {_id: {$in: ids}}
                 ).toArray()
                 : []

@@ -1,6 +1,7 @@
 "use strict";
 const connectDB = require("./db");
 const { ObjectID } = require("mongodb");
+const bcrypt = require('bcryptjs')
 
 module.exports = {
   newDeveloper: async (root, { input }) => {
@@ -13,10 +14,9 @@ module.exports = {
       social_linkedin: "",
       img_logo: "",
       img_header: "",
-      plan: "",
       cc_token: "",
-      admin_id: "",
-      sellers: []
+      admins_team: [],
+      sellers_team: []
     };
     const nuevaDesarrolladora = Object.assign(defaults, input);
     let db;
@@ -25,54 +25,60 @@ module.exports = {
     try {
       db = await connectDB();
       nuevaDesarrolladora = await db
-        .collection("desarrolladoras")
+        .collection("realStateDevelopers")
         .insertOne(nuevaDesarrolladora);
       nuevaDesarrolladora._id = desarrolladora.insertedId;
     } catch (error) {}
     return nuevaDesarrolladora;
   },
 
-  newSeller: async (root, { input }) => {
-    const defaults = {
-      phone: "",
-      pic: "",
-      job: "",
+  newUser: async (root, { email, password, first_name, last_name, company, phone}) => {
+    const hashPassword = await bcrypt.hash(password,10)
+    const newUser = {
+      first_name,
+      last_name,
+      email,
+      password: hashPassword,
+      company,
+      phone,
+      pic : "",
+      roll: undefined,
       blocked: false
     };
-    const nuevoVendedor = Object.assign(defaults, input);
+    const nuevoUsuario = Object.assign(newUser);
     let db;
-    let vendedor;
+    let usuario;
     try {
       db = await connectDB();
-      nuevoVendedor = await db
-        .collection("vendedores")
-        .insertOne(nuevoVendedor);
-      nuevoVendedor._id = vendedor.insertedId;
+      nuevoUsuario = await db
+        .collection("users")
+        .insertOne(nuevoUsuario);
+      nuevoUsuario._id = usuario.insertedId;
     } catch (error) {}
-    return nuevoVendedor;
+    return nuevoUsuario;
   },
-  addSellerToDeveloper: async (root, { developerID, sellerID }) => {
+  addUserToSellersTeam: async (root, { developerID, userID }) => {
     let db;
     let desarrolladora;
-    let vendedor;
+    let usuario;
     try {
       db = await connectDB();
       //buscar Desarrolladora
       desarrolladora = await db
-        .collection("desarrolladoras")
+        .collection("realStateDevelopers")
         .findOne({ _id: ObjectID(developerID) });
       //buscar Vendedor  
-      vendedor = await db
-        .collection("vendedores")
-        .findOne({ _id: ObjectID(sellerID) });
-      if (!desarrolladora || !vendedor) {
+      usuario = await db
+        .collection("users")
+        .findOne({ _id: ObjectID(userID) });
+      if (!desarrolladora || !usuario) {
         throw new Error("La desarrolladora o el Vendedor no existen.");
     }
       await db
-        .collection("desarrolladoras")
+        .collection("realStateDevelopers")
         .updateOne(
           { _id: ObjectID(developerID) },
-          { $addToSet: { sellers: ObjectID(sellerID) } }
+          { $addToSet: { sellers_team: ObjectID(userID) } }
         );
     } catch (error) {
         console.log(error)

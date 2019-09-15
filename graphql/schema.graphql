@@ -5,6 +5,11 @@ enum Plan {
   diamond
 }
 
+enum Roll {
+  admin
+  seller
+}
+
 
 type Developer {
   _id: ID!
@@ -21,43 +26,43 @@ type Developer {
   img_logo: String
   img_header: String
   cc_token: String
-  admin_id: ID
+  admins_team: [User]
   admin_email: String
-  sellers: [Seller]
+  sellers_team: [User]
 }
 
-type Seller {
+type User {
   _id: ID!
-  first_name: String!
-  last_name: String!
+  first_name: String
+  last_name: String
   email: String!
-  company: String!
+  roll: Roll
+  company: String
   phone: String
   pic: String
-  job: String
   blocked: Boolean
   
 }
 
 """
 ⚡🚀Este es el listado de todos los Querys para el API de conversion,
-encontrara emogis para recordar y visualizar de forma más rapida.
+encontrara emogis para recordar y visualizar de forma más rapida. 🛰
 """
 type Query {
     "🏢🏢🏢 - Todas las Desarrolladoras"
   getAllDevelopers: [Developer]
     
-    "☝🏢 - Obtener una Desarrolladora"
+    "☝🏢 - Obtener Desarrolladora por ID"
   getDeveloper(id:ID!): Developer
    
-   "☝👨‍💼 - Obtener Vendedor"
-  getSeller(id:ID!) : Seller
+   "☝👨‍💻 - Obtener Usuario por ID"
+  getUser(id:ID!) : User
 
     "👨‍💼👩‍💼🏢 - Obtener Vendedores por Desarrolladora"
-  getSellersByCompany(company: String!) : [Seller]
+  getSellersByCompany(company: String!) : [User]
 
-   "👨‍💼👩‍💼👨‍💼👩‍💼 - Obtener Todos los Vendedores"
-  getAllSellers: [Seller]
+   "👨‍💻👩‍💻👩‍💼👨‍💼🦸‍🦸‍ - Obtener Todos los Usuarios"
+  getAllUsers: [User]
 
 }
 
@@ -76,29 +81,23 @@ input DeveloperInput{
     img_logo: String
     img_header: String
     cc_token: String
-    admin_id: ID
-    
 }
 
-input SellerInput{
-    first_name: String!
-    last_name: String!
-    email: String!
-    company: String!
-    phone: String
-    pic: String
-    job: String
-    blocked: Boolean
-  
-}
 
 type Mutation{
     "🏢 - Crear Desarrolladora"
     newDeveloper(input: DeveloperInput!): Developer
 
-     "👨‍💼 - Crear Vendedor"
-    newSeller(input: SellerInput!): Seller
+     "👨‍💼 - Crear Usuario"
+    newUser(
+      email: String!, 
+      password: String!, 
+      first_name: String!, 
+      last_name: String!,
+      company: String!,
+      phone: String!
+      ): User
 
-    "👨‍💼💼 - Agregar Vendedor a Desarrolladora"
-    addSellerToDeveloper(developerID: ID!, sellerID: ID!) : Developer
+    "👨‍💼💼 - Agregar Usuario a Equipo de Ventas"
+    addUserToSellersTeam(developerID: ID!, userID: ID!) : Developer
 }

@@ -9,7 +9,7 @@ module.exports = {
     try {
       db = await connectDB();
       desarrolladoras = await db
-        .collection("desarrolladoras")
+        .collection("realStateDevelopers")
         .find()
         .toArray();
     } catch (error) {
@@ -23,38 +23,38 @@ module.exports = {
     try {
       db = await connectDB();
       desarrolladora = await db
-        .collection("desarrolladoras")
+        .collection("realStateDevelopers")
         .findOne({ _id: ObjectID(id) });
     } catch (error) {
       console.log(error);
     }
     return desarrolladora;
   },
-  getAllSellers: async () =>{
+  getAllUsers: async () =>{
     let db;
-    let vendedores = [];
+    let usuarios = [];
     try {
       db = await connectDB();
-      vendedores = await db
-        .collection("vendedores")
+      usuarios = await db
+        .collection("users")
         .find()
         .toArray();
     } catch (error) {
       console.log(error);
     }
-    return vendedores;
+    return usuarios;
   },
-  getSeller: async (root, { id }) => {
+  getUser: async (root, { id }) => {
     let db;
-    let vendedor;
+    let usuario;
     try {
       db = await connectDB();
-      vendedor = await db
-        .collection("vendedores")
+      usuario = await db
+        .collection("users")
         .findOne({ _id: ObjectID(id) });
     } catch (error) {
       console.log(error);
     }
-    return vendedor;
+    return usuario;
   },
 };
