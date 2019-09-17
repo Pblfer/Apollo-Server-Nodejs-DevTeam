@@ -8,6 +8,7 @@ enum Plan {
 enum Roll {
   admin
   seller
+  notAsigned
 }
 
 
@@ -38,6 +39,7 @@ type User {
   email: String!
   roll: Roll
   company: String
+  company_id: String
   phone: String
   pic: String
   blocked: Boolean
@@ -95,6 +97,7 @@ type Mutation{
       first_name: String!, 
       last_name: String!,
       company: String!,
+      company_id: String!,
       phone: String!
       ): User
 
