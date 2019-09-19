@@ -122,5 +122,23 @@ module.exports = {
       user,
     }
         
+  },
+  updataDeveloperProfile: async(root, {developerID, objectField, value}) =>{
+    let db
+    let updateData
+    try {
+      db = await connectDB();
+      updateData = await db
+      .collection("realStateDevelopers")
+      .updateOne({ _id: ObjectID(developerID) }
+      , {$set:{[objectField]: value}});
+ 
+    } catch (error) {
+      throw error
+    }return {
+      objectField,
+      value
+    }
+    
   }
 };

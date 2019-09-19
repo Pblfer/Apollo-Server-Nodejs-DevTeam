@@ -56,5 +56,6 @@ module.exports = {
       console.log(error);
     }
     return usuario;
-  },
+  }
+  
 };
