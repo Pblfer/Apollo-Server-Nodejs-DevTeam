@@ -3,6 +3,7 @@ const connectDB = require("./db");
 const { ObjectID } = require("mongodb");
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const {Storage} = require('@google-cloud/storage');
 
 module.exports = {
   newDeveloper: async (root, { input }) => {
@@ -140,5 +141,20 @@ module.exports = {
       value
     }
     
-  }
+  },
+  updateDeveloperLogo: async(root, {developerID, filename, company}) =>{
+    let url
+    const storage = new Storage();
+    const bucketName = 'cotizador-conversion';
+    await storage.bucket(bucketName).upload(filename, {
+      gzip: false,
+      resumable: true,
+      destination: `${developerID}/${company}/`,
+      metadata: {
+        cacheControl: 'no-cache',
+      },
+  })
+  url = (`gs://${bucketName}/${filename} is now public.`);
+  return url
+}
 };

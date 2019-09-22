@@ -2,11 +2,15 @@ require('dotenv').config()
 const { ApolloServer } = require('apollo-server');
 const {readFileSync} = require('fs')
 const {join} = require('path')
+const {Storage} = require('@google-cloud/storage');
 
 const typeDefs = readFileSync(
   join(__dirname, 'graphql', 'schema.graphql'),
   'utf-8'
 )
+
+//Google Cloud Storage
+const gcs = new Storage();
 
 // graphQl
 const resolvers = require('./graphql/resolvers')

@@ -98,7 +98,7 @@ type Mutation{
       phone: String!
       ): User
 
-     "🔐 - Login"
+    "🔐 - Login"
     login(username: String!, password: String!) : LoginResponse
 
     "👨‍💼💼 - Agregar Usuario a Equipo de Ventas"
@@ -107,9 +107,13 @@ type Mutation{
     "🏢📝 - Actualizar perfil de Desarrolladora"
     updataDeveloperProfile(developerID: ID!, objectField: String!, value: String!): Updated
 
+    "💎🏢Actualizar Logo de Desarrolladora"
+    updateDeveloperLogo(developerID: ID!, filename: String!, company:String!): UploadResponse
+
 
 
 }
 
 type Updated {value: String, objectField: String}
 type LoginResponse { token: String, user: User }
+type UploadResponse{ url: String}
