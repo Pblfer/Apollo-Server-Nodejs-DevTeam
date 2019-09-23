@@ -4,6 +4,8 @@ const { ObjectID } = require("mongodb");
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const {Storage} = require('@google-cloud/storage');
+const gc = new Storage()
+
 
 module.exports = {
   newDeveloper: async (root, { input }) => {
@@ -139,24 +141,25 @@ module.exports = {
     }return {
       objectField,
       value
+    }},
+
+    uploadFile: async (_, { file }) => {
+      const { createReadStream, filename } = await file;
+
+      await new Promise(res =>
+        createReadStream()
+          .pipe(
+            gc.bucket('cotizador-conversion').file(filename).createWriteStream({
+              resumable: false,
+              gzip: true
+            })
+          )
+          .on("finish", res)
+      );
+
+      files.push(filename);
+
+      return true;
     }
-    
-  },
-  updateDeveloperLogo: async(root, {developerID, path, company}) =>{
-    const storage = new Storage();
-    const bucketName = 'cotizador-conversion';
-    const url = `gs://${bucketName}/developer-images/${company}/${developerID}/${path}`
-    await storage.bucket(bucketName).upload(path, {
-      gzip: false,
-      resumable: true,
-      destination: `developer-images/${company}/${developerID}/`,
-      metadata: {cacheControl: 'no-cache'}
-    })
-    .then(() => {
-      console.log(`${path} uploaded to ${bucketName}.`);
-    })
-      return{
-        url
-      } 
-    }
-  };
+  
+};
