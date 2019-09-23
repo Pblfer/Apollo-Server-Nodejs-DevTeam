@@ -147,8 +147,8 @@ module.exports = {
     const bucketName = 'cotizador-conversion';
     const url = `gs://${bucketName}/developer-images/${company}/${developerID}/${filename}`
     await storage.bucket(bucketName).upload(filename, {
-      gzip: false,
-      resumable: true,
+      gzip: true,
+      resumable: false,
       destination: `developer-images/${company}/${developerID}/`,
       metadata: {
         cacheControl: 'no-cache',
