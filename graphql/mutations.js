@@ -143,18 +143,18 @@ module.exports = {
     
   },
   updateDeveloperLogo: async(root, {developerID, filename, company}) =>{
-    let url
     const storage = new Storage();
     const bucketName = 'cotizador-conversion';
+    const url = `gs://${bucketName}/developer-images/${company}/${developerID}/${filename}`
     await storage.bucket(bucketName).upload(filename, {
       gzip: false,
       resumable: true,
-      destination: `${developerID}/${company}/`,
+      destination: `developer-images/${company}/${developerID}/`,
       metadata: {
         cacheControl: 'no-cache',
-      },
-  })
-  url = (`gs://${bucketName}/${filename} is now public.`);
-  return url
-}
-};
+      }})
+      return{
+        url
+      } 
+    }
+  };
