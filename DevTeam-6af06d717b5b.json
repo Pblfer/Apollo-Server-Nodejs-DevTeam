@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "cotizador-conversion-devteam",
+  "private_key_id": "6af06d717b5bee63851ffcfc40ad1100dc6ffdfa",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC2zt1nPMBre55u\nDMYU9iFVJ2mAlg2g521qNOReKsrLRNAEKFRWVPq/kpWIW80WVcESYqPRxErckjrN\n4exkVruCD7/W8W6C/P5Cs83GLgotTJ37KowU3UgpqlK/n5GgAjepri7iuySZnLpq\n7vvsWwDraUoar9S4UoRyL9WigeS0N+J0wFqohJ3BK05S6yPdqnbXiNVyklY8MZoJ\nSaH7bILZjJ27wZiEl8HqllBAHmISEzoHqsZZM0a6Ow/09SNZKjSYo1fxlZBr+QQY\ndspfaFY7M28tLMl6RyMWcgAmU52CKdfAgsLiXbYNRGAmAFVYrsp7IXV4W1vOdJF5\n4inPK4IRAgMBAAECggEAAeUKe+mwB90n4vWcbvavGUIXkJbdjMuhQW7LaCNy5yDv\nM//UAfIPCEHFbXygF0lrvxxJHOE3MmqMk/oxuEeC2YH+x8RIVDC5lOjmqtVq0xXe\ndE44VfYGK7Jhea12da1YNNjCkSSF6FaswvN3pnc5/vagJz8nygJG76UJxo2omGqQ\nU6MyEVf2L+GJGe399Zb/NiZqBKwcU+uaefRdKrvXVtn09cS6MpRx2gx0rMA2sMuG\n5kXrxzvjW90XQnRN45AYPp3qRoNLRbIHktR7v/4SWCgVZl/oT0Sfam9/LTzcX0Uf\nkMoKU/skEK25cfiC/KhejRKU32LHrx4ssPN+V7qw7QKBgQD8CSXqQjN5gKykutk4\nwcsI5OwOOm3+5b24ZeZdnzwwdaSjBL6bBWSgXeY14knGhiZZjaXcO3xXVWVg+FEZ\nN5t17NVfHm96H1FDRI8/P1RLROby1tfUp6ZBbTR2IeklmvDtWqa37Bd3Wx9BCBfJ\n1vwX/Z15Fr46Awz/cXZVFeUfvQKBgQC5rvaayNyT9rrIUsgvS2B+YY7dPAz5Yxqx\nR91VGECAG/9q2QydFi7qtxDg6GDU1Hz2aVC+VsAKJvM5ASOstp9OX50EcPGXq2wy\ns0hHY5uwbGKzYNzxXVkcDnehrDXZ8ETxl3lxX2/3uImD3ECQV6KZ031pODFpEIWy\n9oswsbl25QKBgAsSX88Fr3sz8uGdr7M1mDTA0bniSTi8YPQ7zb3pI9zBHkVnDPSE\nbSI6XcWaNkF5XS/r8BBXsKOphbWX0wA3mCW7DLiL/ruvqoM4/M37ezl/QmICnCKk\nZsJTCM3zuWlEgDb9F3vW7ET7BMl3kIv2XMa1BnjuTdcAkU6bbmZYeuNFAoGAKRlr\nCDOxbybLjQ+Vs7Ixd4fMgXeLP6AKBndrrCwkCrcnv9SvEA4a8GT43W9SD4nA5yHE\nd3zoINciOtnftZjuhgBv1s3RC8srtcUtGHAZw+EZr66e+OW6lZU2MZjWipi+CeOH\nQ+rl86Tq+z7DI6/iE75WIfYIKcM4dLZRdMPB02kCgYEA4XKFOhNWNhQMnUNboL/k\nXKGIvlVZIPMGBwb60nbfp4okYk8R4hFJ2oUgLuOK/U6kzFS7qGGC7uq+dkUHuap4\nrx2aITX1yrBVdmLxx1IJ6OT8u2qJheZ0I6419s9sRRKS3IeW+XM43dRB/TGRidF7\ny8dvUkZCLx5418DQ3QGGEAI=\n-----END PRIVATE KEY-----\n",
+  "client_email": "frontend@cotizador-conversion-devteam.iam.gserviceaccount.com",
+  "client_id": "106434093923626422912",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/frontend%40cotizador-conversion-devteam.iam.gserviceaccount.com"
+}
