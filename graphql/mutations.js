@@ -142,15 +142,18 @@ module.exports = {
     }
     
   },
-  updateDeveloperLogo: async(root, {developerID, filename, company}) =>{
+  updateDeveloperLogo: async(root, {developerID, path, company}) =>{
     const storage = new Storage();
     const bucketName = 'cotizador-conversion';
-    const url = `gs://${bucketName}/developer-images/${company}/${developerID}/${filename}`
-    await storage.bucket(bucketName).upload(filename, {
+    const url = `gs://${bucketName}/developer-images/${company}/${developerID}/${path}`
+    await storage.bucket(bucketName).upload(path, {
       gzip: false,
       resumable: true,
       destination: `developer-images/${company}/${developerID}/`,
       metadata: {cacheControl: 'no-cache'}
+    })
+    .then(() => {
+      console.log(`${path} uploaded to ${bucketName}.`);
     })
       return{
         url

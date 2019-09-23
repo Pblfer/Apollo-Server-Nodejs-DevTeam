@@ -108,7 +108,7 @@ type Mutation{
     updataDeveloperProfile(developerID: ID!, objectField: String!, value: String!): Updated
 
     "💎🏢Actualizar Logo de Desarrolladora"
-    updateDeveloperLogo(developerID: ID!, filename: String!, company:String!): UploadResponse
+    updateDeveloperLogo(developerID: ID!, path: String!, company:String!): UploadResponse
 
 
 
