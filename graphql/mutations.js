@@ -3,9 +3,6 @@ const connectDB = require("./db");
 const { ObjectID } = require("mongodb");
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const {Storage} = require('@google-cloud/storage');
-const gc = new Storage()
-
 
 module.exports = {
   newDeveloper: async (root, { input }) => {
@@ -143,23 +140,21 @@ module.exports = {
       value
     }},
 
-    uploadFile: async (_, { file }) => {
-      const { createReadStream, filename } = await file;
-
-      await new Promise(res =>
-        createReadStream()
-          .pipe(
-            gc.bucket('cotizador-conversion').file(filename).createWriteStream({
-              resumable: false,
-              gzip: true
-            })
-          )
-          .on("finish", res)
-      );
-
-      files.push(filename);
-
-      return true;
-    }
+    updateUserProfile: async(root, {ID, objectField, value}) =>{
+      let db
+      let updateData
+      try {
+        db = await connectDB();
+        updateData = await db
+        .collection("users")
+        .updateOne({ _id: ObjectID(ID) }
+        , {$set:{[objectField]: value}});
+   
+      } catch (error) {
+        throw error
+      }return {
+        objectField,
+        value
+      }},
   
 };

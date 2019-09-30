@@ -107,6 +107,9 @@ type Mutation{
     "🏢📝 - Actualizar perfil de Desarrolladora"
     updataDeveloperProfile(developerID: ID!, objectField: String!, value: String!): Updated
 
+     "🏢📝 - Actualizar perfil de Usuario"
+    updateUserProfile(ID: ID!, objectField: String!, value: String!): Updated
+
     "💎🏢Actualizar Logo de Desarrolladora"
     uploadFile(file: Upload!): Boolean
 
