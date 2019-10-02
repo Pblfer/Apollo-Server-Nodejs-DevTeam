@@ -33,7 +33,7 @@ module.exports = {
     return nuevaDesarrolladora;
   },
 
-  newUser: async (root, { email, password, first_name, last_name, company, company_id, phone}) => {
+  newUser: async (root, { email, password, first_name, last_name, company, company_id, phone, roll}) => {
     const hashPassword = await bcrypt.hash(password,10)
     const newUser = {
       first_name,
@@ -44,7 +44,7 @@ module.exports = {
       company_id,
       phone,
       pic : "https://firebasestorage.googleapis.com/v0/b/cotizador-conversion.appspot.com/o/stockImages%2FuserDefaultPic.jpg?alt=media&token=7bacc009-b998-4abf-8722-79a5dae8f6c8",
-      roll: undefined,
+      roll,
       blocked: false
     };
     const nuevoUsuario = Object.assign(newUser);
