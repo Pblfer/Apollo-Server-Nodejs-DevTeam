@@ -14,7 +14,7 @@ module.exports = {
       social_ig: "",
       social_linkedin: "",
       img_logo: "",
-      img_header: "",
+      img_header: "https://firebasestorage.googleapis.com/v0/b/cotizador-conversion.appspot.com/o/stockImages%2Fcover.jpg?alt=media&token=67860976-2d6d-4f5b-9b40-9cdc4873d24a",
       cc_token: "",
       admins_team: [],
       sellers_team: []
@@ -43,7 +43,7 @@ module.exports = {
       company,
       company_id,
       phone,
-      pic : "",
+      pic : "https://firebasestorage.googleapis.com/v0/b/cotizador-conversion.appspot.com/o/stockImages%2FuserDefaultPic.jpg?alt=media&token=7bacc009-b998-4abf-8722-79a5dae8f6c8",
       roll: undefined,
       blocked: false
     };
