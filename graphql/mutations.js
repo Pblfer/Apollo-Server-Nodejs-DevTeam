@@ -156,5 +156,31 @@ module.exports = {
         objectField,
         value
       }},
-  
+      
+      deleteSeller: async(root, {developerID, userID}) =>{
+        let db
+        let deleteUser
+        let removeFromCompany
+        try {
+          db = await connectDB();
+          deleteUser = await db
+          .collection("users")
+          .deleteOne({ _id: ObjectID(userID)})
+        } catch (error) {
+          throw error
+        }
+        try {
+          db = await connectDB();
+          removeFromCompany = await db
+          .collection("realStateDevelopers")
+          .updateOne({ _id: ObjectID(developerID) }
+        , {$pull:{sellers_team: ObjectID(userID)}});
+        } catch (error) {
+          
+        }
+        return{
+          deleteUser,
+          removeFromCompany
+        }
+      }
 };

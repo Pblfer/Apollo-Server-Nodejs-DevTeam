@@ -110,12 +110,11 @@ type Mutation{
      "🏢📝 - Actualizar perfil de Usuario"
     updateUserProfile(ID: ID!, objectField: String!, value: String!): Updated
 
-    "💎🏢Actualizar Logo de Desarrolladora"
-    uploadFile(file: Upload!): Boolean
+    "❌👨‍💼👩‍💼 - Eliminar Vendedor"
+    deleteSeller(developerID: ID!, userID:ID!) : User
 
 
 }
 
 type Updated {value: String, objectField: String}
 type LoginResponse { token: String, user: User }
-type Img{ filename: String!, path: String!}
