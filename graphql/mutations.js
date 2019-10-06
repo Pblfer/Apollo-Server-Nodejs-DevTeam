@@ -45,7 +45,7 @@ module.exports = {
       phone,
       pic : "https://firebasestorage.googleapis.com/v0/b/cotizador-conversion.appspot.com/o/stockImages%2FuserDefaultPic.jpg?alt=media&token=7bacc009-b998-4abf-8722-79a5dae8f6c8",
       roll,
-      blocked: false
+      blocked,
     };
     const nuevoUsuario = Object.assign(newUser);
     let db;
@@ -59,6 +59,67 @@ module.exports = {
     } catch (error) {}
     return nuevoUsuario;
   },
+
+  newDiscount: async (root, {name, company_id, proyect_id, discount_amount, active}) =>{
+    let db
+    let discount
+    const newDiscount = {
+      name,
+      company_id,
+      proyect_id,
+      discount_amount,
+      active
+    }
+    const ingresarDescuento = Object.assign(newDiscount)
+    try {
+      db = await connectDB();
+      ingresarDescuento = await db
+      .collection("discounts")
+      .insertOne(ingresarDescuento)
+      ingresarDescuento._id = discount.insertedId
+    } catch (error) {
+      return ingresarDescuento
+    }
+
+  },
+  newProyect: async(root, {name, city, country, zone, direction, total_of_levels, living_levels, deposit_percent, header_img, company_id, company_name, lat, long })=>{
+    let db
+    let proyect
+    const newProyect ={
+      name,
+      city,
+      country,
+      zone,
+      direction,
+      website: "",
+      general_description: "",
+      general_apartament_description: "",
+      total_of_levels,
+      living_levels,
+      point:[long, lat],
+      company_id,
+      company_name,
+      deposit_percent,
+      financing_types: [],
+      discounts: [],
+      header_img,
+      outside_images: [],
+      inside_images: [],
+      quote_logo: "",
+      quote_banner: ""
+    }
+    const ingresarProyecto = Object.assign(newProyect)
+    try {
+      db = await connectDB()
+      ingresarProyecto = await db
+      .collection("proyects")
+      .insertOne(ingresarProyecto)
+      ingresarProyecto._id = proyect.insertedId
+    } catch (error) {
+      return ingresarProyecto
+    }
+  },
+
   addUserToSellersTeam: async (root, { developerID, userID }) => {
     let db;
     let desarrolladora;

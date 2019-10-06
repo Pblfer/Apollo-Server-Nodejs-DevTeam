@@ -10,6 +10,16 @@ enum Roll {
   seller
 }
 
+enum City {
+  Guatemala
+  Colombia
+}
+
+enum ActualState{
+  disponible
+  reservado
+}
+
 
 type Developer {
   _id: ID!
@@ -26,6 +36,7 @@ type Developer {
   img_logo: String
   img_header: String
   cc_token: String
+  proyectos: [Proyect]
   admins_team: [User]
   admin_email: String
   sellers_team: [User]
@@ -41,8 +52,91 @@ type User {
   company_id: String
   phone: String
   pic: String
-  blocked: Boolean
-  
+  blocked: String
+}
+
+type Discount {
+  _id: ID!
+  name: String!
+  proyect_id: String!
+  discount_amount: Int
+  active: String
+}
+
+type Img {
+  _id: ID
+  proyect_id: String!
+  proyect_name: String!
+  img_url: String
+}
+
+type Financing {
+  _id: ID!
+  name: String!
+  interest_rate: Float
+}
+
+type Stock {
+  _id: ID!
+  proyect_id: String!
+  proyect_name: String!
+  plane_img: String
+  level: Int
+  number: String!
+  total_square_mts: Float
+  living_square_mts: Float
+  bathrooms: Int
+  parkings: Int
+  warehouse: Int
+  loundry: String
+  balcony: String
+  kitchen_furniture: String
+  closets: String
+  garden: String
+  price: Int
+  price_with_tax: Int
+  reserve_price: Int
+  financing_types: [Financing]
+  actual_state: ActualState
+  lat: Float
+  long: Float
+}
+
+type Level{
+  _id: ID!
+  company_id: String!
+  number_of_level: Int!
+  plane_img: String
+  inventory: [Stock]
+}
+
+
+
+type Proyect {
+  _id: ID!
+  name: String!
+  city: City!
+  country: String
+  zone: Int
+  direction: String
+  website: String
+  general_description: String
+  general_apartament_description: String
+  total_of_levels: Int
+  living_levels: [Level]
+  lat: Float
+  long: Float
+  financing_types: [Financing]
+  company_id: String
+  company_name: String
+  deposit: Int
+  discounts: [Discount]
+  header_img: String
+  outside_images: [Img]
+  inside_images: [Img]
+  quote_logo: String
+  quote_banner: String
+
 }
 
 """
@@ -113,7 +207,43 @@ type Mutation{
     "❌👨‍💼👩‍💼 - Eliminar Vendedor"
     deleteSeller(developerID: ID!, userID:ID!) : User
 
+    "💰✂ - Agregar Descuento"
+    newDiscount(
+          name: String!,
+          company_id: String!,
+          proyect_id: String!,
+          discount_amount: Int!,
+          active: String!
+          ) : Discount
 
+
+    "📥🏢 - Agregar Proyecto"
+    newProyect(
+      name: String!,
+      city: City!,
+      country: String!,
+      zone: Int,
+      direction: String!,
+      total_of_levels: Int!,
+      living_levels: Int!,
+      deposit_percent: Int!,
+      header_img: String!,
+      company_id: String!,
+      company_name: String!,
+      lat: Float!,
+      long: Float!,
+      website: String,
+      general_description: String,
+      general_apartament_description: String,
+      quote_logo: String,
+      quote_banner: String
+        ): Proyect
+      
+      "🏛💵- Agregar un Financiamiento"
+    newFinancing(
+      name: String!
+      interest_rate: Float
+        ): Financing
 }
 
 type Updated {value: String, objectField: String}
