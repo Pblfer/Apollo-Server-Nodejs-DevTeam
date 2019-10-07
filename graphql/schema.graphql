@@ -20,6 +20,11 @@ enum ActualState{
   reservado
 }
 
+enum UserStatus{
+  Activo
+  Bloqueado
+}
+
 
 type Developer {
   _id: ID!
@@ -52,7 +57,7 @@ type User {
   company_id: String
   phone: String
   pic: String
-  blocked: String
+  blocked: UserStatus
 }
 
 type Discount {
@@ -191,6 +196,7 @@ type Mutation{
       company_id: String!,
       phone: String!
       roll: Roll!
+      blocked: UserStatus
       ): User
 
     "🔐 - Login"

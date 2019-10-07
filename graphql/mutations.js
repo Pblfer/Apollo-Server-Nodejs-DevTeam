@@ -34,7 +34,7 @@ module.exports = {
     return nuevaDesarrolladora;
   },
 
-  newUser: async (root, { email, password, first_name, last_name, company, company_id, phone, roll}) => {
+  newUser: async (root, { email, password, first_name, last_name, company, company_id, phone, roll, blocked}) => {
     const hashPassword = await bcrypt.hash(password,10)
     const newUser = {
       first_name,
