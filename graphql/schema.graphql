@@ -36,7 +36,7 @@ type Developer {
   img_logo: String
   img_header: String
   cc_token: String
-  proyectos: [Proyect]
+  proyects: [Proyect]
   admins_team: [User]
   admin_email: String
   sellers_team: [User]
@@ -123,7 +123,8 @@ type Proyect {
   general_description: String
   general_apartament_description: String
   total_of_levels: Int
-  living_levels: [Level]
+  living_levels: Int
+  levels: [Level]
   lat: Float
   long: Float
   financing_types: [Financing]
@@ -239,6 +240,10 @@ type Mutation{
       quote_banner: String
         ): Proyect
       
+      
+    "👨‍💼💼 - Agregar Proyecto a Desarrolladora"
+    addProyectToDeveloper(developerID: ID!, proyectID: ID!) : Developer
+
       "🏛💵- Agregar un Financiamiento"
     newFinancing(
       name: String!

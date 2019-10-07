@@ -20,7 +20,28 @@ module.exports = {
                 console.log(err)
             }
             return sellersData
+        },
+        proyects: async ({proyects}) =>{
+            let db
+            let proyectData
+            let ids
+            try {
+                db = await connectDB()
+                ids= proyects ? proyects.map(id => ObjectID(id)) : []
+                proyectData = ids.length > 0 ?
+                await db.collection('proyects').find(
+                    {_id: {$in: ids}}
+                ).toArray()
+                : []
+            } catch (err) {
+                console.log(err)
+            }
+            return proyectData
         }
+    
+    
+    
+    
     },
 
 }

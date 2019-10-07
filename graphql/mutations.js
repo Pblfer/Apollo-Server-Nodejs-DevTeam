@@ -16,6 +16,7 @@ module.exports = {
       img_logo: "",
       img_header: "https://firebasestorage.googleapis.com/v0/b/cotizador-conversion.appspot.com/o/stockImages%2Fcover.jpg?alt=media&token=67860976-2d6d-4f5b-9b40-9cdc4873d24a",
       cc_token: "",
+      proyects:[],
       admins_team: [],
       sellers_team: []
     };
@@ -96,6 +97,9 @@ module.exports = {
       general_apartament_description: "",
       total_of_levels,
       living_levels,
+      levels: [],
+      long,
+      lat,
       point:[long, lat],
       company_id,
       company_name,
@@ -142,6 +146,34 @@ module.exports = {
         .updateOne(
           { _id: ObjectID(developerID) },
           { $addToSet: { sellers_team: ObjectID(userID) } }
+        );
+    } catch (error) {
+        console.log(error)
+    }
+    return desarrolladora;
+  },
+  addProyectToDeveloper: async (root, { developerID, proyectID }) => {
+    let db;
+    let desarrolladora;
+    let proyecto;
+    try {
+      db = await connectDB();
+      //buscar Desarrolladora
+      desarrolladora = await db
+        .collection("realStateDevelopers")
+        .findOne({ _id: ObjectID(developerID) });
+      //buscar Vendedor  
+      proyecto = await db
+        .collection("proyects")
+        .findOne({ _id: ObjectID(proyectID) });
+      if (!desarrolladora || !proyecto) {
+        throw new Error("La desarrolladora o el Vendedor no existen.");
+    }
+      await db
+        .collection("realStateDevelopers")
+        .updateOne(
+          { _id: ObjectID(developerID) },
+          { $addToSet: { proyects: ObjectID(proyectID) } }
         );
     } catch (error) {
         console.log(error)
