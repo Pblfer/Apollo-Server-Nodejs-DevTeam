@@ -196,7 +196,7 @@ type Mutation{
       company_id: String!,
       phone: String!
       roll: Roll!
-      blocked: UserStatus
+      blocked: UserStatus!
       ): User
 
     "🔐 - Login"
