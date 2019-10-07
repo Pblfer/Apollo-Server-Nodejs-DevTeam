@@ -129,6 +129,7 @@ type Proyect {
   general_apartament_description: String
   total_of_levels: Int
   living_levels: Int
+  total_apartaments: Int
   levels: [Level]
   lat: Float
   long: Float
@@ -233,6 +234,7 @@ type Mutation{
       direction: String!,
       total_of_levels: Int!,
       living_levels: Int!,
+      total_apartaments: Int!
       deposit_percent: Int!,
       header_img: String!,
       company_id: String!,
