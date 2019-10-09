@@ -25,6 +25,13 @@ enum UserStatus{
   Bloqueado
 }
 
+enum Etapas{
+  PREV
+  LANZ
+  CONST
+  FIN
+}
+
 
 type Developer {
   _id: ID!
@@ -143,6 +150,7 @@ type Proyect {
   inside_images: [Img]
   quote_logo: String
   quote_banner: String
+  etapa: Etapas!
 
 }
 
@@ -245,7 +253,8 @@ type Mutation{
       general_description: String,
       general_apartament_description: String,
       quote_logo: String,
-      quote_banner: String
+      quote_banner: String,
+      etapa: Etapas!
         ): Proyect
       
       

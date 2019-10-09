@@ -83,7 +83,7 @@ module.exports = {
     }
 
   },
-  newProyect: async(root, {name, city, country, website, general_description, zone, direction, total_of_levels, living_levels, total_apartaments, deposit_percent, header_img, company_id, company_name, lat, long })=>{
+  newProyect: async(root, {name, etapa, city, country, website, general_description, zone, direction, total_of_levels, living_levels, total_apartaments, deposit_percent, header_img, company_id, company_name, lat, long })=>{
     let db
     let proyect
     const newProyect ={
@@ -111,7 +111,8 @@ module.exports = {
       outside_images: [],
       inside_images: [],
       quote_logo: "",
-      quote_banner: ""
+      quote_banner: "",
+      etapa
     }
     const ingresarProyecto = Object.assign(newProyect)
     try {
