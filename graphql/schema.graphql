@@ -143,7 +143,7 @@ type Proyect {
   financing_types: [Financing]
   company_id: String
   company_name: String
-  deposit: Int
+  deposit_percent: Int
   discounts: [Discount]
   header_img: String
   outside_images: [Img]
