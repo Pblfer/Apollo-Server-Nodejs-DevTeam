@@ -83,7 +83,7 @@ module.exports = {
     }
 
   },
-  newProyect: async(root, {name, city, country, zone, direction, total_of_levels, living_levels, total_apartaments, deposit_percent, header_img, company_id, company_name, lat, long })=>{
+  newProyect: async(root, {name, city, country, website, general_description, zone, direction, total_of_levels, living_levels, total_apartaments, deposit_percent, header_img, company_id, company_name, lat, long })=>{
     let db
     let proyect
     const newProyect ={
@@ -92,8 +92,8 @@ module.exports = {
       country,
       zone,
       direction,
-      website: "",
-      general_description: "",
+      website,
+      general_description,
       general_apartament_description: "",
       total_of_levels,
       living_levels,
