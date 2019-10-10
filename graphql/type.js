@@ -38,10 +38,26 @@ module.exports = {
             }
             return proyectData
         }
-    
-    
-    
-    
     },
+
+    Proyect:{
+        levels: async ({levels}) =>{
+            let db
+            let levelsData
+            let ids
+            try {
+                db = await connectDB()
+                ids= levels ? levels.map(id => ObjectID(id)) : []
+                levelsData = ids.length > 0 ?
+                await db.collection('levels').find(
+                    {_id: {$in: ids}}
+                ).toArray()
+                : []
+            } catch (err) {
+                console.log(err)
+            }
+            return levelsData
+        }
+    }
 
 }

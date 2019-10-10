@@ -116,9 +116,10 @@ type Stock {
 
 type Level{
   _id: ID!
-  company_id: String!
-  number_of_level: Int!
-  plane_img: String
+  proyectID:String!
+  developerID: String!
+  number_of_level: Int
+  plane_img_url: String
   inventory: [Stock]
 }
 
@@ -266,6 +267,15 @@ type Mutation{
       name: String!
       interest_rate: Float
         ): Financing
+
+    "📥🏢 - Agregar Nivel a Proyecto"
+    addLevelToProyect(
+      developerID: String!,
+      proyectID:String!,
+      number_of_level: Int!,
+      plane_img_url: String!
+      ): Level
+
 }
 
 type Updated {value: String, objectField: String}

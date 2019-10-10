@@ -154,6 +154,7 @@ module.exports = {
     }
     return desarrolladora;
   },
+
   addProyectToDeveloper: async (root, { developerID, proyectID }) => {
     let db;
     let desarrolladora;
@@ -181,6 +182,37 @@ module.exports = {
         console.log(error)
     }
     return desarrolladora;
+  },
+
+  addLevelToProyect: async (root, {developerID, proyectID, number_of_level, plane_img_url} ) => {
+    let db
+    let level
+    let proyecto
+    const newLevel ={
+      developerID,
+      proyectID,
+      number_of_level,
+      plane_img_url,
+      inventory:[]
+    }
+    const ingresarNivel = Object.assign(newLevel)
+    try {
+      db = await connectDB()
+      ingresarNivel = await db
+      .collection("levels")
+      .insertOne(ingresarNivel)
+      ingresarNivel._id = level.insertedId
+    } catch (err) {
+      db = await connectDB()
+      proyecto = await db
+      .collection("proyects")
+      .updateOne(
+        { _id: ObjectID(proyectID) },
+        { $addToSet: { levels: ObjectID( ingresarNivel._id) },
+    })
+        return ingresarNivel
+  }
+    
   },
   login: async (root, { username, password }) => {
      let db;
@@ -218,6 +250,7 @@ module.exports = {
     }
         
   },
+
   updataDeveloperProfile: async(root, {developerID, objectField, value}) =>{
     let db
     let updateData
