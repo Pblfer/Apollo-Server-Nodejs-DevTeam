@@ -56,6 +56,21 @@ module.exports = {
       console.log(error);
     }
     return usuario;
+  },
+
+  getProyect: async (root, {proyectID}) =>{
+    let db
+    let proyect
+    try {
+      db = await connectDB();
+      proyect = await db
+      .collection("proyects")
+      .findOne({ _id: ObjectID(proyectID)})
+
+    } catch (err) {
+      console.log(err)
+    }
+      return proyect
   }
   
 };
