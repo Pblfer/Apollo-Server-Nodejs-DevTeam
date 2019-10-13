@@ -32,6 +32,12 @@ enum Etapas{
   FIN
 }
 
+enum OpcionBool{
+  Si
+  No
+  Opcional
+}
+
 
 type Developer {
   _id: ID!
@@ -88,7 +94,7 @@ type Financing {
   interest_rate: Float
 }
 
-type Stock {
+type Apartament {
   _id: ID!
   proyect_id: String!
   proyect_name: String!
@@ -97,22 +103,26 @@ type Stock {
   number: String!
   total_square_mts: Float
   living_square_mts: Float
+  bedrooms: Int
   bathrooms: Int
   parkings: Int
   warehouse: Int
-  loundry: String
-  balcony: String
-  kitchen_furniture: String
-  closets: String
-  garden: String
-  price: Int
-  price_with_tax: Int
-  reserve_price: Int
+  loundry: OpcionBool
+  balcony: OpcionBool
+  kitchen_furniture: OpcionBool
+  kitchen_appliances: OpcionBool
+  closets: OpcionBool
+  garden: OpcionBool
+  price: Float
+  price_with_tax: Float
+  reserve_price: Float
   financing_types: [Financing]
   actual_state: ActualState
   lat: Float
   long: Float
 }
+
+
 
 type Level{
   _id: ID!
@@ -120,7 +130,7 @@ type Level{
   developerID: String!
   number_of_level: Int
   plane_img_url: String
-  inventory: [Stock]
+  inventory: [Apartament]
 }
 
 
@@ -174,7 +184,12 @@ type Query {
 
     "📥🏢 - Obtener Todos los Niveles de un Proyecto"
   getProyect(proyectID:String!): Proyect
+
+   "☝📥 - Obtener 1 Nivel especifico"
+  getLevel(levelID:String!): Level
+
 }
+
 
 input DeveloperInput{
     name: String!
@@ -260,7 +275,35 @@ type Mutation{
       etapa: Etapas!
         ): Proyect
       
-      
+
+      "🏢🚪🚽📺 - Agregar Apartamento"
+      addApartamentToLevel(
+        levelID: String!
+        proyect_id: String!
+        proyect_name: String!
+        plane_img: String!
+        level: Int!
+        number: String!
+        total_square_mts: Float!
+        living_square_mts: Float!
+        bedrooms: Int!
+        bathrooms: Int!
+        parkings: Int!
+        warehouse: Int!
+        loundry: OpcionBool!
+        balcony: OpcionBool!
+        kitchen_furniture: OpcionBool!
+        closets: OpcionBool!
+        kitchen_appliances: OpcionBool!
+        garden: OpcionBool!
+        price: Float!
+        price_with_tax: Float
+        reserve_price: Float
+        actual_state: ActualState!
+        lat: Float!
+        long: Float!
+      ): Apartament
+
     "👨‍💼💼 - Agregar Proyecto a Desarrolladora"
     addProyectToDeveloper(developerID: ID!, proyectID: ID!) : Developer
 

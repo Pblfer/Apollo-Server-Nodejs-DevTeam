@@ -71,6 +71,21 @@ module.exports = {
       console.log(err)
     }
       return proyect
+  },
+
+  getLevel: async (root, {levelID}) =>{
+    let db
+    let level
+    try {
+      db = await connectDB();
+      level = await db
+      .collection("levels")
+      .findOne({ _id: ObjectID(levelID)})
+
+    } catch (err) {
+      console.log(err)
+    }
+      return level
   }
   
 };

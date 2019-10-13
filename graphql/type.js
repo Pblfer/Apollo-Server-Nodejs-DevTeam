@@ -58,6 +58,26 @@ module.exports = {
             }
             return levelsData
         }
+    },
+
+    Level:{
+        inventory: async ({inventory}) =>{
+            let db
+            let ApartamentsData
+            let ids
+            try {
+                db = await connectDB()
+                ids= inventory ? inventory.map(id => ObjectID(id)) : []
+                ApartamentsData = ids.length > 0 ?
+                await db.collection('apartaments').find(
+                    {_id: {$in: ids}}
+                ).toArray()
+                : []
+            } catch (err) {
+                console.log(err)
+            }
+            return ApartamentsData
+        }
     }
 
 }

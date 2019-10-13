@@ -214,6 +214,81 @@ module.exports = {
   }
     
   },
+
+  addApartamentToLevel: async (root, { proyect_name,
+        plane_img,
+        level,
+        number,
+        total_square_mts,
+        living_square_mts,
+        bedrooms,
+        bathrooms,
+        parkings,
+        warehouse,
+        loundry,
+        balcony,
+        kitchen_furniture,
+        closets,
+        kitchen_appliances,
+        garden,
+        price,
+        price_with_tax,
+        reserve_price,
+        actual_state,
+        lat,
+        long,
+        levelID
+      })=>{
+    let apartament;
+    let db;
+    let addTolevel
+    const newApartament ={
+        proyect_name,
+        plane_img,
+        level,
+        number,
+        total_square_mts,
+        living_square_mts,
+        bedrooms,
+        bathrooms,
+        parkings,
+        warehouse,
+        loundry,
+        balcony,
+        kitchen_furniture,
+        closets,
+        kitchen_appliances,
+        garden,
+        price,
+        price_with_tax,
+        reserve_price,
+        actual_state,
+        lat,
+        long,
+        point:[long, lat],
+        financing_types: []
+    }
+    const ingresarApartamento = Object.assign(newApartament)
+    try {
+      db = await connectDB()
+      ingresarApartamento = await db
+      .collection("apartaments")
+      .insertOne(ingresarApartamento)
+      ingresarApartamento._id = apartament.insertedId
+    } catch (err) {
+      db = await connectDB()
+      addTolevel = await db
+      .collection("levels")
+      .updateOne(
+        {_id: ObjectID(levelID)},
+        { $addToSet: { inventory: ObjectID(ingresarApartamento._id) }}
+      )
+      return ingresarApartamento
+    } 
+
+
+  },
+
   login: async (root, { username, password }) => {
      let db;
      let user;
