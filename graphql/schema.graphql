@@ -284,12 +284,9 @@ type Mutation{
         plane_img: String!
         level: Int!
         number: String!
-        total_square_mts: Float!
         living_square_mts: Float!
         bedrooms: Int!
         bathrooms: Int!
-        parkings: Int!
-        warehouse: Int!
         loundry: OpcionBool!
         balcony: OpcionBool!
         kitchen_furniture: OpcionBool!
@@ -297,8 +294,8 @@ type Mutation{
         kitchen_appliances: OpcionBool!
         garden: OpcionBool!
         price: Float!
-        price_with_tax: Float
-        reserve_price: Float
+        price_with_tax: Float!
+        reserve_price: Float!
         actual_state: ActualState!
         lat: Float!
         long: Float!

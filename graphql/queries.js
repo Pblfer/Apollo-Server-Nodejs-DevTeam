@@ -30,7 +30,7 @@ module.exports = {
     }
     return desarrolladora;
   },
-  getAllUsers: async () =>{
+  getAllUsers: async () => {
     let db;
     let usuarios = [];
     try {
@@ -49,43 +49,36 @@ module.exports = {
     let usuario;
     try {
       db = await connectDB();
-      usuario = await db
-        .collection("users")
-        .findOne({ _id: ObjectID(id) });
+      usuario = await db.collection("users").findOne({ _id: ObjectID(id) });
     } catch (error) {
       console.log(error);
     }
     return usuario;
   },
 
-  getProyect: async (root, {proyectID}) =>{
-    let db
-    let proyect
+  getProyect: async (root, { proyectID }) => {
+    let db;
+    let proyect;
     try {
       db = await connectDB();
       proyect = await db
-      .collection("proyects")
-      .findOne({ _id: ObjectID(proyectID)})
-
+        .collection("proyects")
+        .findOne({ _id: ObjectID(proyectID) });
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-      return proyect
+    return proyect;
   },
 
-  getLevel: async (root, {levelID}) =>{
-    let db
-    let level
+  getLevel: async (root, { levelID }) => {
+    let db;
+    let level;
     try {
       db = await connectDB();
-      level = await db
-      .collection("levels")
-      .findOne({ _id: ObjectID(levelID)})
-
+      level = await db.collection("levels").findOne({ _id: ObjectID(levelID) });
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-      return level
+    return level;
   }
-  
 };
