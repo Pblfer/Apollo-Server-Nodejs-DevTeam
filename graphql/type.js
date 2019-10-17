@@ -57,6 +57,24 @@ module.exports = {
                 console.log(err)
             }
             return levelsData
+        },
+
+        parkings: async ({parkings}) =>{
+            let db
+            let parkingData
+            let ids
+            try {
+                db = await connectDB()
+                ids= parkings ? parkings.map(id => ObjectID(id)) : []
+                parkingData = ids.length > 0 ?
+                await db.collection('parkings').find(
+                    {_id: {$in: ids}}
+                ).toArray()
+                : []
+            } catch (err) {
+                console.log(err)
+            }
+            return parkingData
         }
     },
 
