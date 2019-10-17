@@ -99,6 +99,7 @@ module.exports = {
       living_levels,
       total_apartaments,
       levels: [],
+      parkings: [],
       long,
       lat,
       point:[long, lat],
@@ -182,6 +183,37 @@ module.exports = {
         console.log(error)
     }
     return desarrolladora;
+  },
+
+  addParkingToProyect: async (root, {number, price, actual_state, proyectID ,developerID} ) => {
+    let db
+    let parqueo
+    let proyecto
+    const newParking ={
+      number,
+      price,
+      actual_state,
+      proyectID,
+      developerID,
+    }
+    const ingresarParqueo = Object.assign(newParking)
+    try {
+      db = await connectDB()
+      ingresarParqueo = await db
+      .collection("parkings")
+      .insertOne(ingresarParqueo)
+      ingresarParqueo._id = parqueo.insertedId
+    } catch (err) {
+      db = await connectDB()
+      proyecto = await db
+      .collection("proyects")
+      .updateOne(
+        { _id: ObjectID(proyectID) },
+        { $addToSet: { parkings: ObjectID( ingresarParqueo._id) },
+    })
+        return ingresarParqueo
+  }
+    
   },
 
   addLevelToProyect: async (root, {developerID, proyectID, number_of_level, plane_img_url} ) => {

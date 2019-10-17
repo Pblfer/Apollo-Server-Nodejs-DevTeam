@@ -134,6 +134,15 @@ type Level{
   inventory: [Apartament]
 }
 
+type Parking {
+  _id: ID!
+  number: String!
+  price: Int
+  actual_state: ActualState
+  proyectID: String
+  developerID: String
+}
+
 
 
 type Proyect {
@@ -150,6 +159,7 @@ type Proyect {
   living_levels: Int
   total_apartaments: Int
   levels: [Level]
+  parkings: [Parking]
   lat: Float
   long: Float
   financing_types: [Financing]
@@ -209,6 +219,10 @@ input DeveloperInput{
     cc_token: String
 }
 
+"""
+⚡🚀Este es el listado de todas las Mutations para el API de conversion,
+encontrara emogis para recordar y visualizar de forma más rapida. 🛰
+"""
 
 type Mutation{
     "🏢 - Crear Desarrolladora"
@@ -302,8 +316,18 @@ type Mutation{
         long: Float!
       ): Apartament
 
-    "👨‍💼💼 - Agregar Proyecto a Desarrolladora"
+    "🗃📃🏢 - Agregar Proyecto a Desarrolladora"
     addProyectToDeveloper(developerID: ID!, proyectID: ID!) : Developer
+
+    "🚗🏢 - Agregar Parqueo a Proyecto"
+    addParkingToProyect(
+        number: String!
+        price: Int!
+        actual_state: ActualState!
+        proyectID: String!
+        developerID: String!
+
+    ) : Parking
 
       "🏛💵- Agregar un Financiamiento"
     newFinancing(
