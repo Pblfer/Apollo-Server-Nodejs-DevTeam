@@ -291,7 +291,7 @@ type Mutation{
         ): Proyect
       
 
-      "🏢🚪🚽📺 - Agregar Apartamento"
+      "🏢🚪🚽📺 - Agregar Apartamento a Nivel especifico"
       addApartamentToLevel(
         levelID: String!
         proyect_id: String!
@@ -315,6 +315,32 @@ type Mutation{
         lat: Float!
         long: Float!
       ): Apartament
+
+      "📃🚪 - Importar Apartamentos"
+      importApartaments(
+        developer_id: String!
+        proyect_id: String!
+        proyect_name: String!
+        plane_img: String!
+        level: Int!
+        number: String!
+        living_square_mts: Float!
+        bedrooms: Int!
+        bathrooms: Int!
+        loundry: OpcionBool!
+        balcony: OpcionBool!
+        kitchen_furniture: OpcionBool!
+        closets: OpcionBool!
+        kitchen_appliances: OpcionBool!
+        garden: OpcionBool!
+        price: Float!
+        price_with_tax: Float!
+        reserve_price: Float!
+        actual_state: ActualState!
+        lat: Float!
+        long: Float!
+      ): Apartament
+
 
     "🗃📃🏢 - Agregar Proyecto a Desarrolladora"
     addProyectToDeveloper(developerID: ID!, proyectID: ID!) : Developer

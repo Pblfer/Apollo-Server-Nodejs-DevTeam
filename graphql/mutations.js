@@ -315,6 +315,76 @@ module.exports = {
 
   },
 
+  importApartaments: async (root, { 
+    proyect_name,
+    plane_img,
+    level,
+    number,
+    living_square_mts,
+    bedrooms,
+    bathrooms,
+    loundry,
+    balcony,
+    kitchen_furniture,
+    closets,
+    kitchen_appliances,
+    garden,
+    price,
+    price_with_tax,
+    reserve_price,
+    actual_state,
+    lat,
+    long,
+    proyect_id,
+    developer_id
+  })=>{
+let apartament;
+let db;
+let addTolevel
+const newApartament ={
+    proyect_name,
+    plane_img,
+    level,
+    number,
+    living_square_mts,
+    bedrooms,
+    bathrooms,
+    loundry,
+    balcony,
+    kitchen_furniture,
+    closets,
+    kitchen_appliances,
+    garden,
+    price,
+    price_with_tax,
+    reserve_price,
+    actual_state,
+    lat,
+    long,
+    point:[long, lat],
+    financing_types: []
+}
+const ingresarApartamento = Object.assign(newApartament)
+try {
+  db = await connectDB()
+  ingresarApartamento = await db
+  .collection("apartaments")
+  .insertOne(ingresarApartamento)
+  ingresarApartamento._id = apartament.insertedId
+} catch (err) {
+  db = await connectDB()
+  addTolevel = await db
+  .collection("levels")
+  .updateOne(
+    { "developerID": developer_id, "proyectID": proyect_id, "number_of_level": level },
+    { $addToSet: { inventory: ObjectID(ingresarApartamento._id) }}
+  )
+  return ingresarApartamento
+} 
+
+
+},
+
   login: async (root, { username, password }) => {
      let db;
      let user;
