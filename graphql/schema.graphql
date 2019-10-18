@@ -15,30 +15,29 @@ enum City {
   Colombia
 }
 
-enum ActualState{
+enum ActualState {
   disponible
   reservado
   bloqueado
 }
 
-enum UserStatus{
+enum UserStatus {
   Activo
   Bloqueado
 }
 
-enum Etapas{
+enum Etapas {
   PREV
   LANZ
   CONST
   FIN
 }
 
-enum OpcionBool{
+enum OpcionBool {
   Si
   No
   Opcional
 }
-
 
 type Developer {
   _id: ID!
@@ -123,11 +122,9 @@ type Apartament {
   long: Float
 }
 
-
-
-type Level{
+type Level {
   _id: ID!
-  proyectID:String!
+  proyectID: String!
   developerID: String!
   number_of_level: Int
   plane_img_url: String
@@ -142,8 +139,6 @@ type Parking {
   proyectID: String
   developerID: String
 }
-
-
 
 type Proyect {
   _id: ID!
@@ -173,7 +168,6 @@ type Proyect {
   quote_logo: String
   quote_banner: String
   etapa: Etapas!
-
 }
 
 """
@@ -181,196 +175,191 @@ type Proyect {
 encontrara emogis para recordar y visualizar de forma más rapida. 🛰
 """
 type Query {
-    "🏢🏢🏢 - Todas las Desarrolladoras"
+  "🏢🏢🏢 - Todas las Desarrolladoras"
   getAllDevelopers: [Developer]
-    
-    "☝🏢 - Obtener Desarrolladora por ID"
-  getDeveloper(id:ID!): Developer
-   
-   "☝👨‍💻 - Obtener Usuario por ID"
-  getUser(id:ID!) : User
 
-   "👨‍💻👩‍💻👩‍💼👨‍💼🦸‍🦸‍ - Obtener Todos los Usuarios"
+  "☝🏢 - Obtener Desarrolladora por ID"
+  getDeveloper(id: ID!): Developer
+
+  "☝👨‍💻 - Obtener Usuario por ID"
+  getUser(id: ID!): User
+
+  "👨‍💻👩‍💻👩‍💼👨‍💼🦸‍🦸‍ - Obtener Todos los Usuarios"
   getAllUsers: [User]
 
-    "📥🏢 - Obtener Todos los Niveles de un Proyecto"
-  getProyect(proyectID:String!): Proyect
+  "📥🏢 - Obtener Todos los Niveles de un Proyecto"
+  getProyect(proyectID: String!): Proyect
 
-   "☝📥 - Obtener 1 Nivel especifico"
-  getLevel(levelID:String!): Level
-
+  "☝📥 - Obtener 1 Nivel especifico"
+  getLevel(levelID: String!): Level
 }
 
-
-input DeveloperInput{
-    name: String!
-    email: String!
-    website: String!
-    plan: Plan!
-    admin_email: String!
-    description: String
-    phone_area: String
-    phone: String
-    social_fb: String
-    social_ig: String
-    social_linkedin: String
-    img_logo: String
-    img_header: String
-    cc_token: String
+input DeveloperInput {
+  name: String!
+  email: String!
+  website: String!
+  plan: Plan!
+  admin_email: String!
+  description: String
+  phone_area: String
+  phone: String
+  social_fb: String
+  social_ig: String
+  social_linkedin: String
+  img_logo: String
+  img_header: String
+  cc_token: String
 }
 
 """
 ⚡🚀Este es el listado de todas las Mutations para el API de conversion,
 encontrara emogis para recordar y visualizar de forma más rapida. 🛰
 """
+type Mutation {
+  "🏢 - Crear Desarrolladora"
+  newDeveloper(input: DeveloperInput!): Developer
 
-type Mutation{
-    "🏢 - Crear Desarrolladora"
-    newDeveloper(input: DeveloperInput!): Developer
+  "👨‍💼 - Crear Usuario"
+  newUser(
+    email: String!
+    password: String!
+    first_name: String!
+    last_name: String!
+    company: String!
+    company_id: String!
+    phone: String!
+    roll: Roll!
+    blocked: UserStatus!
+  ): User
 
-     "👨‍💼 - Crear Usuario"
-    newUser(
-      email: String!, 
-      password: String!, 
-      first_name: String!, 
-      last_name: String!,
-      company: String!,
-      company_id: String!,
-      phone: String!
-      roll: Roll!
-      blocked: UserStatus!
-      ): User
+  "🔐 - Login"
+  login(username: String!, password: String!): LoginResponse
 
-    "🔐 - Login"
-    login(username: String!, password: String!) : LoginResponse
+  "👨‍💼💼 - Agregar Usuario a Equipo de Ventas"
+  addUserToSellersTeam(developerID: ID!, userID: ID!): Developer
 
-    "👨‍💼💼 - Agregar Usuario a Equipo de Ventas"
-    addUserToSellersTeam(developerID: ID!, userID: ID!) : Developer
+  "🏢📝 - Actualizar perfil de Desarrolladora"
+  updataDeveloperProfile(
+    developerID: ID!
+    objectField: String!
+    value: String!
+  ): Updated
 
-    "🏢📝 - Actualizar perfil de Desarrolladora"
-    updataDeveloperProfile(developerID: ID!, objectField: String!, value: String!): Updated
+  "🏢📝 - Actualizar perfil de Usuario"
+  updateUserProfile(ID: ID!, objectField: String!, value: String!): Updated
 
-     "🏢📝 - Actualizar perfil de Usuario"
-    updateUserProfile(ID: ID!, objectField: String!, value: String!): Updated
+  "❌👨‍💼👩‍💼 - Eliminar Vendedor"
+  deleteSeller(developerID: ID!, userID: ID!): User
 
-    "❌👨‍💼👩‍💼 - Eliminar Vendedor"
-    deleteSeller(developerID: ID!, userID:ID!) : User
+  "💰✂ - Agregar Descuento"
+  newDiscount(
+    name: String!
+    company_id: String!
+    proyect_id: String!
+    discount_amount: Int!
+    active: String!
+  ): Discount
 
-    "💰✂ - Agregar Descuento"
-    newDiscount(
-          name: String!,
-          company_id: String!,
-          proyect_id: String!,
-          discount_amount: Int!,
-          active: String!
-          ) : Discount
+  "📥🏢 - Agregar Proyecto"
+  newProyect(
+    name: String!
+    city: City!
+    country: String!
+    zone: Int
+    direction: String!
+    total_of_levels: Int!
+    living_levels: Int!
+    total_apartaments: Int!
+    deposit_percent: Int!
+    header_img: String!
+    company_id: String!
+    company_name: String!
+    lat: Float!
+    long: Float!
+    website: String
+    general_description: String
+    general_apartament_description: String
+    quote_logo: String
+    quote_banner: String
+    etapa: Etapas!
+  ): Proyect
 
+  "🏢🚪🚽📺 - Agregar Apartamento a Nivel especifico"
+  addApartamentToLevel(
+    levelID: String!
+    proyect_id: String!
+    proyect_name: String!
+    plane_img: String!
+    level: Int!
+    number: String!
+    living_square_mts: Float!
+    bedrooms: Int!
+    bathrooms: Int!
+    loundry: OpcionBool!
+    balcony: OpcionBool!
+    kitchen_furniture: OpcionBool!
+    closets: OpcionBool!
+    kitchen_appliances: OpcionBool!
+    garden: OpcionBool!
+    price: Float!
+    price_with_tax: Float!
+    reserve_price: Float!
+    actual_state: ActualState!
+    lat: Float!
+    long: Float!
+  ): Apartament
 
-    "📥🏢 - Agregar Proyecto"
-    newProyect(
-      name: String!,
-      city: City!,
-      country: String!,
-      zone: Int,
-      direction: String!,
-      total_of_levels: Int!,
-      living_levels: Int!,
-      total_apartaments: Int!
-      deposit_percent: Int!,
-      header_img: String!,
-      company_id: String!,
-      company_name: String!,
-      lat: Float!,
-      long: Float!,
-      website: String,
-      general_description: String,
-      general_apartament_description: String,
-      quote_logo: String,
-      quote_banner: String,
-      etapa: Etapas!
-        ): Proyect
-      
+  "📃🚪 - Importar Apartamentos"
+  importApartaments(
+    developer_id: String!
+    proyect_id: String!
+    proyect_name: String!
+    level: Int!
+    number: String!
+    living_square_mts: Float!
+    bedrooms: Int!
+    bathrooms: Int!
+    loundry: OpcionBool!
+    balcony: OpcionBool!
+    kitchen_furniture: OpcionBool!
+    closets: OpcionBool!
+    kitchen_appliances: OpcionBool!
+    garden: OpcionBool!
+    price: Float!
+    actual_state: ActualState!
+    lat: Float!
+    long: Float!
+  ): Apartament
 
-      "🏢🚪🚽📺 - Agregar Apartamento a Nivel especifico"
-      addApartamentToLevel(
-        levelID: String!
-        proyect_id: String!
-        proyect_name: String!
-        plane_img: String!
-        level: Int!
-        number: String!
-        living_square_mts: Float!
-        bedrooms: Int!
-        bathrooms: Int!
-        loundry: OpcionBool!
-        balcony: OpcionBool!
-        kitchen_furniture: OpcionBool!
-        closets: OpcionBool!
-        kitchen_appliances: OpcionBool!
-        garden: OpcionBool!
-        price: Float!
-        price_with_tax: Float!
-        reserve_price: Float!
-        actual_state: ActualState!
-        lat: Float!
-        long: Float!
-      ): Apartament
+  "🗃📃🏢 - Agregar Proyecto a Desarrolladora"
+  addProyectToDeveloper(developerID: ID!, proyectID: ID!): Developer
 
-      "📃🚪 - Importar Apartamentos"
-      importApartaments(
-        developer_id: String!
-        proyect_id: String!
-        proyect_name: String!
-        plane_img: String!
-        level: Int!
-        number: String!
-        living_square_mts: Float!
-        bedrooms: Int!
-        bathrooms: Int!
-        loundry: OpcionBool!
-        balcony: OpcionBool!
-        kitchen_furniture: OpcionBool!
-        closets: OpcionBool!
-        kitchen_appliances: OpcionBool!
-        garden: OpcionBool!
-        price: Float!
-        price_with_tax: Float!
-        reserve_price: Float!
-        actual_state: ActualState!
-        lat: Float!
-        long: Float!
-      ): Apartament
+  "🚗🏢 - Agregar Parqueo a Proyecto"
+  addParkingToProyect(
+    number: String!
+    price: Int!
+    actual_state: ActualState!
+    proyectID: String!
+    developerID: String!
+  ): Parking
 
+  "🏛💵- Agregar un Financiamiento"
+  newFinancing(name: String!, interest_rate: Float): Financing
 
-    "🗃📃🏢 - Agregar Proyecto a Desarrolladora"
-    addProyectToDeveloper(developerID: ID!, proyectID: ID!) : Developer
-
-    "🚗🏢 - Agregar Parqueo a Proyecto"
-    addParkingToProyect(
-        number: String!
-        price: Int!
-        actual_state: ActualState!
-        proyectID: String!
-        developerID: String!
-
-    ) : Parking
-
-      "🏛💵- Agregar un Financiamiento"
-    newFinancing(
-      name: String!
-      interest_rate: Float
-        ): Financing
-
-    "📥🏢 - Agregar Nivel a Proyecto"
-    addLevelToProyect(
-      developerID: String!,
-      proyectID:String!,
-      number_of_level: Int!,
-      plane_img_url: String!
-      ): Level
-
-
+  "📥🏢 - Agregar Nivel a Proyecto"
+  addLevelToProyect(
+    developerID: String!
+    proyectID: String!
+    number_of_level: Int!
+    plane_img_url: String!
+  ): Level
 }
 
-type Updated {value: String, objectField: String}
-type LoginResponse { token: String, user: User }
+type Updated {
+  value: String
+  objectField: String
+}
+type LoginResponse {
+  token: String
+  user: User
+}

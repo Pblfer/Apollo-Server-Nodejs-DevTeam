@@ -1,8 +1,8 @@
 "use strict";
 const connectDB = require("./db");
 const { ObjectID } = require("mongodb");
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
   newDeveloper: async (root, { input }) => {
@@ -14,9 +14,10 @@ module.exports = {
       social_ig: "",
       social_linkedin: "",
       img_logo: "",
-      img_header: "https://firebasestorage.googleapis.com/v0/b/cotizador-conversion.appspot.com/o/stockImages%2Fcover.jpg?alt=media&token=67860976-2d6d-4f5b-9b40-9cdc4873d24a",
+      img_header:
+        "https://firebasestorage.googleapis.com/v0/b/cotizador-conversion.appspot.com/o/stockImages%2Fcover.jpg?alt=media&token=67860976-2d6d-4f5b-9b40-9cdc4873d24a",
       cc_token: "",
-      proyects:[],
+      proyects: [],
       admins_team: [],
       sellers_team: []
     };
@@ -34,8 +35,21 @@ module.exports = {
     return nuevaDesarrolladora;
   },
 
-  newUser: async (root, { email, password, first_name, last_name, company, company_id, phone, roll, blocked}) => {
-    const hashPassword = await bcrypt.hash(password,10)
+  newUser: async (
+    root,
+    {
+      email,
+      password,
+      first_name,
+      last_name,
+      company,
+      company_id,
+      phone,
+      roll,
+      blocked
+    }
+  ) => {
+    const hashPassword = await bcrypt.hash(password, 10);
     const newUser = {
       first_name,
       last_name,
@@ -44,49 +58,71 @@ module.exports = {
       company,
       company_id,
       phone,
-      pic : "https://firebasestorage.googleapis.com/v0/b/cotizador-conversion.appspot.com/o/stockImages%2FuserDefaultPic.jpg?alt=media&token=7bacc009-b998-4abf-8722-79a5dae8f6c8",
+      pic:
+        "https://firebasestorage.googleapis.com/v0/b/cotizador-conversion.appspot.com/o/stockImages%2FuserDefaultPic.jpg?alt=media&token=7bacc009-b998-4abf-8722-79a5dae8f6c8",
       roll,
-      blocked,
+      blocked
     };
     const nuevoUsuario = Object.assign(newUser);
     let db;
     let usuario;
     try {
       db = await connectDB();
-      nuevoUsuario = await db
-        .collection("users")
-        .insertOne(nuevoUsuario);
+      nuevoUsuario = await db.collection("users").insertOne(nuevoUsuario);
       nuevoUsuario._id = usuario.insertedId;
     } catch (error) {}
     return nuevoUsuario;
   },
 
-  newDiscount: async (root, {name, company_id, proyect_id, discount_amount, active}) =>{
-    let db
-    let discount
+  newDiscount: async (
+    root,
+    { name, company_id, proyect_id, discount_amount, active }
+  ) => {
+    let db;
+    let discount;
     const newDiscount = {
       name,
       company_id,
       proyect_id,
       discount_amount,
       active
-    }
-    const ingresarDescuento = Object.assign(newDiscount)
+    };
+    const ingresarDescuento = Object.assign(newDiscount);
     try {
       db = await connectDB();
       ingresarDescuento = await db
-      .collection("discounts")
-      .insertOne(ingresarDescuento)
-      ingresarDescuento._id = discount.insertedId
+        .collection("discounts")
+        .insertOne(ingresarDescuento);
+      ingresarDescuento._id = discount.insertedId;
     } catch (error) {
-      return ingresarDescuento
+      return ingresarDescuento;
     }
-
   },
-  newProyect: async(root, {name, etapa, city, country, website, general_description, zone, direction, total_of_levels, living_levels, total_apartaments, deposit_percent, header_img, company_id, company_name, lat, long })=>{
-    let db
-    let proyect
-    const newProyect ={
+  newProyect: async (
+    root,
+    {
+      name,
+      etapa,
+      city,
+      country,
+      website,
+      general_description,
+      zone,
+      direction,
+      total_of_levels,
+      living_levels,
+      total_apartaments,
+      deposit_percent,
+      header_img,
+      company_id,
+      company_name,
+      lat,
+      long
+    }
+  ) => {
+    let db;
+    let proyect;
+    const newProyect = {
       name,
       city,
       country,
@@ -102,7 +138,7 @@ module.exports = {
       parkings: [],
       long,
       lat,
-      point:[long, lat],
+      point: [long, lat],
       company_id,
       company_name,
       deposit_percent,
@@ -114,16 +150,16 @@ module.exports = {
       quote_logo: "",
       quote_banner: "",
       etapa
-    }
-    const ingresarProyecto = Object.assign(newProyect)
+    };
+    const ingresarProyecto = Object.assign(newProyect);
     try {
-      db = await connectDB()
+      db = await connectDB();
       ingresarProyecto = await db
-      .collection("proyects")
-      .insertOne(ingresarProyecto)
-      ingresarProyecto._id = proyect.insertedId
+        .collection("proyects")
+        .insertOne(ingresarProyecto);
+      ingresarProyecto._id = proyect.insertedId;
     } catch (error) {
-      return ingresarProyecto
+      return ingresarProyecto;
     }
   },
 
@@ -137,13 +173,11 @@ module.exports = {
       desarrolladora = await db
         .collection("realStateDevelopers")
         .findOne({ _id: ObjectID(developerID) });
-      //buscar Vendedor  
-      usuario = await db
-        .collection("users")
-        .findOne({ _id: ObjectID(userID) });
+      //buscar Vendedor
+      usuario = await db.collection("users").findOne({ _id: ObjectID(userID) });
       if (!desarrolladora || !usuario) {
         throw new Error("La desarrolladora o el Vendedor no existen.");
-    }
+      }
       await db
         .collection("realStateDevelopers")
         .updateOne(
@@ -151,7 +185,7 @@ module.exports = {
           { $addToSet: { sellers_team: ObjectID(userID) } }
         );
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
     return desarrolladora;
   },
@@ -166,13 +200,13 @@ module.exports = {
       desarrolladora = await db
         .collection("realStateDevelopers")
         .findOne({ _id: ObjectID(developerID) });
-      //buscar Vendedor  
+      //buscar Vendedor
       proyecto = await db
         .collection("proyects")
         .findOne({ _id: ObjectID(proyectID) });
       if (!desarrolladora || !proyecto) {
         throw new Error("La desarrolladora o el Vendedor no existen.");
-    }
+      }
       await db
         .collection("realStateDevelopers")
         .updateOne(
@@ -180,306 +214,315 @@ module.exports = {
           { $addToSet: { proyects: ObjectID(proyectID) } }
         );
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
     return desarrolladora;
   },
 
-  addParkingToProyect: async (root, {number, price, actual_state, proyectID ,developerID} ) => {
-    let db
-    let parqueo
-    let proyecto
-    const newParking ={
+  addParkingToProyect: async (
+    root,
+    { number, price, actual_state, proyectID, developerID }
+  ) => {
+    let db;
+    let parqueo;
+    let proyecto;
+    const newParking = {
       number,
       price,
       actual_state,
       proyectID,
-      developerID,
-    }
-    const ingresarParqueo = Object.assign(newParking)
+      developerID
+    };
+    const ingresarParqueo = Object.assign(newParking);
     try {
-      db = await connectDB()
+      db = await connectDB();
       ingresarParqueo = await db
-      .collection("parkings")
-      .insertOne(ingresarParqueo)
-      ingresarParqueo._id = parqueo.insertedId
+        .collection("parkings")
+        .insertOne(ingresarParqueo);
+      ingresarParqueo._id = parqueo.insertedId;
     } catch (err) {
-      db = await connectDB()
+      db = await connectDB();
       proyecto = await db
-      .collection("proyects")
-      .updateOne(
-        { _id: ObjectID(proyectID) },
-        { $addToSet: { parkings: ObjectID( ingresarParqueo._id) },
-    })
-        return ingresarParqueo
-  }
-    
+        .collection("proyects")
+        .updateOne(
+          { _id: ObjectID(proyectID) },
+          { $addToSet: { parkings: ObjectID(ingresarParqueo._id) } }
+        );
+      return ingresarParqueo;
+    }
   },
 
-  addLevelToProyect: async (root, {developerID, proyectID, number_of_level, plane_img_url} ) => {
-    let db
-    let level
-    let proyecto
-    const newLevel ={
+  addLevelToProyect: async (
+    root,
+    { developerID, proyectID, number_of_level, plane_img_url }
+  ) => {
+    let db;
+    let level;
+    let proyecto;
+    const newLevel = {
       developerID,
       proyectID,
       number_of_level,
       plane_img_url,
-      inventory:[]
-    }
-    const ingresarNivel = Object.assign(newLevel)
+      inventory: []
+    };
+    const ingresarNivel = Object.assign(newLevel);
     try {
-      db = await connectDB()
-      ingresarNivel = await db
-      .collection("levels")
-      .insertOne(ingresarNivel)
-      ingresarNivel._id = level.insertedId
+      db = await connectDB();
+      ingresarNivel = await db.collection("levels").insertOne(ingresarNivel);
+      ingresarNivel._id = level.insertedId;
     } catch (err) {
-      db = await connectDB()
+      db = await connectDB();
       proyecto = await db
-      .collection("proyects")
-      .updateOne(
-        { _id: ObjectID(proyectID) },
-        { $addToSet: { levels: ObjectID( ingresarNivel._id) },
-    })
-        return ingresarNivel
-  }
-    
+        .collection("proyects")
+        .updateOne(
+          { _id: ObjectID(proyectID) },
+          { $addToSet: { levels: ObjectID(ingresarNivel._id) } }
+        );
+      return ingresarNivel;
+    }
   },
 
-  addApartamentToLevel: async (root, { proyect_name,
-        plane_img,
-        level,
-        number,
-        living_square_mts,
-        bedrooms,
-        bathrooms,
-        loundry,
-        balcony,
-        kitchen_furniture,
-        closets,
-        kitchen_appliances,
-        garden,
-        price,
-        price_with_tax,
-        reserve_price,
-        actual_state,
-        lat,
-        long,
-        levelID
-      })=>{
+  addApartamentToLevel: async (
+    root,
+    {
+      proyect_name,
+      plane_img,
+      level,
+      number,
+      living_square_mts,
+      bedrooms,
+      bathrooms,
+      loundry,
+      balcony,
+      kitchen_furniture,
+      closets,
+      kitchen_appliances,
+      garden,
+      price,
+      price_with_tax,
+      reserve_price,
+      actual_state,
+      lat,
+      long,
+      levelID
+    }
+  ) => {
     let apartament;
     let db;
-    let addTolevel
-    const newApartament ={
-        proyect_name,
-        plane_img,
-        level,
-        number,
-        living_square_mts,
-        bedrooms,
-        bathrooms,
-        loundry,
-        balcony,
-        kitchen_furniture,
-        closets,
-        kitchen_appliances,
-        garden,
-        price,
-        price_with_tax,
-        reserve_price,
-        actual_state,
-        lat,
-        long,
-        point:[long, lat],
-        financing_types: []
-    }
-    const ingresarApartamento = Object.assign(newApartament)
+    let addTolevel;
+    const newApartament = {
+      proyect_name,
+      plane_img,
+      level,
+      number,
+      living_square_mts,
+      bedrooms,
+      bathrooms,
+      loundry,
+      balcony,
+      kitchen_furniture,
+      closets,
+      kitchen_appliances,
+      garden,
+      price,
+      price_with_tax,
+      reserve_price,
+      actual_state,
+      type,
+      lat,
+      long,
+      point: [long, lat],
+      financing_types: []
+    };
+    const ingresarApartamento = Object.assign(newApartament);
     try {
-      db = await connectDB()
+      db = await connectDB();
       ingresarApartamento = await db
-      .collection("apartaments")
-      .insertOne(ingresarApartamento)
-      ingresarApartamento._id = apartament.insertedId
+        .collection("apartaments")
+        .insertOne(ingresarApartamento);
+      ingresarApartamento._id = apartament.insertedId;
     } catch (err) {
-      db = await connectDB()
+      db = await connectDB();
       addTolevel = await db
-      .collection("levels")
-      .updateOne(
-        {_id: ObjectID(levelID)},
-        { $addToSet: { inventory: ObjectID(ingresarApartamento._id) }}
-      )
-      return ingresarApartamento
-    } 
-
-
+        .collection("levels")
+        .updateOne(
+          { _id: ObjectID(levelID) },
+          { $addToSet: { inventory: ObjectID(ingresarApartamento._id) } }
+        );
+      return ingresarApartamento;
+    }
   },
 
-  importApartaments: async (root, { 
-    proyect_name,
-    plane_img,
-    level,
-    number,
-    living_square_mts,
-    bedrooms,
-    bathrooms,
-    loundry,
-    balcony,
-    kitchen_furniture,
-    closets,
-    kitchen_appliances,
-    garden,
-    price,
-    price_with_tax,
-    reserve_price,
-    actual_state,
-    lat,
-    long,
-    proyect_id,
-    developer_id
-  })=>{
-let apartament;
-let db;
-let addTolevel
-const newApartament ={
-    proyect_name,
-    plane_img,
-    level,
-    number,
-    living_square_mts,
-    bedrooms,
-    bathrooms,
-    loundry,
-    balcony,
-    kitchen_furniture,
-    closets,
-    kitchen_appliances,
-    garden,
-    price,
-    price_with_tax,
-    reserve_price,
-    actual_state,
-    lat,
-    long,
-    point:[long, lat],
-    financing_types: []
-}
-const ingresarApartamento = Object.assign(newApartament)
-try {
-  db = await connectDB()
-  ingresarApartamento = await db
-  .collection("apartaments")
-  .insertOne(ingresarApartamento)
-  ingresarApartamento._id = apartament.insertedId
-} catch (err) {
-  db = await connectDB()
-  addTolevel = await db
-  .collection("levels")
-  .updateOne(
-    { "developerID": developer_id, "proyectID": proyect_id, "number_of_level": level },
-    { $addToSet: { inventory: ObjectID(ingresarApartamento._id) }}
-  )
-  return ingresarApartamento
-} 
-
-
-},
+  importApartaments: async (
+    root,
+    {
+      proyect_name,
+      level,
+      number,
+      living_square_mts,
+      bedrooms,
+      bathrooms,
+      loundry,
+      balcony,
+      kitchen_furniture,
+      closets,
+      kitchen_appliances,
+      garden,
+      price,
+      actual_state,
+      lat,
+      long,
+      proyect_id,
+      developer_id
+    }
+  ) => {
+    let apartament;
+    let db;
+    let addTolevel;
+    const newApartament = {
+      proyect_name,
+      plane_img:
+        "https://firebasestorage.googleapis.com/v0/b/cotizador-conversion.appspot.com/o/stockImages%2FsinPLanoAdjunto.jpg?alt=media&token=e4ed2662-d967-4659-af22-1d8f2511c95a",
+      level,
+      number,
+      living_square_mts,
+      bedrooms,
+      bathrooms,
+      loundry,
+      balcony,
+      kitchen_furniture,
+      closets,
+      kitchen_appliances,
+      garden,
+      price,
+      price_with_tax,
+      reserve_price,
+      actual_state,
+      type,
+      lat,
+      long,
+      point: [long, lat],
+      financing_types: []
+    };
+    const ingresarApartamento = Object.assign(newApartament);
+    try {
+      db = await connectDB();
+      ingresarApartamento = await db
+        .collection("apartaments")
+        .insertOne(ingresarApartamento);
+      ingresarApartamento._id = apartament.insertedId;
+    } catch (err) {
+      db = await connectDB();
+      addTolevel = await db
+        .collection("levels")
+        .updateOne(
+          {
+            developerID: developer_id,
+            proyectID: proyect_id,
+            number_of_level: level
+          },
+          { $addToSet: { inventory: ObjectID(ingresarApartamento._id) } }
+        );
+      return ingresarApartamento;
+    }
+  },
 
   login: async (root, { username, password }) => {
-     let db;
-     let user;
-     try {
+    let db;
+    let user;
+    try {
       db = await connectDB();
-      user = await db
-      .collection("users")
-      .findOne({ email: username });
+      user = await db.collection("users").findOne({ email: username });
       if (!user) {
-        throw new Error('Invalid Login, ErrM01')
+        throw new Error("Invalid Login, ErrM01");
       }
-    
-      const isEqual = await bcrypt.compare(password, user.password)
-    
-      if (!isEqual ) {
-        throw new Error('Invalid Login, ErrM02')
+
+      const isEqual = await bcrypt.compare(password, user.password);
+
+      if (!isEqual) {
+        throw new Error("Invalid Login, ErrM02");
       }
-     } catch (error) {
-       throw error
-     }
-     const token = jwt.sign(
+    } catch (error) {
+      throw error;
+    }
+    const token = jwt.sign(
       {
         userID: user.id,
-        email: user.email,
+        email: user.email
       },
-      '67D89823E8A7382CC78D5285B1C42',
+      "67D89823E8A7382CC78D5285B1C42",
       {
-        expiresIn: '12h', // token will expire in 30days
-      },
-    )
+        expiresIn: "12h" // token will expire in 30days
+      }
+    );
     return {
       token,
-      user,
-    }
-        
+      user
+    };
   },
 
-  updataDeveloperProfile: async(root, {developerID, objectField, value}) =>{
-    let db
-    let updateData
+  updataDeveloperProfile: async (root, { developerID, objectField, value }) => {
+    let db;
+    let updateData;
     try {
       db = await connectDB();
       updateData = await db
-      .collection("realStateDevelopers")
-      .updateOne({ _id: ObjectID(developerID) }
-      , {$set:{[objectField]: value}});
- 
+        .collection("realStateDevelopers")
+        .updateOne(
+          { _id: ObjectID(developerID) },
+          { $set: { [objectField]: value } }
+        );
     } catch (error) {
-      throw error
-    }return {
+      throw error;
+    }
+    return {
       objectField,
       value
-    }},
+    };
+  },
 
-    updateUserProfile: async(root, {ID, objectField, value}) =>{
-      let db
-      let updateData
-      try {
-        db = await connectDB();
-        updateData = await db
+  updateUserProfile: async (root, { ID, objectField, value }) => {
+    let db;
+    let updateData;
+    try {
+      db = await connectDB();
+      updateData = await db
         .collection("users")
-        .updateOne({ _id: ObjectID(ID) }
-        , {$set:{[objectField]: value}});
-   
-      } catch (error) {
-        throw error
-      }return {
-        objectField,
-        value
-      }},
-      
-      deleteSeller: async(root, {developerID, userID}) =>{
-        let db
-        let deleteUser
-        let removeFromCompany
-        try {
-          db = await connectDB();
-          deleteUser = await db
-          .collection("users")
-          .deleteOne({ _id: ObjectID(userID)})
-        } catch (error) {
-          throw error
-        }
-        try {
-          db = await connectDB();
-          removeFromCompany = await db
-          .collection("realStateDevelopers")
-          .updateOne({ _id: ObjectID(developerID) }
-        , {$pull:{sellers_team: ObjectID(userID)}});
-        } catch (error) {
-          
-        }
-        return{
-          deleteUser,
-          removeFromCompany
-        }
-      }
+        .updateOne({ _id: ObjectID(ID) }, { $set: { [objectField]: value } });
+    } catch (error) {
+      throw error;
+    }
+    return {
+      objectField,
+      value
+    };
+  },
+
+  deleteSeller: async (root, { developerID, userID }) => {
+    let db;
+    let deleteUser;
+    let removeFromCompany;
+    try {
+      db = await connectDB();
+      deleteUser = await db
+        .collection("users")
+        .deleteOne({ _id: ObjectID(userID) });
+    } catch (error) {
+      throw error;
+    }
+    try {
+      db = await connectDB();
+      removeFromCompany = await db
+        .collection("realStateDevelopers")
+        .updateOne(
+          { _id: ObjectID(developerID) },
+          { $pull: { sellers_team: ObjectID(userID) } }
+        );
+    } catch (error) {}
+    return {
+      deleteUser,
+      removeFromCompany
+    };
+  }
 };
