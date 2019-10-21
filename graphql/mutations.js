@@ -252,6 +252,39 @@ module.exports = {
     }
   },
 
+  addWarehouseToProyect: async (
+    root,
+    { number, price, actual_state, proyectID, developerID }
+  ) => {
+    let db;
+    let bodega;
+    let proyecto;
+    const newWarehouse = {
+      number,
+      price,
+      actual_state,
+      proyectID,
+      developerID
+    };
+    const ingresarBodega = Object.assign(newWarehouse);
+    try {
+      db = await connectDB();
+      ingresarBodega = await db
+        .collection("warehouses")
+        .insertOne(ingresarBodega);
+        ingresarBodega._id = bodega.insertedId;
+    } catch (err) {
+      db = await connectDB();
+      proyecto = await db
+        .collection("proyects")
+        .updateOne(
+          { _id: ObjectID(proyectID) },
+          { $addToSet: { warehouses: ObjectID(ingresarBodega._id) } }
+        );
+      return ingresarBodega;
+    }
+  },
+
   addLevelToProyect: async (
     root,
     { developerID, proyectID, number_of_level, plane_img_url }

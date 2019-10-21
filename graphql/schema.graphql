@@ -140,6 +140,15 @@ type Parking {
   developerID: String
 }
 
+type Warehouse {
+  _id: ID!
+  number: String!
+  price: Int
+  actual_state: ActualState
+  proyectID: String
+  developerID: String
+}
+
 type Proyect {
   _id: ID!
   name: String!
@@ -155,6 +164,7 @@ type Proyect {
   total_apartaments: Int
   levels: [Level]
   parkings: [Parking]
+  warehouses: [Warehouse]
   lat: Float
   long: Float
   financing_types: [Financing]
@@ -344,6 +354,15 @@ type Mutation {
     proyectID: String!
     developerID: String!
   ): Parking
+
+    "📦🏢 - Agregar Bodega a Proyecto"
+  addWarehouseToProyect(
+    number: String!
+    price: Int!
+    actual_state: ActualState!
+    proyectID: String!
+    developerID: String!
+  ): Warehouse
 
   "🏛💵- Agregar un Financiamiento"
   newFinancing(name: String!, interest_rate: Float): Financing
