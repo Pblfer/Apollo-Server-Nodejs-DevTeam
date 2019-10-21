@@ -144,6 +144,7 @@ type Warehouse {
   _id: ID!
   number: String!
   price: Int
+  square_mts: Int
   actual_state: ActualState
   proyectID: String
   developerID: String
@@ -359,6 +360,7 @@ type Mutation {
   addWarehouseToProyect(
     number: String!
     price: Int!
+    square_mts: Int!
     actual_state: ActualState!
     proyectID: String!
     developerID: String!

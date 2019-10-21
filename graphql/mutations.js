@@ -254,7 +254,7 @@ module.exports = {
 
   addWarehouseToProyect: async (
     root,
-    { number, price, actual_state, proyectID, developerID }
+    { number, price, square_mts, actual_state, proyectID, developerID }
   ) => {
     let db;
     let bodega;
@@ -262,6 +262,7 @@ module.exports = {
     const newWarehouse = {
       number,
       price,
+      square_mts,
       actual_state,
       proyectID,
       developerID
