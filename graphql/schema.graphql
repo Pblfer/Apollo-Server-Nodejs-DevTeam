@@ -386,6 +386,7 @@ type Mutation {
 
     "📸🏢 - Agregar Imagen a Proyecto"
   addImageToProyect(
+      image_name:String!
       proyect_id: String!
       proyect_name: String!
       lat:Float!

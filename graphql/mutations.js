@@ -218,11 +218,12 @@ module.exports = {
     return desarrolladora;
   },
 
-  addImageToProyect: async (root ,{proyect_id, proyect_name ,lat, long, img_url, gallery_type}) =>{
+  addImageToProyect: async (root ,{proyect_id, image_name, proyect_name ,lat, long, img_url, gallery_type}) =>{
     let db;
     let imagen;
     let proyecto;
     const newImage = {
+      image_name,
       proyect_id, 
       proyect_name,
       point: [long, lat],
