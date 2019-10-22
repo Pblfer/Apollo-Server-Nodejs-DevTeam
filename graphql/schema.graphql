@@ -82,8 +82,8 @@ type Discount {
 }
 
 enum GalleryType{
-  interna
-  externa
+  amenidades
+  acabados
 }
 
 type Img {
