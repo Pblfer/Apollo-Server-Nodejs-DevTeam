@@ -145,8 +145,7 @@ module.exports = {
       financing_types: [],
       discounts: [],
       header_img,
-      outside_images: [],
-      inside_images: [],
+      gallery: [],
       quote_logo: "",
       quote_banner: "",
       etapa
@@ -217,6 +216,36 @@ module.exports = {
       console.log(error);
     }
     return desarrolladora;
+  },
+
+  addImageToProyect: async (root ,{proyect_id, proyect_name ,lat, long, img_url, gallery_type}) =>{
+    let db;
+    let imagen;
+    let proyecto;
+    const newImage = {
+      proyect_id, 
+      proyect_name,
+      point: [long, lat],
+      img_url,
+      gallery_type
+    };
+    const ingresarImage = Object.assign(newImage);
+    try {
+      db = await connectDB();
+      ingresarImage = await db
+        .collection("images")
+        .insertOne(ingresarImage);
+        ingresarImage._id = imagen.insertedId;
+    } catch (err) {
+      db = await connectDB();
+      proyecto = await db
+        .collection("proyects")
+        .updateOne(
+          { _id: ObjectID(proyect_id) },
+          { $addToSet: { gallery: ObjectID(ingresarImage._id) } }
+        );
+      return ingresarImage;
+    }
   },
 
   addParkingToProyect: async (

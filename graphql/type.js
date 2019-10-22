@@ -77,6 +77,24 @@ module.exports = {
             return parkingData
         },
 
+        gallery: async ({gallery}) =>{
+            let db
+            let imgData
+            let ids
+            try {
+                db = await connectDB()
+                ids= gallery ? gallery.map(id => ObjectID(id)) : []
+                imgData = ids.length > 0 ?
+                await db.collection('images').find(
+                    {_id: {$in: ids}}
+                ).toArray()
+                : []
+            } catch (err) {
+                console.log(err)
+            }
+            return imgData
+        },
+
         warehouses: async ({warehouses}) =>{
             let db
             let warehouseData

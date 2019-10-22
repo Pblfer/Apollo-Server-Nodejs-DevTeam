@@ -81,11 +81,19 @@ type Discount {
   active: String
 }
 
+enum GalleryType{
+  interna
+  externa
+}
+
 type Img {
   _id: ID
   proyect_id: String!
   proyect_name: String!
+  lat:Int
+  long:Int
   img_url: String
+  gallery_type: GalleryType
 }
 
 type Financing {
@@ -174,8 +182,7 @@ type Proyect {
   deposit_percent: Int
   discounts: [Discount]
   header_img: String
-  outside_images: [Img]
-  inside_images: [Img]
+  gallery: [Img]
   quote_logo: String
   quote_banner: String
   etapa: Etapas!
@@ -376,6 +383,17 @@ type Mutation {
     number_of_level: Int!
     plane_img_url: String!
   ): Level
+
+    "📸🏢 - Agregar Imagen a Proyecto"
+  addImageToProyect(
+      proyect_id: String!
+      proyect_name: String!
+      lat:Float!
+      long:Float!
+      img_url: String!
+      gallery_type: GalleryType!
+  ): Img
+  
 }
 
 type Updated {
