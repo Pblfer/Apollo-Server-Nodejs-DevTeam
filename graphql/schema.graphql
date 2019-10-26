@@ -211,6 +211,9 @@ type Query {
 
   "☝📥 - Obtener 1 Nivel especifico"
   getLevel(levelID: String!): Level
+
+    "☝🚪 - Obtener 1 Apartamento especifico"
+  getApartament(apartamentID: String!): Apartament
 }
 
 input DeveloperInput {

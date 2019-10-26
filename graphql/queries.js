@@ -80,5 +80,19 @@ module.exports = {
       console.log(err);
     }
     return level;
+  },
+
+  getApartament: async (root, { apartamentID }) => {
+    let db;
+    let apartament;
+    try {
+      db = await connectDB();
+      apartament = await db.collection("apartaments").findOne({ _id: ObjectID(apartamentID) });
+    } catch (err) {
+      console.log(err);
+    }
+    return apartament;
   }
+
+
 };
