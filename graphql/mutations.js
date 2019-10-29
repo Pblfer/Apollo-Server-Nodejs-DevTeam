@@ -19,7 +19,8 @@ module.exports = {
       cc_token: "",
       proyects: [],
       admins_team: [],
-      sellers_team: []
+      sellers_team: [],
+      clients:[]
     };
     const nuevaDesarrolladora = Object.assign(defaults, input);
     let db;
@@ -187,6 +188,32 @@ module.exports = {
       console.log(error);
     }
     return desarrolladora;
+  },
+
+  newClientToDeveloper: async (root, { email, developerID, first_name, last_name, phone, nit}) => {
+    let db;
+    let cliente;
+    let Developer;
+    const newClient = {
+      email, developerID, first_name, last_name, phone, nit
+    };
+    const ingresarCliente = Object.assign(newClient);
+    try {
+      db = await connectDB();
+      ingresarCliente = await db
+        .collection("clients")
+        .insertOne(ingresarCliente);
+        ingresarCliente._id = cliente.insertedId;
+    } catch (err) {
+      db = await connectDB();
+      Developer = await db
+        .collection("realStateDevelopers")
+        .updateOne(
+          { _id: ObjectID(developerID) },
+          { $addToSet: { clients: ObjectID(ingresarCliente._id) } }
+        );
+      return ingresarCliente;
+    }
   },
 
   addProyectToDeveloper: async (root, { developerID, proyectID }) => {

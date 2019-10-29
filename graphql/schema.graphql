@@ -58,6 +58,7 @@ type Developer {
   admins_team: [User]
   admin_email: String
   sellers_team: [User]
+  clients: [Client]
 }
 
 type User {
@@ -73,6 +74,16 @@ type User {
   blocked: UserStatus
 }
 
+type Client {
+  _id: ID!
+  email: String!
+  developerID: String!
+  first_name: String
+  last_name: String
+  phone: String
+  nit: String
+}
+
 type Discount {
   _id: ID!
   name: String!
@@ -81,18 +92,18 @@ type Discount {
   active: String
 }
 
-enum GalleryType{
+enum GalleryType {
   amenidades
   acabados
 }
 
 type Img {
   _id: ID
-  image_name:String
+  image_name: String
   proyect_id: String!
   proyect_name: String!
-  lat:Int
-  long:Int
+  lat: Int
+  long: Int
   img_url: String
   gallery_type: GalleryType
 }
@@ -212,7 +223,7 @@ type Query {
   "☝📥 - Obtener 1 Nivel especifico"
   getLevel(levelID: String!): Level
 
-    "☝🚪 - Obtener 1 Apartamento especifico"
+  "☝🚪 - Obtener 1 Apartamento especifico"
   getApartament(apartamentID: String!): Apartament
 }
 
@@ -267,6 +278,16 @@ type Mutation {
     value: String!
   ): Updated
 
+  "👌🙌👨‍💼🏢 - Nuevo cliente para Desarrolladora"
+  newClientToDeveloper(
+    email: String!
+    developerID: String!
+    first_name: String!
+    last_name: String!
+    phone: String!
+    nit: String!
+  ): Client
+
   "🏢📝 - Actualizar perfil de Usuario"
   updateUserProfile(ID: ID!, objectField: String!, value: String!): Updated
 
@@ -314,7 +335,7 @@ type Mutation {
     plane_img: String!
     level: Int!
     number: String!
-    apt_type:String!
+    apt_type: String!
     living_square_mts: Float!
     bedrooms: Int!
     bathrooms: Int!
@@ -339,7 +360,7 @@ type Mutation {
     proyect_name: String!
     level: Int!
     number: String!
-    apt_type:String!
+    apt_type: String!
     living_square_mts: Float!
     bedrooms: Int!
     bathrooms: Int!
@@ -367,7 +388,7 @@ type Mutation {
     developerID: String!
   ): Parking
 
-    "📦🏢 - Agregar Bodega a Proyecto"
+  "📦🏢 - Agregar Bodega a Proyecto"
   addWarehouseToProyect(
     number: String!
     price: Int!
@@ -388,17 +409,16 @@ type Mutation {
     plane_img_url: String!
   ): Level
 
-    "📸🏢 - Agregar Imagen a Proyecto"
+  "📸🏢 - Agregar Imagen a Proyecto"
   addImageToProyect(
-      image_name:String!
-      proyect_id: String!
-      proyect_name: String!
-      lat:Float!
-      long:Float!
-      img_url: String!
-      gallery_type: GalleryType!
+    image_name: String!
+    proyect_id: String!
+    proyect_name: String!
+    lat: Float!
+    long: Float!
+    img_url: String!
+    gallery_type: GalleryType!
   ): Img
-  
 }
 
 type Updated {

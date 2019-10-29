@@ -37,6 +37,23 @@ module.exports = {
                 console.log(err)
             }
             return proyectData
+        },
+        clients: async ({clients}) =>{
+            let db
+            let clientData
+            let ids
+            try {
+                db = await connectDB()
+                ids= clients ? clients.map(id => ObjectID(id)) : []
+                clientData = ids.length > 0 ?
+                await db.collection('clients').find(
+                    {_id: {$in: ids}}
+                ).toArray()
+                : []
+            } catch (err) {
+                console.log(err)
+            }
+            return clientData
         }
     },
 
