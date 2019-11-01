@@ -128,6 +128,24 @@ module.exports = {
                 console.log(err)
             }
             return warehouseData
+        },
+
+        discounts: async ({discounts}) =>{
+            let db
+            let discountData
+            let ids
+            try {
+                db = await connectDB()
+                ids= discounts ? discounts.map(id => ObjectID(id)) : []
+                discountData = ids.length > 0 ?
+                await db.collection('discounts').find(
+                    {_id: {$in: ids}}
+                ).toArray()
+                : []
+            } catch (err) {
+                console.log(err)
+            }
+            return discountData
         }
     },
 

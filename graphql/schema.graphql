@@ -295,7 +295,7 @@ type Mutation {
   deleteSeller(developerID: ID!, userID: ID!): User
 
   "💰✂ - Agregar Descuento"
-  newDiscount(
+  newDiscountToProyect(
     name: String!
     company_id: String!
     proyect_id: String!

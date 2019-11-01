@@ -75,30 +75,7 @@ module.exports = {
     return nuevoUsuario;
   },
 
-  newDiscount: async (
-    root,
-    { name, company_id, proyect_id, discount_amount, active }
-  ) => {
-    let db;
-    let discount;
-    const newDiscount = {
-      name,
-      company_id,
-      proyect_id,
-      discount_amount,
-      active
-    };
-    const ingresarDescuento = Object.assign(newDiscount);
-    try {
-      db = await connectDB();
-      ingresarDescuento = await db
-        .collection("discounts")
-        .insertOne(ingresarDescuento);
-      ingresarDescuento._id = discount.insertedId;
-    } catch (error) {
-      return ingresarDescuento;
-    }
-  },
+  
   newProyect: async (
     root,
     {
@@ -275,6 +252,32 @@ module.exports = {
       return ingresarImage;
     }
   },
+
+  newDiscountToProyect: async(root, {name, company_id, proyect_id, discount_amount, active}) =>{
+    let db;
+    let descuento;
+    let proyecto;
+    const nuevoDescuento = {
+      name, company_id, proyect_id, discount_amount, active
+    };
+    const ingresarDescuento = Object.assign(nuevoDescuento);
+    try {
+      db = await connectDB();
+      ingresarDescuento = await db
+        .collection("discounts")
+        .insertOne(ingresarDescuento);
+        ingresarDescuento._id = descuento.insertedId;
+    } catch (err) {
+      db = await connectDB();
+      proyecto = await db
+        .collection("proyects")
+        .updateOne(
+          { _id: ObjectID(proyect_id) },
+          { $addToSet: { discounts: ObjectID(ingresarDescuento._id) } }
+        );
+      return ingresarDescuento;
+    }
+  }, 
 
   addParkingToProyect: async (
     root,
