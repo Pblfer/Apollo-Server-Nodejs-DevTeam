@@ -112,6 +112,7 @@ type Financing {
   _id: ID!
   name: String!
   interest_rate: Float
+  years_max: Int
 }
 
 type Apartament {
