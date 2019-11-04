@@ -146,6 +146,23 @@ module.exports = {
                 console.log(err)
             }
             return discountData
+        },
+        financing_types: async ({financing_types}) =>{
+            let db
+            let financingData
+            let ids
+            try {
+                db = await connectDB()
+                ids= financing_types ? financing_types.map(id => ObjectID(id)) : []
+                financingData = ids.length > 0 ?
+                await db.collection('financing_types').find(
+                    {_id: {$in: ids}}
+                ).toArray()
+                : []
+            } catch (err) {
+                console.log(err)
+            }
+            return financingData
         }
     },
 
