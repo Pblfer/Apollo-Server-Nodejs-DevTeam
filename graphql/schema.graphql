@@ -399,7 +399,12 @@ type Mutation {
   ): Warehouse
 
   "🏛💵- Agregar un Financiamiento"
-  newFinancing(name: String!, interest_rate: Float): Financing
+  newFinancingToProyect(
+    name: String!, 
+    interest_rate: Float!,
+    years_max: Int!,
+    proyectID: String!
+    ): Financing
 
   "📥🏢 - Agregar Nivel a Proyecto"
   addLevelToProyect(

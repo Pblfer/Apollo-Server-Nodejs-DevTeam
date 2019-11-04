@@ -279,6 +279,32 @@ module.exports = {
     }
   }, 
 
+  newFinancingToProyect: async(root, {name, interest_rate, years_max, proyectID}) =>{
+    let db;
+    let financiamiento;
+    let proyecto;
+    const nuevoFinanciamiento = {
+      name, interest_rate, years_max, proyectID
+    };
+    const ingresarFinanciamiento = Object.assign(nuevoFinanciamiento);
+    try {
+      db = await connectDB();
+      ingresarFinanciamiento = await db
+        .collection("financing_types")
+        .insertOne(ingresarFinanciamiento);
+        ingresarFinanciamiento._id = financiamiento.insertedId;
+    } catch (err) {
+      db = await connectDB();
+      proyecto = await db
+        .collection("proyects")
+        .updateOne(
+          { _id: ObjectID(proyectID) },
+          { $addToSet: { financing_types: ObjectID(ingresarFinanciamiento._id) } }
+        );
+      return ingresarFinanciamiento;
+    }
+  }, 
+
   addParkingToProyect: async (
     root,
     { number, price, actual_state, proyectID, developerID }
