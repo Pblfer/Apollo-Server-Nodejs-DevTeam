@@ -190,6 +190,7 @@ type Proyect {
   lat: Float
   long: Float
   financing_types: [Financing]
+  fraction_reserved: Int
   company_id: String
   company_name: String
   deposit_percent: Int
