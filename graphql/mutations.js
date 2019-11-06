@@ -121,6 +121,7 @@ module.exports = {
       company_name,
       deposit_percent,
       financing_types: [],
+      fraction_reserved: 0,
       discounts: [],
       header_img,
       gallery: [],
