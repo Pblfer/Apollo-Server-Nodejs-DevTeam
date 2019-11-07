@@ -46,6 +46,7 @@ type Developer {
   description: String
   phone_area: String
   phone: String
+  address: String
   email: String
   website: String
   social_fb: String

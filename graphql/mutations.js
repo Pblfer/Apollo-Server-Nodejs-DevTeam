@@ -10,6 +10,7 @@ module.exports = {
       description: "",
       phone_area: "",
       phone: "",
+      address: "",
       social_fb: "",
       social_ig: "",
       social_linkedin: "",
