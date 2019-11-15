@@ -401,6 +401,14 @@ module.exports = {
               client: ObjectID(clientID),
             }}
           );
+          await db
+          .collection("clients")
+          .updateOne(
+            { _id: ObjectID(clientID) },
+            { $addToSet: { 
+              quotes: ObjectID(quoteID),
+            }}
+          );
       } catch (error) {
         console.log(error);
       }
