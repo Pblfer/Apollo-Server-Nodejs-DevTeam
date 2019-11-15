@@ -184,6 +184,13 @@ module.exports = {
     financing_name,
     financing_interest_rate,
     financing_years_selected,
+    proyect_name,
+    living_square_mts,
+    bedrooms,
+    bathrooms,
+    price,
+    lat,
+    long
     }) =>{
 
     let db;
@@ -201,10 +208,18 @@ module.exports = {
     financing_name,
     financing_interest_rate,
     financing_years_selected,
+    proyect_name,
+    living_square_mts,
+    bedrooms,
+    bathrooms,
+    price,
+    lat,
+    long,
     client:[],
     apartaments:[],
     parkings:[],
-    warehouses: []
+    warehouses: [],
+    point: [long, lat]
     };
     const ingresarCotizacion = Object.assign(nuevaCotizacion);
     try {
@@ -250,6 +265,146 @@ module.exports = {
         );
       return ingresarCliente;
     }
+  },
+
+  addApartamentToQuote: async (root, { 
+    quoteID,
+    apartamentID
+  }) =>{
+
+      let db;
+      let cotizacion;
+      let apartament;
+      try {
+        db = await connectDB();
+        //buscar Cotizacion
+        cotizacion = await db
+          .collection("quotes")
+          .findOne({ _id: ObjectID(quoteID) });
+        //buscar Apartamento
+        apartament = await db
+          .collection("apartaments")
+          .findOne({ _id: ObjectID(apartamentID) });
+        if (!cotizacion || !apartament) {
+          throw new Error("El apartamento o la cotizacion no existen.");
+        }
+        await db
+          .collection("quotes")
+          .updateOne(
+            { _id: ObjectID(quoteID) },
+            { $addToSet: { 
+              apartaments: ObjectID(apartamentID),
+            }}
+          );
+      } catch (error) {
+        console.log(error);
+      }
+      return cotizacion; 
+  },
+
+  addParkingToQuote: async (root, { 
+    quoteID,
+    parkingID
+  }) =>{
+
+      let db;
+      let cotizacion;
+      let parqueo;
+      try {
+        db = await connectDB();
+        //buscar Cotizacion
+        cotizacion = await db
+          .collection("quotes")
+          .findOne({ _id: ObjectID(quoteID) });
+        //buscar Parqueo
+        parqueo = await db
+          .collection("parkings")
+          .findOne({ _id: ObjectID(parkingID) });
+        if (!cotizacion || !parqueo) {
+          throw new Error("El parqueo o la cotizacion no existen.");
+        }
+        await db
+          .collection("quotes")
+          .updateOne(
+            { _id: ObjectID(quoteID) },
+            { $addToSet: { 
+              parkings: ObjectID(parkingID),
+            }}
+          );
+      } catch (error) {
+        console.log(error);
+      }
+      return parqueo; 
+  },
+
+  addWarehouseToQuote: async (root, { 
+    quoteID,
+    warehouseID
+  }) =>{
+
+      let db;
+      let cotizacion;
+      let bodega;
+      try {
+        db = await connectDB();
+        //buscar Cotizacion
+        cotizacion = await db
+          .collection("quotes")
+          .findOne({ _id: ObjectID(quoteID) });
+        //buscar bodega
+        bodega = await db
+          .collection("warehouses")
+          .findOne({ _id: ObjectID(warehouseID) });
+        if (!cotizacion || !bodega) {
+          throw new Error("La Bodega o la cotizacion no existen.");
+        }
+        await db
+          .collection("quotes")
+          .updateOne(
+            { _id: ObjectID(quoteID) },
+            { $addToSet: { 
+              warehouses: ObjectID(warehouseID),
+            }}
+          );
+      } catch (error) {
+        console.log(error);
+      }
+      return bodega; 
+  },
+
+  addClientToQuote: async (root, { 
+    quoteID,
+    clientID
+  }) =>{
+
+      let db;
+      let cotizacion;
+      let cliente;
+      try {
+        db = await connectDB();
+        //buscar Cotizacion
+        cotizacion = await db
+          .collection("quotes")
+          .findOne({ _id: ObjectID(quoteID) });
+        //buscar bodega
+        cliente = await db
+          .collection("clients")
+          .findOne({ _id: ObjectID(clientID) });
+        if (!cotizacion || !cliente) {
+          throw new Error("El cliente o la cotizacion no existen.");
+        }
+        await db
+          .collection("quotes")
+          .updateOne(
+            { _id: ObjectID(quoteID) },
+            { $addToSet: { 
+              client: ObjectID(clientID),
+            }}
+          );
+      } catch (error) {
+        console.log(error);
+      }
+      return cliente; 
   },
 
   addProyectToDeveloper: async (root, { developerID, proyectID }) => {

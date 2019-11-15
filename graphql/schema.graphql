@@ -90,6 +90,13 @@ type Quote {
   financing_name: String
   financing_interest_rate: Float
   financing_years_selected: Int
+  proyect_name: String,
+  living_square_mts: Float,
+  bedrooms: Int,
+  bathrooms: Int,
+  price: Int,
+  lat: Float,
+  long: Float,
   client:[Client]
   apartaments:[Apartament]
   parkings:[Parking]
@@ -450,7 +457,7 @@ type Mutation {
     gallery_type: GalleryType!
   ): Img
 
-  "📃👨👌 - Nueva Cotización"
+  "📃👌 - Nueva Cotización"
   newQuotetoSeller(
       userID: String!
       developerCompanyName: String!
@@ -464,7 +471,39 @@ type Mutation {
       financing_name: String
       financing_interest_rate: Float
       financing_years_selected: Int
+      proyect_name: String
+      living_square_mts: Float
+      bedrooms: Int
+      bathrooms: Int
+      price: Int
+      lat: Float
+      long: Float
   ): Quote
+
+  "📃🚪 - Agregar Apartamento a Cotización"
+  addApartamentToQuote(
+    quoteID: String!
+    apartamentID: String!
+  ): Apartament
+
+  "📃🚗 - Agregar Parqueo a Cotización"
+  addParkingToQuote(
+    quoteID: String!
+    parkingID: String!
+  ): Parking
+
+  "📃📦 - Agregar Bodega a Cotización"
+  addWarehouseToQuote(
+    quoteID: String!
+    warehouseID: String!
+  ): Warehouse
+
+  "📃🦸‍♂️ - Agregar Cliente a Cotización"
+  addClientToQuote(
+    quoteID: String!
+    clientID: String!
+  ): Warehouse
+
 }
 
 type Updated {
