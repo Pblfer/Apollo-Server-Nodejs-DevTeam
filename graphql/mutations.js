@@ -63,7 +63,8 @@ module.exports = {
       pic:
         "https://firebasestorage.googleapis.com/v0/b/cotizador-conversion.appspot.com/o/stockImages%2FuserDefaultPic.jpg?alt=media&token=7bacc009-b998-4abf-8722-79a5dae8f6c8",
       roll,
-      blocked
+      blocked,
+      quotes:[]
     };
     const nuevoUsuario = Object.assign(newUser);
     let db;
@@ -168,6 +169,61 @@ module.exports = {
       console.log(error);
     }
     return desarrolladora;
+  },
+
+  newQuotetoSeller: async(root, {
+    userID, 
+    developerCompanyName, 
+    barCode,
+    quote_date_created, 
+    quote_date_limit, 
+    discount_mount, 
+    deposit_client,
+    reserve_client,
+    reserve_fraction_month_selected,
+    financing_name,
+    financing_interest_rate,
+    financing_years_selected,
+    }) =>{
+
+    let db;
+    let cotizacion;
+    let vendendor;
+    const nuevaCotizacion = { 
+    developerCompanyName, 
+    barCode,
+    quote_date_created, 
+    quote_date_limit, 
+    discount_mount, 
+    deposit_client,
+    reserve_client,
+    reserve_fraction_month_selected,
+    financing_name,
+    financing_interest_rate,
+    financing_years_selected,
+    client:[],
+    apartaments:[],
+    parkings:[],
+    warehouses: []
+    };
+    const ingresarCotizacion = Object.assign(nuevaCotizacion);
+    try {
+      db = await connectDB();
+      ingresarCotizacion = await db
+        .collection("quotes")
+        .insertOne(ingresarCotizacion);
+        ingresarCotizacion._id = cotizacion.insertedId;
+    } catch (err) {
+      db = await connectDB();
+      vendendor = await db
+        .collection("users")
+        .updateOne(
+          { _id: ObjectID(userID) },
+          { $addToSet: { quotes: ObjectID(ingresarCotizacion._id) } }
+        );
+      return ingresarCotizacion;
+    }
+
   },
 
   newClientToDeveloper: async (root, { email, developerID, first_name, last_name, phone, nit}) => {

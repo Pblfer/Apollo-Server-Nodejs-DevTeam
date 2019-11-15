@@ -73,6 +73,27 @@ type User {
   phone: String
   pic: String
   blocked: UserStatus
+  quotes: [Quote]
+}
+
+type Quote {
+  _id: ID!
+  userID: String!
+  developerCompanyName: String!
+  barCode: String!
+  quote_date_created: String
+  quote_date_limit: String
+  discount_mount: Int
+  deposit_client: Int
+  reserve_client: Int
+  reserve_fraction_month_selected: Int
+  financing_name: String
+  financing_interest_rate: Float
+  financing_years_selected: Int
+  client:[Client]
+  apartaments:[Apartament]
+  parkings:[Parking]
+  warehouses: [Warehouse]
 }
 
 type Client {
@@ -428,6 +449,22 @@ type Mutation {
     img_url: String!
     gallery_type: GalleryType!
   ): Img
+
+  "📃👨👌 - Nueva Cotización"
+  newQuotetoSeller(
+      userID: String!
+      developerCompanyName: String!
+      barCode: String!
+      quote_date_created: String
+      quote_date_limit: String
+      discount_mount: Int
+      deposit_client: Int
+      reserve_client: Int
+      reserve_fraction_month_selected: Int
+      financing_name: String
+      financing_interest_rate: Float
+      financing_years_selected: Int
+  ): Quote
 }
 
 type Updated {
