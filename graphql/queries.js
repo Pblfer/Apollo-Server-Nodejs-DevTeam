@@ -92,6 +92,18 @@ module.exports = {
       console.log(err);
     }
     return apartament;
+  },
+
+  getQuoteByID: async (root, { quoteID }) => {
+    let db;
+    let quote;
+    try {
+      db = await connectDB();
+      quote = await db.collection("quotes").findOne({ _id: ObjectID(quoteID) });
+    } catch (err) {
+      console.log(err);
+    }
+    return quote;
   }
 
 

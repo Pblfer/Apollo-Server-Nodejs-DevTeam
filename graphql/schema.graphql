@@ -257,6 +257,9 @@ type Query {
 
   "☝🚪 - Obtener 1 Apartamento especifico"
   getApartament(apartamentID: String!): Apartament
+
+  "☝📃 - Obtener 1 Cotizacion por ID "
+  getQuoteByID(quoteID: ID!): Quote
 }
 
 input DeveloperInput {
