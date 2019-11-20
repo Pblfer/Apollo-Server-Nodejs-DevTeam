@@ -85,7 +85,7 @@ type Quote {
       quote_date_limit: String
       discount_mount: Int
       reserve_mount: Int
-      promise_sign_mount: Float
+      promise_sign_mount: Int
       fraction_total_mount: Int
       fraction_month_selected: Int
       fraction_fee_mount: Int
@@ -478,7 +478,7 @@ type Mutation {
       quote_date_limit: String
       discount_mount: Int
       reserve_mount: Int
-      promise_sign_mount: Float
+      promise_sign_mount: Int
       fraction_total_mount: Int
       fraction_month_selected: Int
       fraction_fee_mount: Int
