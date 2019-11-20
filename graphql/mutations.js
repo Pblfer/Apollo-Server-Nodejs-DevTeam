@@ -197,7 +197,6 @@ module.exports = {
       living_square_mts,
       bedrooms,
       bathrooms,
-      price,
       lat,
       long
     }) =>{
@@ -231,7 +230,6 @@ module.exports = {
       living_square_mts,
       bedrooms,
       bathrooms,
-      price,
       client:[],
       apartaments:[],
       parkings:[],

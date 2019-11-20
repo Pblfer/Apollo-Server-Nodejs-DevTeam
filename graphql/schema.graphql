@@ -476,13 +476,13 @@ type Mutation {
       property_value: Int
       parkings_mount: Int
       warehouses_mount: Int
-      taxes_mount: Int
-      total_mount: Int
+      taxes_mount: Float
+      total_mount: Float
       financing_name: String
-      financing_total_mount: Int
+      financing_total_mount: Float
       financing_interest_rate: Float
       financing_years_selected: Int
-      financing_fee_mount: Int
+      financing_fee_mount: Float
       proyect_name: String
       living_square_mts: Float
       bedrooms: Int
