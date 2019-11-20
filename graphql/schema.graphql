@@ -468,12 +468,21 @@ type Mutation {
       quote_date_created: String
       quote_date_limit: String
       discount_mount: Int
-      deposit_client: Int
-      reserve_client: Int
-      reserve_fraction_month_selected: Int
+      reserve_mount: Int
+      promise_sign_mount: Int
+      fraction_total_mount: Int
+      fraction_month_selected: Int
+      fraction_fee_mount: Int
+      property_value: Int
+      parkings_mount: Int
+      warehouses_mount: Int
+      taxes_mount: Int
+      total_mount: Int
       financing_name: String
+      financing_total_mount: Int
       financing_interest_rate: Float
       financing_years_selected: Int
+      financing_fee_mount: Int
       proyect_name: String
       living_square_mts: Float
       bedrooms: Int
