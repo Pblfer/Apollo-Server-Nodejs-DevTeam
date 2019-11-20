@@ -106,6 +106,7 @@ type Quote {
       price: Int
       lat: Float
       long: Float
+      logo_quote_proyect: String
       client:[Client]
       apartaments:[Apartament]
       parkings:[Parking]
@@ -499,6 +500,7 @@ type Mutation {
       price: Int
       lat: Float
       long: Float
+      logo_quote_proyect: String
   ): Quote
 
   "📃🚪 - Agregar Apartamento a Cotización"
