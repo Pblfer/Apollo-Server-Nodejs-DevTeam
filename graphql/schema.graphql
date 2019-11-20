@@ -88,7 +88,7 @@ type Quote {
       promise_sign_mount: Int
       fraction_total_mount: Int
       fraction_month_selected: Int
-      fraction_fee_mount: Int
+      fraction_fee_mount: Float
       property_value: Int
       parkings_mount: Int
       warehouses_mount: Int
@@ -481,7 +481,7 @@ type Mutation {
       promise_sign_mount: Int
       fraction_total_mount: Int
       fraction_month_selected: Int
-      fraction_fee_mount: Int
+      fraction_fee_mount: Float
       property_value: Int
       parkings_mount: Int
       warehouses_mount: Int
