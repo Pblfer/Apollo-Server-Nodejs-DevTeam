@@ -527,6 +527,10 @@ type Mutation {
     clientID: String!
   ): Warehouse
 
+  "👨‍💼👩‍💼❌ - Bloquear Usuario"
+  blockUser(
+    userID: String!
+  ): User
 }
 
 type Updated {
