@@ -161,6 +161,23 @@ module.exports = {
   }
   },
 
+  activateUser: async (root, {userID}) =>{
+    let db;
+    let usuario;
+    try{
+    db = await connectDB();
+    usuario = await db
+    .collection("users")
+    .updateOne(
+      { _id: ObjectID(userID) },
+      { $set: { blocked: "Activado" } }
+    );  
+    
+  } catch(err){
+    throw(err)
+  }
+  },
+
   addUserToSellersTeam: async (root, { developerID, userID }) => {
     let db;
     let desarrolladora;

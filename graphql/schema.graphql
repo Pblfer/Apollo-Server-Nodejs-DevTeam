@@ -531,6 +531,12 @@ type Mutation {
   blockUser(
     userID: String!
   ): User
+
+
+ "👨‍💼👩‍💼✔ - Activar Usuario"
+  activateUser(
+    userID: String!
+  ): User
 }
 
 type Updated {
