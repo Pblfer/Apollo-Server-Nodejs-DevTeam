@@ -170,7 +170,7 @@ module.exports = {
     .collection("users")
     .updateOne(
       { _id: ObjectID(userID) },
-      { $set: { blocked: "Activado" } }
+      { $set: { blocked: "Activo" } }
     );  
     
   } catch(err){
