@@ -941,9 +941,6 @@ module.exports = {
           { $pull: { levels: ObjectID(levelID) } }
         );
     } catch (error) {}
-    return {
-    deleteLevel,
-    removeFromProyect
-    };
+
   }
 };
