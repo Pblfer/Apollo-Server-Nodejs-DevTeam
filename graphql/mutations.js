@@ -918,5 +918,32 @@ module.exports = {
       deleteUser,
       removeFromCompany
     };
+  },
+
+  deleteLevel: async (root, { proyectID, levelID }) => {
+    let db;
+    let deleteLevel;
+    let removeFromProyect;
+    try {
+      db = await connectDB();
+      deleteLevel = await db
+        .collection("levels")
+        .deleteOne({ _id: ObjectID(levelID) });
+    } catch (error) {
+      throw error;
+    }
+    try {
+      db = await connectDB();
+      removeFromProyect = await db
+        .collection("proyects")
+        .updateOne(
+          { _id: ObjectID(proyectID) },
+          { $pull: { levels: ObjectID(levelID) } }
+        );
+    } catch (error) {}
+    return {
+    deleteLevel,
+    removeFromProyect
+    };
   }
 };

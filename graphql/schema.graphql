@@ -339,6 +339,9 @@ type Mutation {
   "❌👨‍💼👩‍💼 - Eliminar Vendedor"
   deleteSeller(developerID: ID!, userID: ID!): User
 
+  "❌📥 - Eliminar Nivel"
+  deleteLevel(proyectID: ID!, levelID: ID!): Level
+
   "💰✂ - Agregar Descuento"
   newDiscountToProyect(
     name: String!
@@ -531,6 +534,8 @@ type Mutation {
   blockUser(
     userID: String!
   ): User
+
+
 
 
  "👨‍💼👩‍💼✔ - Activar Usuario"
