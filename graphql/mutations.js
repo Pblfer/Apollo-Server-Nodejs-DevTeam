@@ -679,6 +679,7 @@ module.exports = {
   addApartamentToLevel: async (
     root,
     {
+      proyect_id,  
       proyect_name,
       plane_img,
       level,
@@ -704,6 +705,7 @@ module.exports = {
     let db;
     let addTolevel;
     const newApartament = {
+      proyect_id,
       proyect_name,
       plane_img,
       level,
