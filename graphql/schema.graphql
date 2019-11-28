@@ -333,8 +333,11 @@ type Mutation {
     nit: String!
   ): Client
 
-  "🏢📝 - Actualizar perfil de Usuario"
+  "📝👨‍💼 - Actualizar perfil de Usuario"
   updateUserProfile(ID: ID!, objectField: String!, value: String!): Updated
+
+  "📝📥🏢 - Editar Nivel"
+  updateLevel(levelID: ID!, objectField: String!, value: String!): Updated
 
   "❌👨‍💼👩‍💼 - Eliminar Vendedor"
   deleteSeller(developerID: ID!, userID: ID!): User

@@ -893,6 +893,23 @@ module.exports = {
     };
   },
 
+  updateLevel: async (root, { ID, objectField, value }) => {
+    let db;
+    let updateData;
+    try {
+      db = await connectDB();
+      updateData = await db
+        .collection("levels")
+        .updateOne({ _id: ObjectID(ID) }, { $set: { [objectField]: value } });
+    } catch (error) {
+      throw error;
+    }
+    return {
+      objectField,
+      value
+    };
+  },
+
   deleteSeller: async (root, { developerID, userID }) => {
     let db;
     let deleteUser;
