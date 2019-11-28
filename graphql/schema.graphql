@@ -161,7 +161,7 @@ type Apartament {
   plane_img: String
   level: Int
   number: String!
-  apt_type: String
+  aptType: String
   total_square_mts: Float
   living_square_mts: Float
   bedrooms: Int
@@ -387,7 +387,7 @@ type Mutation {
     plane_img: String!
     level: Int!
     number: String!
-    apt_type: String!
+    aptType: String!
     living_square_mts: Float!
     bedrooms: Int!
     bathrooms: Int!
