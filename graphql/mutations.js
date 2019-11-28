@@ -719,8 +719,6 @@ module.exports = {
       kitchen_appliances,
       garden,
       price,
-      price_with_tax:0,
-      reserve_price:0,
       actual_state,
       type,
       lat,

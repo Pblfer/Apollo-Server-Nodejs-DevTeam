@@ -398,8 +398,6 @@ type Mutation {
     kitchen_appliances: OpcionBool!
     garden: OpcionBool!
     price: Float!
-    price_with_tax: Float!
-    reserve_price: Float!
     actual_state: ActualState!
     lat: Float!
     long: Float!
