@@ -156,6 +156,7 @@ type Financing {
 
 type Apartament {
   _id: ID!
+  levelID: String!
   proyect_id: String!
   proyect_name: String!
   plane_img: String
