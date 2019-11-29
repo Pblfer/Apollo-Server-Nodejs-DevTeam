@@ -275,6 +275,25 @@ module.exports = {
             }
             return warehousesData
         }
+    },
+    Apartament:{
+        apartaments: async ({apartaments}) =>{
+            let db
+            let apartamentsData
+            let ids
+            try {
+                db = await connectDB()
+                ids= apartaments ? apartaments.map(id => ObjectID(id)) : []
+                apartamentsData = ids.length > 0 ?
+                await db.collection('apartaments').find(
+                    {_id: {$in: ids}}
+                ).toArray()
+                : []
+            } catch (err) {
+                console.log(err)
+            }
+            return apartamentsData
+        },
     }
 
 }
