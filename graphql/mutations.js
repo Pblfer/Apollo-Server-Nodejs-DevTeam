@@ -685,6 +685,7 @@ module.exports = {
       level,
       number,
       apt_type,
+      plane_img,
       living_square_mts,
       bedrooms,
       bathrooms,
@@ -707,8 +708,7 @@ module.exports = {
     let addTolevel;
     const nuevoApartament = {
       proyect_name,
-      plane_img:
-        "https://firebasestorage.googleapis.com/v0/b/cotizador-conversion.appspot.com/o/stockImages%2FsinPLanoAdjunto.jpg?alt=media&token=e4ed2662-d967-4659-af22-1d8f2511c95a",
+      plane_img,
       level,
       number,
       living_square_mts,
