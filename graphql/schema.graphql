@@ -16,9 +16,9 @@ enum City {
 }
 
 enum ActualState {
-  disponible
-  reservado
-  bloqueado
+  Disponible
+  Reservado
+  Bloqueado
 }
 
 enum UserStatus {
@@ -380,15 +380,15 @@ type Mutation {
     etapa: Etapas!
   ): Proyect
 
-  "🏢🚪🚽📺 - Agregar Apartamento a Nivel especifico"
-  addApartamentToLevel(
-    levelID: String!
+  "📃🚪 - Nuevo Apartamentos"
+  newApartament(
+    developer_id: String!
     proyect_id: String!
     proyect_name: String!
-    plane_img: String!
     level: Int!
     number: String!
-    aptType: String!
+    apt_type: String!
+    plane_img: String!
     living_square_mts: Float!
     bedrooms: Int!
     bathrooms: Int!

@@ -676,15 +676,15 @@ module.exports = {
     }
   },
 
-  addApartamentToLevel: async (
+  
+
+  newApartament: async (
     root,
     {
-      proyect_id,  
       proyect_name,
-      plane_img,
       level,
       number,
-      aptType,
+      apt_type,
       living_square_mts,
       bedrooms,
       bathrooms,
@@ -698,19 +698,19 @@ module.exports = {
       actual_state,
       lat,
       long,
-      levelID
+      proyect_id,
+      developer_id
     }
   ) => {
     let apartament;
     let db;
     let addTolevel;
-    const newApartament = {
-      proyect_id,
+    const nuevoApartament = {
       proyect_name,
-      plane_img,
+      plane_img:
+        "https://firebasestorage.googleapis.com/v0/b/cotizador-conversion.appspot.com/o/stockImages%2FsinPLanoAdjunto.jpg?alt=media&token=e4ed2662-d967-4659-af22-1d8f2511c95a",
       level,
       number,
-      aptType,
       living_square_mts,
       bedrooms,
       bathrooms,
@@ -721,14 +721,16 @@ module.exports = {
       kitchen_appliances,
       garden,
       price,
+      price_with_tax: null,
+      reserve_price: null,
       actual_state,
-      type,
+      apt_type,
       lat,
       long,
       point: [long, lat],
       financing_types: []
     };
-    const ingresarApartamento = Object.assign(newApartament);
+    const ingresarApartamento = Object.assign(nuevoApartament);
     try {
       db = await connectDB();
       ingresarApartamento = await db
@@ -740,7 +742,11 @@ module.exports = {
       addTolevel = await db
         .collection("levels")
         .updateOne(
-          { _id: ObjectID(levelID) },
+          {
+            developerID: developer_id,
+            proyectID: proyect_id,
+            number_of_level: level
+          },
           { $addToSet: { inventory: ObjectID(ingresarApartamento._id) } }
         );
       return ingresarApartamento;
