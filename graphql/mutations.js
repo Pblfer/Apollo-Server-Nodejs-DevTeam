@@ -943,6 +943,33 @@ module.exports = {
     };
   },
 
+  deleteApartament: async (root, { apartamentID, levelID }) => {
+    let db;
+    let deleteApartament;
+    let removeFromLevel;
+    try {
+      db = await connectDB();
+      deleteApartament = await db
+        .collection("apartaments")
+        .deleteOne({ _id: ObjectID(apartamentID) });
+    } catch (error) {
+      throw error;
+    }
+    try {
+      db = await connectDB();
+      removeFromLevel = await db
+        .collection("levels")
+        .updateOne(
+          { _id: ObjectID(levelID) },
+          { $pull: { inventory: ObjectID(apartamentID) } }
+        );
+    } catch (error) {}
+    return {
+      deleteApartament,
+      removeFromLevel
+    };
+  },
+
   deleteLevel: async (root, { proyectID, levelID }) => {
     let db;
     let deleteLevel;
