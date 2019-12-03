@@ -964,10 +964,6 @@ module.exports = {
           { $pull: { inventory: ObjectID(apartamentID) } }
         );
     } catch (error) {}
-    return {
-      deleteApartament,
-      removeFromLevel
-    };
   },
 
   deleteLevel: async (root, { proyectID, levelID }) => {
