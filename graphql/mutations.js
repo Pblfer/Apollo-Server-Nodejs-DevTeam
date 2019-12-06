@@ -1005,5 +1005,28 @@ module.exports = {
         );
     } catch (error) {}
 
+  },
+
+  deleteWareHouse: async (root, {proyectID, warehouseID}) => {
+    let db;
+    let deleteWarehouse;
+    let removeFromProyect;
+    try {
+      db = await connectDB();
+      deleteWarehouse = await db
+        .collection("warehouses")
+        .deleteOne({ _id: ObjectID(warehouseID)});
+    } catch (error) {
+      throw error;
+    }
+    try {
+      db = await connectDB();
+      removeFromProyect = await db
+        .collection("proyects")
+        .updateOne(
+          { _id: ObjectID(proyectID) },
+          { $pull: { warehouses: ObjectID(warehouseID) } }
+        );
+    } catch (error) {}
   }
 };

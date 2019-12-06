@@ -353,6 +353,9 @@ type Mutation {
   "❌📥 - Eliminar Nivel"
   deleteLevel(proyectID: ID!, levelID: ID!): Level
 
+   "❌📥 - Eliminar Bodega"
+  deleteWareHouse(proyectID: ID!, warehouseID: ID!): Warehouse
+
   "💰✂ - Agregar Descuento"
   newDiscountToProyect(
     name: String!
