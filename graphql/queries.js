@@ -104,7 +104,21 @@ module.exports = {
       console.log(err);
     }
     return quote;
-  }
+  },
+
+  getWarehouseByID: async (root, { warehouseID }) => {
+    let db;
+    let warehouse;
+    try {
+      db = await connectDB();
+      warehouse = await db.collection("warehouses").findOne({ _id: ObjectID(warehouseID) });
+    } catch (err) {
+      console.log(err);
+    }
+    return warehouse;
+  },
+
+
 
 
 };

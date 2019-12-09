@@ -272,6 +272,9 @@ type Query {
 
   "☝📃 - Obtener 1 Cotizacion por ID "
   getQuoteByID(quoteID: ID!): Quote
+
+   "☝📦 - Obtener 1 Bodega por ID "
+  getWarehouseByID(warehouseID: ID!): Warehouse
 }
 
 input DeveloperInput {
@@ -355,6 +358,7 @@ type Mutation {
 
    "❌📥 - Eliminar Bodega"
   deleteWareHouse(proyectID: ID!, warehouseID: ID!): Warehouse
+
 
   "💰✂ - Agregar Descuento"
   newDiscountToProyect(
