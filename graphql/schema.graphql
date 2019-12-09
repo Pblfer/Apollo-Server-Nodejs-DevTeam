@@ -347,6 +347,9 @@ type Mutation {
   "📝📥🏢 - Editar Nivel"
   updateLevel(levelID: ID!, objectField: String!, value: String!): Updated
 
+   "📝📦 - Editar Bodega"
+  updateWarehouse(warehouseID: ID!, objectField: String!, value: String!): Updated
+
   "❌👨‍💼👩‍💼 - Eliminar Vendedor"
   deleteSeller(developerID: ID!, userID: ID!): User
 

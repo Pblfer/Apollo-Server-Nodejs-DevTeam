@@ -899,6 +899,25 @@ module.exports = {
     };
   },
 
+  updateWarehouse: async (root, { warehouseID, objectField, value }) => {
+    let db;
+    let updateData;
+    try {
+      db = await connectDB();
+      updateData = await db
+        .collection("warehouses")
+        .updateOne({ _id: ObjectID(warehouseID) }, { $set: { [objectField]: value } });
+    } catch (error) {
+      throw error;
+    }
+    return {
+      objectField,
+      value
+    };
+  },
+
+
+
   updateApartament: async (root, { ID, objectField, value }) => {
     let db;
     let updateData;
