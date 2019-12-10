@@ -300,7 +300,15 @@ encontrara emogis para recordar y visualizar de forma más rapida. 🛰
 """
 type Mutation {
   "🏢 - Crear Desarrolladora"
-  newDeveloper(input: DeveloperInput!): Developer
+  newDeveloper(
+    name: String!
+    plan: Plan!
+    phone_area: String!
+    phone: String!
+    address: String!
+    email: String!
+    website: String!
+  ): Developer
 
   "👨‍💼 - Crear Usuario"
   newUser(
@@ -386,7 +394,6 @@ type Mutation {
     zone: Int
     direction: String!
     total_of_levels: Int!
-    living_levels: Int!
     total_apartaments: Int!
     deposit_percent: Int!
     header_img: String!
@@ -399,6 +406,7 @@ type Mutation {
     general_apartament_description: String
     quote_logo: String
     quote_banner: String
+    fraction_reserved: Int!
     etapa: Etapas!
   ): Proyect
 

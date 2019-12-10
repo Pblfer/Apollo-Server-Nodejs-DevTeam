@@ -5,12 +5,16 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 module.exports = {
-  newDeveloper: async (root, { input }) => {
+  newDeveloper: async (root, { name, plan, phone_area, phone, address, email, website}) => {
     const defaults = {
+      name,
+      plan, 
+      phone_area, 
+      phone, 
+      address, 
+      email, 
+      website,
       description: "",
-      phone_area: "",
-      phone: "",
-      address: "",
       social_fb: "",
       social_ig: "",
       social_linkedin: "",
@@ -23,7 +27,7 @@ module.exports = {
       sellers_team: [],
       clients:[]
     };
-    const nuevaDesarrolladora = Object.assign(defaults, input);
+    const nuevaDesarrolladora = Object.assign(defaults);
     let db;
     let desarrolladora;
 
@@ -90,7 +94,7 @@ module.exports = {
       zone,
       direction,
       total_of_levels,
-      living_levels,
+      fraction_reserved,
       total_apartaments,
       deposit_percent,
       header_img,
@@ -112,7 +116,7 @@ module.exports = {
       general_description,
       general_apartament_description: "",
       total_of_levels,
-      living_levels,
+      fraction_reserved,
       total_apartaments,
       levels: [],
       parkings: [],
