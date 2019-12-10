@@ -704,7 +704,8 @@ module.exports = {
       lat,
       long,
       proyect_id,
-      developer_id
+      developer_id,
+      reserve_price
     }
   ) => {
     let apartament;
@@ -731,6 +732,7 @@ module.exports = {
       apt_type,
       lat,
       long,
+      reserve_price,
       point: [long, lat],
       financing_types: []
     };
@@ -778,7 +780,8 @@ module.exports = {
       lat,
       long,
       proyect_id,
-      developer_id
+      developer_id,
+      reserve_price
     }
   ) => {
     let apartament;
@@ -806,6 +809,7 @@ module.exports = {
       apt_type,
       lat,
       long,
+      reserve_price,
       point: [long, lat],
       financing_types: []
     };

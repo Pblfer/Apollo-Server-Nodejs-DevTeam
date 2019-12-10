@@ -432,6 +432,7 @@ type Mutation {
     actual_state: ActualState!
     lat: Float!
     long: Float!
+    reserve_price: Float!
   ): Apartament
 
   "📃🚪 - Importar Apartamentos"
@@ -455,6 +456,7 @@ type Mutation {
     actual_state: ActualState!
     lat: Float!
     long: Float!
+    reserve_price: Float!
   ): Apartament
 
   "🗃📃🏢 - Agregar Proyecto a Desarrolladora"
