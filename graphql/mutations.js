@@ -721,8 +721,8 @@ module.exports = {
       kitchen_appliances,
       garden,
       price,
-      price_with_tax: null,
-      reserve_price: null,
+      price_with_tax: 0,
+      reserve_price: 0,
       actual_state,
       apt_type,
       lat,
@@ -796,8 +796,8 @@ module.exports = {
       kitchen_appliances,
       garden,
       price,
-      price_with_tax: null,
-      reserve_price: null,
+      price_with_tax: 0,
+      reserve_price: 0,
       actual_state,
       apt_type,
       lat,
@@ -1045,6 +1045,29 @@ module.exports = {
         .updateOne(
           { _id: ObjectID(proyectID) },
           { $pull: { warehouses: ObjectID(warehouseID) } }
+        );
+    } catch (error) {}
+  },
+
+  deleteParking: async (root, {proyectID, parkingID}) => {
+    let db;
+    let deleteParking;
+    let removeFromProyect;
+    try {
+      db = await connectDB();
+      deleteParking = await db
+        .collection("warehouses")
+        .deleteOne({ _id: ObjectID(parkingID)});
+    } catch (error) {
+      throw error;
+    }
+    try {
+      db = await connectDB();
+      removeFromProyect = await db
+        .collection("proyects")
+        .updateOne(
+          { _id: ObjectID(proyectID) },
+          { $pull: { parkings: ObjectID(parkingID) } }
         );
     } catch (error) {}
   }

@@ -350,6 +350,9 @@ type Mutation {
    "📝📦 - Editar Bodega"
   updateWarehouse(warehouseID: ID!, objectField: String!, value: String!): Updated
 
+ "📝📦 - Editar Parqueo"
+  updateParking(parkingID: ID!, objectField: String!, value: String!): Updated
+
   "❌👨‍💼👩‍💼 - Eliminar Vendedor"
   deleteSeller(developerID: ID!, userID: ID!): User
 
@@ -361,6 +364,9 @@ type Mutation {
 
    "❌📥 - Eliminar Bodega"
   deleteWareHouse(proyectID: ID!, warehouseID: ID!): Warehouse
+
+  "❌📥 - Eliminar Parqueo"
+  deleteParking(proyectID: ID!, parkingID: ID!): Parking
 
 
   "💰✂ - Agregar Descuento"
