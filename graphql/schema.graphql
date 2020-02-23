@@ -103,7 +103,6 @@ type Quote {
       living_square_mts: Float
       bedrooms: Int
       bathrooms: Int
-      price: Int
       lat: Float
       long: Float
       logo_quote_proyect: String
@@ -535,7 +534,6 @@ type Mutation {
       living_square_mts: Float
       bedrooms: Int
       bathrooms: Int
-      price: Int
       lat: Float
       long: Float
       logo_quote_proyect: String
