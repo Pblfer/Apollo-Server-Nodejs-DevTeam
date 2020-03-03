@@ -6,14 +6,17 @@ const jwt = require("jsonwebtoken");
 const https = require('https');
 
 module.exports = {
-  newDeveloper: async (root, { name, plan, phone_area, phone, address, email, website}) => {
+  newDeveloper: async (
+    root,
+    { name, plan, phone_area, phone, address, email, website }
+  ) => {
     const defaults = {
       name,
-      plan, 
-      phone_area, 
-      phone, 
-      address, 
-      email, 
+      plan,
+      phone_area,
+      phone,
+      address,
+      email,
       website,
       description: "",
       social_fb: "",
@@ -26,7 +29,7 @@ module.exports = {
       proyects: [],
       admins_team: [],
       sellers_team: [],
-      clients:[]
+      clients: []
     };
     const nuevaDesarrolladora = Object.assign(defaults);
     let db;
@@ -69,7 +72,7 @@ module.exports = {
         "https://firebasestorage.googleapis.com/v0/b/cotizador-conversion.appspot.com/o/stockImages%2FuserDefaultPic.jpg?alt=media&token=7bacc009-b998-4abf-8722-79a5dae8f6c8",
       roll,
       blocked,
-      quotes:[]
+      quotes: []
     };
     const nuevoUsuario = Object.assign(newUser);
     let db;
@@ -82,7 +85,6 @@ module.exports = {
     return nuevoUsuario;
   },
 
-  
   newProyect: async (
     root,
     {
@@ -149,38 +151,33 @@ module.exports = {
     }
   },
 
-  blockUser: async (root, {userID}) =>{
+  blockUser: async (root, { userID }) => {
     let db;
     let usuario;
-    try{
-    db = await connectDB();
-    usuario = await db
-    .collection("users")
-    .updateOne(
-      { _id: ObjectID(userID) },
-      { $set: { blocked: "Bloqueado" } }
-    );  
-    
-  } catch(err){
-    throw(err)
-  }
+    try {
+      db = await connectDB();
+      usuario = await db
+        .collection("users")
+        .updateOne(
+          { _id: ObjectID(userID) },
+          { $set: { blocked: "Bloqueado" } }
+        );
+    } catch (err) {
+      throw err;
+    }
   },
 
-  activateUser: async (root, {userID}) =>{
+  activateUser: async (root, { userID }) => {
     let db;
     let usuario;
-    try{
-    db = await connectDB();
-    usuario = await db
-    .collection("users")
-    .updateOne(
-      { _id: ObjectID(userID) },
-      { $set: { blocked: "Activo" } }
-    );  
-    
-  } catch(err){
-    throw(err)
-  }
+    try {
+      db = await connectDB();
+      usuario = await db
+        .collection("users")
+        .updateOne({ _id: ObjectID(userID) }, { $set: { blocked: "Activo" } });
+    } catch (err) {
+      throw err;
+    }
   },
 
   addUserToSellersTeam: async (root, { developerID, userID }) => {
@@ -210,7 +207,9 @@ module.exports = {
     return desarrolladora;
   },
 
-  newQuotetoSeller: async(root, {
+  newQuotetoSeller: async (
+    root,
+    {
       userID,
       developerCompanyName,
       barCode,
@@ -238,13 +237,13 @@ module.exports = {
       bathrooms,
       lat,
       long,
-      logo_quote_proyect,
-    }) =>{
-
+      logo_quote_proyect
+    }
+  ) => {
     let db;
     let cotizacion;
     let vendendor;
-    const nuevaCotizacion = { 
+    const nuevaCotizacion = {
       userID,
       developerCompanyName,
       barCode,
@@ -271,9 +270,9 @@ module.exports = {
       bedrooms,
       bathrooms,
       logo_quote_proyect,
-      client:[],
-      apartaments:[],
-      parkings:[],
+      client: [],
+      apartaments: [],
+      parkings: [],
       warehouses: [],
       point: [long, lat]
     };
@@ -283,7 +282,7 @@ module.exports = {
       ingresarCotizacion = await db
         .collection("quotes")
         .insertOne(ingresarCotizacion);
-        ingresarCotizacion._id = cotizacion.insertedId;
+      ingresarCotizacion._id = cotizacion.insertedId;
     } catch (err) {
       db = await connectDB();
       vendendor = await db
@@ -294,15 +293,22 @@ module.exports = {
         );
       return ingresarCotizacion;
     }
-
   },
 
-  newClientToDeveloper: async (root, { email, developerID, first_name, last_name, phone, nit}) => {
+  newClientToDeveloper: async (
+    root,
+    { email, developerID, first_name, last_name, phone, nit }
+  ) => {
     let db;
     let cliente;
     let Developer;
     const newClient = {
-      email, developerID, first_name, last_name, phone, nit
+      email,
+      developerID,
+      first_name,
+      last_name,
+      phone,
+      nit
     };
     const ingresarCliente = Object.assign(newClient);
     try {
@@ -310,7 +316,7 @@ module.exports = {
       ingresarCliente = await db
         .collection("clients")
         .insertOne(ingresarCliente);
-        ingresarCliente._id = cliente.insertedId;
+      ingresarCliente._id = cliente.insertedId;
     } catch (err) {
       db = await connectDB();
       Developer = await db
@@ -323,152 +329,136 @@ module.exports = {
     }
   },
 
-  addApartamentToQuote: async (root, { 
-    quoteID,
-    apartamentID
-  }) =>{
-
-      let db;
-      let cotizacion;
-      let apartament;
-      try {
-        db = await connectDB();
-        //buscar Cotizacion
-        cotizacion = await db
-          .collection("quotes")
-          .findOne({ _id: ObjectID(quoteID) });
-        //buscar Apartamento
-        apartament = await db
-          .collection("apartaments")
-          .findOne({ _id: ObjectID(apartamentID) });
-        if (!cotizacion || !apartament) {
-          throw new Error("El apartamento o la cotizacion no existen.");
-        }
-        await db
-          .collection("quotes")
-          .updateOne(
-            { _id: ObjectID(quoteID) },
-            { $addToSet: { 
-              apartaments: ObjectID(apartamentID),
-            }}
-          );
-      } catch (error) {
-        console.log(error);
+  addApartamentToQuote: async (root, { quoteID, apartamentID }) => {
+    let db;
+    let cotizacion;
+    let apartament;
+    try {
+      db = await connectDB();
+      //buscar Cotizacion
+      cotizacion = await db
+        .collection("quotes")
+        .findOne({ _id: ObjectID(quoteID) });
+      //buscar Apartamento
+      apartament = await db
+        .collection("apartaments")
+        .findOne({ _id: ObjectID(apartamentID) });
+      if (!cotizacion || !apartament) {
+        throw new Error("El apartamento o la cotizacion no existen.");
       }
-      return cotizacion; 
+      await db.collection("quotes").updateOne(
+        { _id: ObjectID(quoteID) },
+        {
+          $addToSet: {
+            apartaments: ObjectID(apartamentID)
+          }
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    return cotizacion;
   },
 
-  addParkingToQuote: async (root, { 
-    quoteID,
-    parkingID
-  }) =>{
-
-      let db;
-      let cotizacion;
-      let parqueo;
-      try {
-        db = await connectDB();
-        //buscar Cotizacion
-        cotizacion = await db
-          .collection("quotes")
-          .findOne({ _id: ObjectID(quoteID) });
-        //buscar Parqueo
-        parqueo = await db
-          .collection("parkings")
-          .findOne({ _id: ObjectID(parkingID) });
-        if (!cotizacion || !parqueo) {
-          throw new Error("El parqueo o la cotizacion no existen.");
-        }
-        await db
-          .collection("quotes")
-          .updateOne(
-            { _id: ObjectID(quoteID) },
-            { $addToSet: { 
-              parkings: ObjectID(parkingID),
-            }}
-          );
-      } catch (error) {
-        console.log(error);
+  addParkingToQuote: async (root, { quoteID, parkingID }) => {
+    let db;
+    let cotizacion;
+    let parqueo;
+    try {
+      db = await connectDB();
+      //buscar Cotizacion
+      cotizacion = await db
+        .collection("quotes")
+        .findOne({ _id: ObjectID(quoteID) });
+      //buscar Parqueo
+      parqueo = await db
+        .collection("parkings")
+        .findOne({ _id: ObjectID(parkingID) });
+      if (!cotizacion || !parqueo) {
+        throw new Error("El parqueo o la cotizacion no existen.");
       }
-      return parqueo; 
+      await db.collection("quotes").updateOne(
+        { _id: ObjectID(quoteID) },
+        {
+          $addToSet: {
+            parkings: ObjectID(parkingID)
+          }
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    return parqueo;
   },
 
-  addWarehouseToQuote: async (root, { 
-    quoteID,
-    warehouseID
-  }) =>{
-
-      let db;
-      let cotizacion;
-      let bodega;
-      try {
-        db = await connectDB();
-        //buscar Cotizacion
-        cotizacion = await db
-          .collection("quotes")
-          .findOne({ _id: ObjectID(quoteID) });
-        //buscar bodega
-        bodega = await db
-          .collection("warehouses")
-          .findOne({ _id: ObjectID(warehouseID) });
-        if (!cotizacion || !bodega) {
-          throw new Error("La Bodega o la cotizacion no existen.");
-        }
-        await db
-          .collection("quotes")
-          .updateOne(
-            { _id: ObjectID(quoteID) },
-            { $addToSet: { 
-              warehouses: ObjectID(warehouseID),
-            }}
-          );
-      } catch (error) {
-        console.log(error);
+  addWarehouseToQuote: async (root, { quoteID, warehouseID }) => {
+    let db;
+    let cotizacion;
+    let bodega;
+    try {
+      db = await connectDB();
+      //buscar Cotizacion
+      cotizacion = await db
+        .collection("quotes")
+        .findOne({ _id: ObjectID(quoteID) });
+      //buscar bodega
+      bodega = await db
+        .collection("warehouses")
+        .findOne({ _id: ObjectID(warehouseID) });
+      if (!cotizacion || !bodega) {
+        throw new Error("La Bodega o la cotizacion no existen.");
       }
-      return bodega; 
+      await db.collection("quotes").updateOne(
+        { _id: ObjectID(quoteID) },
+        {
+          $addToSet: {
+            warehouses: ObjectID(warehouseID)
+          }
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    return bodega;
   },
 
-  addClientToQuote: async (root, { 
-    quoteID,
-    clientID
-  }) =>{
-
-      let db;
-      let cotizacion;
-      let cliente;
-      try {
-        db = await connectDB();
-        //buscar Cotizacion
-        cotizacion = await db
-          .collection("quotes")
-          .findOne({ _id: ObjectID(quoteID) });
-        //buscar bodega
-        cliente = await db
-          .collection("clients")
-          .findOne({ _id: ObjectID(clientID) });
-        if (!cotizacion || !cliente) {
-          throw new Error("El cliente o la cotizacion no existen.");
-        }
-        await db
-          .collection("quotes")
-          .updateOne(
-            { _id: ObjectID(quoteID) },
-            { $addToSet: { 
-              client: ObjectID(clientID),
-            }}
-          );
-          await db
-          .collection("clients")
-          .updateOne(
-            { _id: ObjectID(clientID) },
-            { $addToSet: { 
-              quotes: ObjectID(quoteID),
-            }}
-          );
-      } catch (error) {
-        console.log(error);
+  addClientToQuote: async (root, { quoteID, clientID }) => {
+    let db;
+    let cotizacion;
+    let cliente;
+    try {
+      db = await connectDB();
+      //buscar Cotizacion
+      cotizacion = await db
+        .collection("quotes")
+        .findOne({ _id: ObjectID(quoteID) });
+      //buscar bodega
+      cliente = await db
+        .collection("clients")
+        .findOne({ _id: ObjectID(clientID) });
+      if (!cotizacion || !cliente) {
+        throw new Error("El cliente o la cotizacion no existen.");
       }
-      return cliente; 
+      await db.collection("quotes").updateOne(
+        { _id: ObjectID(quoteID) },
+        {
+          $addToSet: {
+            client: ObjectID(clientID)
+          }
+        }
+      );
+      await db.collection("clients").updateOne(
+        { _id: ObjectID(clientID) },
+        {
+          $addToSet: {
+            quotes: ObjectID(quoteID)
+          }
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    return cliente;
   },
 
   addProyectToDeveloper: async (root, { developerID, proyectID }) => {
@@ -500,13 +490,16 @@ module.exports = {
     return desarrolladora;
   },
 
-  addImageToProyect: async (root ,{proyect_id, image_name, proyect_name ,lat, long, img_url, gallery_type}) =>{
+  addImageToProyect: async (
+    root,
+    { proyect_id, image_name, proyect_name, lat, long, img_url, gallery_type }
+  ) => {
     let db;
     let imagen;
     let proyecto;
     const newImage = {
       image_name,
-      proyect_id, 
+      proyect_id,
       proyect_name,
       point: [long, lat],
       img_url,
@@ -515,10 +508,8 @@ module.exports = {
     const ingresarImage = Object.assign(newImage);
     try {
       db = await connectDB();
-      ingresarImage = await db
-        .collection("images")
-        .insertOne(ingresarImage);
-        ingresarImage._id = imagen.insertedId;
+      ingresarImage = await db.collection("images").insertOne(ingresarImage);
+      ingresarImage._id = imagen.insertedId;
     } catch (err) {
       db = await connectDB();
       proyecto = await db
@@ -531,12 +522,19 @@ module.exports = {
     }
   },
 
-  newDiscountToProyect: async(root, {name, company_id, proyect_id, discount_amount, active}) =>{
+  newDiscountToProyect: async (
+    root,
+    { name, company_id, proyect_id, discount_amount, active }
+  ) => {
     let db;
     let descuento;
     let proyecto;
     const nuevoDescuento = {
-      name, company_id, proyect_id, discount_amount, active
+      name,
+      company_id,
+      proyect_id,
+      discount_amount,
+      active
     };
     const ingresarDescuento = Object.assign(nuevoDescuento);
     try {
@@ -544,7 +542,7 @@ module.exports = {
       ingresarDescuento = await db
         .collection("discounts")
         .insertOne(ingresarDescuento);
-        ingresarDescuento._id = descuento.insertedId;
+      ingresarDescuento._id = descuento.insertedId;
     } catch (err) {
       db = await connectDB();
       proyecto = await db
@@ -555,14 +553,20 @@ module.exports = {
         );
       return ingresarDescuento;
     }
-  }, 
+  },
 
-  newFinancingToProyect: async(root, {name, interest_rate, years_max, proyectID}) =>{
+  newFinancingToProyect: async (
+    root,
+    { name, interest_rate, years_max, proyectID }
+  ) => {
     let db;
     let financiamiento;
     let proyecto;
     const nuevoFinanciamiento = {
-      name, interest_rate, years_max, proyectID
+      name,
+      interest_rate,
+      years_max,
+      proyectID
     };
     const ingresarFinanciamiento = Object.assign(nuevoFinanciamiento);
     try {
@@ -570,18 +574,20 @@ module.exports = {
       ingresarFinanciamiento = await db
         .collection("financing_types")
         .insertOne(ingresarFinanciamiento);
-        ingresarFinanciamiento._id = financiamiento.insertedId;
+      ingresarFinanciamiento._id = financiamiento.insertedId;
     } catch (err) {
       db = await connectDB();
       proyecto = await db
         .collection("proyects")
         .updateOne(
           { _id: ObjectID(proyectID) },
-          { $addToSet: { financing_types: ObjectID(ingresarFinanciamiento._id) } }
+          {
+            $addToSet: { financing_types: ObjectID(ingresarFinanciamiento._id) }
+          }
         );
       return ingresarFinanciamiento;
     }
-  }, 
+  },
 
   addParkingToProyect: async (
     root,
@@ -637,7 +643,7 @@ module.exports = {
       ingresarBodega = await db
         .collection("warehouses")
         .insertOne(ingresarBodega);
-        ingresarBodega._id = bodega.insertedId;
+      ingresarBodega._id = bodega.insertedId;
     } catch (err) {
       db = await connectDB();
       proyecto = await db
@@ -680,8 +686,6 @@ module.exports = {
       return ingresarNivel;
     }
   },
-
-  
 
   newApartament: async (
     root,
@@ -746,16 +750,14 @@ module.exports = {
       ingresarApartamento._id = apartament.insertedId;
     } catch (err) {
       db = await connectDB();
-      addTolevel = await db
-        .collection("levels")
-        .updateOne(
-          {
-            developerID: developer_id,
-            proyectID: proyect_id,
-            number_of_level: level
-          },
-          { $addToSet: { inventory: ObjectID(ingresarApartamento._id) } }
-        );
+      addTolevel = await db.collection("levels").updateOne(
+        {
+          developerID: developer_id,
+          proyectID: proyect_id,
+          number_of_level: level
+        },
+        { $addToSet: { inventory: ObjectID(ingresarApartamento._id) } }
+      );
       return ingresarApartamento;
     }
   },
@@ -823,16 +825,14 @@ module.exports = {
       ingresarApartamento._id = apartament.insertedId;
     } catch (err) {
       db = await connectDB();
-      addTolevel = await db
-        .collection("levels")
-        .updateOne(
-          {
-            developerID: developer_id,
-            proyectID: proyect_id,
-            number_of_level: level
-          },
-          { $addToSet: { inventory: ObjectID(ingresarApartamento._id) } }
-        );
+      addTolevel = await db.collection("levels").updateOne(
+        {
+          developerID: developer_id,
+          proyectID: proyect_id,
+          number_of_level: level
+        },
+        { $addToSet: { inventory: ObjectID(ingresarApartamento._id) } }
+      );
       return ingresarApartamento;
     }
   },
@@ -872,6 +872,7 @@ module.exports = {
   },
 
   RestorePass: async (root, { username }) => {
+
     let db;
     let user;
     try {
@@ -880,37 +881,44 @@ module.exports = {
       if (!user) {
         throw new Error("Correo Invalido");
       }
+      await db
+      .collection("users")
+      .updateOne(
+        { _id: ObjectID(user._id) },
+        { $set: { requestPassChange: true } }
+      );
       const data = JSON.stringify({
         userData: user.email,
         userName: user.first_name,
         userLast: user.last_name,
-        userCompany: user.company
-      })
+        userCompany: user.company,
+        userID: user._id
+      });
       const options = {
-        hostname: 'dev.flattlo.com',
+        hostname: "dev.flattlo.com",
         port: 443,
-        path: '/webhook/7/webhook/email-flattlo',
-        method: 'POST',
+        path: "/webhook-test/7/webhook/email-flattlo",
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-      const req = https.request(options, (res) => {
-      res.on('data', (d) => {
-          process.stdout.write(d)
-        })
-      })
-      
-      req.on('error', (error) => {
-        console.error(error)
-      })
-      
-      req.write(data)
-      req.end()
+          "Content-Type": "application/json"
+        },
+      };
+      const req = https.request(options, res => {
+        res.on("data", d => {
+          process.stdout.write(d);
+        });
+      });
+
+      req.on("error", error => {
+        console.error(error);
+      });
+
+      req.write(data);
+      req.end();
     } catch (error) {
       throw error;
     }
-    
+
     return {
       user
     };
@@ -960,7 +968,10 @@ module.exports = {
       db = await connectDB();
       updateData = await db
         .collection("warehouses")
-        .updateOne({ _id: ObjectID(warehouseID) }, { $set: { [objectField]: value } });
+        .updateOne(
+          { _id: ObjectID(warehouseID) },
+          { $set: { [objectField]: value } }
+        );
     } catch (error) {
       throw error;
     }
@@ -969,8 +980,6 @@ module.exports = {
       value
     };
   },
-
-
 
   updateApartament: async (root, { ID, objectField, value }) => {
     let db;
@@ -996,7 +1005,10 @@ module.exports = {
       db = await connectDB();
       updateData = await db
         .collection("levels")
-        .updateOne({ _id: ObjectID(levelID) }, { $set: { [objectField]: value } });
+        .updateOne(
+          { _id: ObjectID(levelID) },
+          { $set: { [objectField]: value } }
+        );
     } catch (error) {
       throw error;
     }
@@ -1077,10 +1089,9 @@ module.exports = {
           { $pull: { levels: ObjectID(levelID) } }
         );
     } catch (error) {}
-
   },
 
-  deleteWareHouse: async (root, {proyectID, warehouseID}) => {
+  deleteWareHouse: async (root, { proyectID, warehouseID }) => {
     let db;
     let deleteWarehouse;
     let removeFromProyect;
@@ -1088,7 +1099,7 @@ module.exports = {
       db = await connectDB();
       deleteWarehouse = await db
         .collection("warehouses")
-        .deleteOne({ _id: ObjectID(warehouseID)});
+        .deleteOne({ _id: ObjectID(warehouseID) });
     } catch (error) {
       throw error;
     }
@@ -1103,7 +1114,7 @@ module.exports = {
     } catch (error) {}
   },
 
-  deleteParking: async (root, {proyectID, parkingID}) => {
+  deleteParking: async (root, { proyectID, parkingID }) => {
     let db;
     let deleteParking;
     let removeFromProyect;
@@ -1111,7 +1122,7 @@ module.exports = {
       db = await connectDB();
       deleteParking = await db
         .collection("warehouses")
-        .deleteOne({ _id: ObjectID(parkingID)});
+        .deleteOne({ _id: ObjectID(parkingID) });
     } catch (error) {
       throw error;
     }
