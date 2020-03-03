@@ -3,6 +3,7 @@ const connectDB = require("./db");
 const { ObjectID } = require("mongodb");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const https = require('https');
 
 module.exports = {
   newDeveloper: async (root, { name, plan, phone_area, phone, address, email, website}) => {
@@ -866,6 +867,51 @@ module.exports = {
     );
     return {
       token,
+      user
+    };
+  },
+
+  RestorePass: async (root, { username }) => {
+    let db;
+    let user;
+    try {
+      db = await connectDB();
+      user = await db.collection("users").findOne({ email: username });
+      if (!user) {
+        throw new Error("Correo Invalido");
+      }
+      const data = JSON.stringify({
+        userData: user.email,
+        userName: user.first_name,
+        userLast: user.last_name,
+        userCompany: user.company
+      })
+      const options = {
+        hostname: 'dev.flattlo.com',
+        port: 443,
+        path: '/webhook/7/webhook/email-flattlo',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+      const req = https.request(options, (res) => {
+      res.on('data', (d) => {
+          process.stdout.write(d)
+        })
+      })
+      
+      req.on('error', (error) => {
+        console.error(error)
+      })
+      
+      req.write(data)
+      req.end()
+    } catch (error) {
+      throw error;
+    }
+    
+    return {
       user
     };
   },

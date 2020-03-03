@@ -325,6 +325,9 @@ type Mutation {
   "🔐 - Login"
   login(username: String!, password: String!): LoginResponse
 
+  "🔐⚙✏ - Reinicio de contraseña"
+  RestorePass(username: String!): RestoreResponse
+
   "👨‍💼💼 - Agregar Usuario a Equipo de Ventas"
   addUserToSellersTeam(developerID: ID!, userID: ID!): Developer
 
@@ -583,5 +586,8 @@ type Updated {
 }
 type LoginResponse {
   token: String
+  user: User
+}
+type RestoreResponse {
   user: User
 }
