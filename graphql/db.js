@@ -1,36 +1,28 @@
-'use strict'
-const { MongoClient } = require('mongodb')
+"use strict";
+const { MongoClient } = require("mongodb");
 
-const{
-    DB_USER,
-    DB_PASSWD,
-    DB_HOST,
-    DB_PORT,
-    DB_NAME
-} = process.env
+const { DB_USER, DB_PASSWD, DB_HOST, DB_PORT, DB_NAME } = process.env;
 
+const mongoUrl = `mongodb+srv://${DB_USER}:${DB_PASSWD}@${DB_HOST}/test?retryWrites=true&w=majority`;
+let connection;
 
-const mongoUrl = `mongodb+srv://${DB_USER}:${DB_PASSWD}@${DB_HOST}/test?retryWrites=true&w=majority`
-let connection
+async function connectDB() {
+  if (connection) return connection;
 
-
-async function connectDB () {
-  if (connection) return connection
-
-  let client
+  let client;
   try {
     client = await MongoClient.connect(mongoUrl, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       poolSize: 10
-    })
-    connection = client.db(DB_NAME)
+    });
+    connection = client.db(DB_NAME);
   } catch (error) {
-    console.error('Could not connect to db', mongoUrl, error)
-    process.exit(1)
+    console.error("Could not connect to db", mongoUrl, error);
+    process.exit(1);
   }
 
-  return connection
+  return connection;
 }
 
-module.exports = connectDB
+module.exports = connectDB;
