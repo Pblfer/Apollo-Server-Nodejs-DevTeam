@@ -352,6 +352,9 @@ type Mutation {
   "📝👨‍💼 - Editar perfil de Usuario"
   updateUserProfile(ID: ID!, objectField: String!, value: String!): Updated
 
+  "🔐👨‍💼⛓ - Update Password and Hashit "
+  updateUserPassword(ID: ID!, newPass: String!) : User
+
   "📝👨‍💼 - Editar Apartamento"
   updateApartament(ID: ID!, objectField: String!, value: String!): Updated
 

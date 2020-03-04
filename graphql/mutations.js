@@ -961,6 +961,20 @@ module.exports = {
     };
   },
 
+  updateUserPassword: async (root, { ID,  newPass }) => {
+    let db;
+    let updateData;
+    const hashPassword = await bcrypt.hash(newPass, 10);
+    try {
+      db = await connectDB();
+      updateData = await db
+        .collection("users")
+        .updateOne({ _id: ObjectID(ID) }, { $set: { password: hashPassword } });
+    } catch (error) {
+      throw error;
+    }
+  },
+
   updateWarehouse: async (root, { warehouseID, objectField, value }) => {
     let db;
     let updateData;
