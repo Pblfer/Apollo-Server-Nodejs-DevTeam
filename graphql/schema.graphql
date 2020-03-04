@@ -72,6 +72,7 @@ type User {
   company_id: String
   phone: String
   pic: String
+  requestPassChange: String
   blocked: UserStatus
   quotes: [Quote]
 }

@@ -885,7 +885,7 @@ module.exports = {
       .collection("users")
       .updateOne(
         { _id: ObjectID(user._id) },
-        { $set: { requestPassChange: true } }
+        { $set: { requestPassChange: 'true' } }
       );
       const data = JSON.stringify({
         userData: user.email,
