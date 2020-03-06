@@ -17,6 +17,17 @@ module.exports = {
     }
     return desarrolladoras;
   },
+  getNotifyDevelopers: async () => {
+    let db;
+    let notificaciones = [];
+    try{
+      db = await connectDB();
+      notificaciones = await db.collection("notificationes").find().toArray();
+    } catch(error){
+      console.log(error);
+    }
+    return notificaciones;
+  },
   getDeveloper: async (root, { id }) => {
     let db;
     let desarrolladora;
@@ -30,6 +41,7 @@ module.exports = {
     }
     return desarrolladora;
   },
+  
   getAllUsers: async () => {
     let db;
     let usuarios = [];

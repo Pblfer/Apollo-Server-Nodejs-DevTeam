@@ -3,7 +3,7 @@ const connectDB = require("./db");
 const { ObjectID } = require("mongodb");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const https = require('https');
+const https = require("https");
 
 module.exports = {
   newDeveloper: async (
@@ -43,6 +43,26 @@ module.exports = {
       nuevaDesarrolladora._id = desarrolladora.insertedId;
     } catch (error) {}
     return nuevaDesarrolladora;
+  },
+  newNotification: async (root, { name, description, slack_id, date_created }) => {
+    const defaults = {
+      name,
+      description,
+      slack_id,
+      estado: 1,
+      date_created
+    };
+    const nuevaNotificacion = Object.assign(defaults);
+    let db;
+    let notificaciones;
+
+    try {
+      db = await connectDB();
+      nuevaNotificacion = await db.collection("notificationes")
+        .insertOne(nuevaNotificacion);
+      nuevaNotificacion._id = notificaciones.insertedId;
+    } catch (error) {}
+    return nuevaNotificacion;
   },
 
   newUser: async (
@@ -84,7 +104,6 @@ module.exports = {
     } catch (error) {}
     return nuevoUsuario;
   },
-
   newProyect: async (
     root,
     {
@@ -489,6 +508,34 @@ module.exports = {
     }
     return desarrolladora;
   },
+  addNotificationToDeveloper: async (root, { developerID, notifyID }) => {
+    let db;
+    let desarrolladora;
+    let noficacion;
+    try {
+      db = await connectDB();
+      //buscar Desarrolladora
+      desarrolladora = await db
+        .collection("realStateDevelopers")
+        .findOne({ _id: ObjectID(developerID) });
+      //buscar Vendedor
+      noficacion = await db
+        .collection("notificationes")
+        .findOne({ _id: ObjectID(notifyID) });
+      if (!desarrolladora || !noficacion) {
+        throw new Error("La desarrolladora o el Vendedor no existen.");
+      }
+      await db
+        .collection("realStateDevelopers")
+        .updateOne(
+          { _id: ObjectID(developerID) },
+          { $addToSet: { notification: ObjectID(notifyID) } }
+        );
+    } catch (error) {
+      console.log(error);
+    }
+    return desarrolladora;
+  },
 
   addImageToProyect: async (
     root,
@@ -577,14 +624,12 @@ module.exports = {
       ingresarFinanciamiento._id = financiamiento.insertedId;
     } catch (err) {
       db = await connectDB();
-      proyecto = await db
-        .collection("proyects")
-        .updateOne(
-          { _id: ObjectID(proyectID) },
-          {
-            $addToSet: { financing_types: ObjectID(ingresarFinanciamiento._id) }
-          }
-        );
+      proyecto = await db.collection("proyects").updateOne(
+        { _id: ObjectID(proyectID) },
+        {
+          $addToSet: { financing_types: ObjectID(ingresarFinanciamiento._id) }
+        }
+      );
       return ingresarFinanciamiento;
     }
   },
@@ -872,7 +917,6 @@ module.exports = {
   },
 
   RestorePass: async (root, { username }) => {
-
     let db;
     let user;
     try {
@@ -882,11 +926,11 @@ module.exports = {
         throw new Error("Correo Invalido");
       }
       await db
-      .collection("users")
-      .updateOne(
-        { _id: ObjectID(user._id) },
-        { $set: { requestPassChange: 'true' } }
-      );
+        .collection("users")
+        .updateOne(
+          { _id: ObjectID(user._id) },
+          { $set: { requestPassChange: "true" } }
+        );
       const data = JSON.stringify({
         userData: user.email,
         userName: user.first_name,
@@ -901,7 +945,7 @@ module.exports = {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
-        },
+        }
       };
       const req = https.request(options, res => {
         res.on("data", d => {
@@ -961,7 +1005,7 @@ module.exports = {
     };
   },
 
-  updateUserPassword: async (root, { ID,  newPass }) => {
+  updateUserPassword: async (root, { ID, newPass }) => {
     let db;
     let updateData;
     const hashPassword = await bcrypt.hash(newPass, 10);

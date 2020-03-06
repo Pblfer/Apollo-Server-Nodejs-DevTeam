@@ -59,7 +59,17 @@ type Developer {
   admins_team: [User]
   admin_email: String
   sellers_team: [User]
+  notification: [Notify]
   clients: [Client]
+}
+
+type Notify {
+  _id: ID!
+  name: String
+  description: String
+  slack_id: String
+  estado: String
+  date_created: String
 }
 
 type User {
@@ -78,39 +88,39 @@ type User {
 }
 
 type Quote {
-      _id: ID!
-      userID: String!
-      developerCompanyName: String!
-      barCode: String!
-      quote_date_created: String
-      quote_date_limit: String
-      discount_mount: Int
-      reserve_mount: Int
-      promise_sign_mount: Float
-      fraction_total_mount: Float
-      fraction_month_selected: Int
-      fraction_fee_mount: Float
-      property_value: Int
-      parkings_mount: Int
-      warehouses_mount: Int
-      taxes_mount: Float
-      total_mount: Float
-      financing_name: String
-      financing_total_mount: Float
-      financing_interest_rate: Float
-      financing_years_selected: Int
-      financing_fee_mount: Float
-      proyect_name: String
-      living_square_mts: Float
-      bedrooms: Int
-      bathrooms: Int
-      lat: Float
-      long: Float
-      logo_quote_proyect: String
-      client:[Client]
-      apartaments:[Apartament]
-      parkings:[Parking]
-      warehouses: [Warehouse]
+  _id: ID!
+  userID: String!
+  developerCompanyName: String!
+  barCode: String!
+  quote_date_created: String
+  quote_date_limit: String
+  discount_mount: Int
+  reserve_mount: Int
+  promise_sign_mount: Float
+  fraction_total_mount: Float
+  fraction_month_selected: Int
+  fraction_fee_mount: Float
+  property_value: Int
+  parkings_mount: Int
+  warehouses_mount: Int
+  taxes_mount: Float
+  total_mount: Float
+  financing_name: String
+  financing_total_mount: Float
+  financing_interest_rate: Float
+  financing_years_selected: Int
+  financing_fee_mount: Float
+  proyect_name: String
+  living_square_mts: Float
+  bedrooms: Int
+  bathrooms: Int
+  lat: Float
+  long: Float
+  logo_quote_proyect: String
+  client: [Client]
+  apartaments: [Apartament]
+  parkings: [Parking]
+  warehouses: [Warehouse]
 }
 
 type Client {
@@ -255,6 +265,10 @@ type Query {
   "☝🏢 - Obtener Desarrolladora por ID"
   getDeveloper(id: ID!): Developer
 
+  "💭💭💭 - Todas las notificaciones por id de la desarrolladora"
+  getNotifyDevelopers: [Notify]
+  
+
   "☝👨‍💻 - Obtener Usuario por ID"
   getUser(id: ID!): User
 
@@ -273,7 +287,7 @@ type Query {
   "☝📃 - Obtener 1 Cotizacion por ID "
   getQuoteByID(quoteID: ID!): Quote
 
-   "☝📦 - Obtener 1 Bodega por ID "
+  "☝📦 - Obtener 1 Bodega por ID "
   getWarehouseByID(warehouseID: ID!): Warehouse
 }
 
@@ -309,7 +323,14 @@ type Mutation {
     email: String!
     website: String!
   ): Developer
-
+  "💭 - crear notificacion"
+  newNotification(
+    name: String!
+    description: String!
+    slack_id: String
+    estado: String
+    date_created: String!
+  ): Notify
   "👨‍💼 - Crear Usuario"
   newUser(
     email: String!
@@ -322,7 +343,6 @@ type Mutation {
     roll: Roll!
     blocked: UserStatus!
   ): User
-
   "🔐 - Login"
   login(username: String!, password: String!): LoginResponse
 
@@ -353,7 +373,7 @@ type Mutation {
   updateUserProfile(ID: ID!, objectField: String!, value: String!): Updated
 
   "🔐👨‍💼⛓ - Update Password and Hashit "
-  updateUserPassword(ID: ID!, newPass: String!) : User
+  updateUserPassword(ID: ID!, newPass: String!): User
 
   "📝👨‍💼 - Editar Apartamento"
   updateApartament(ID: ID!, objectField: String!, value: String!): Updated
@@ -361,27 +381,30 @@ type Mutation {
   "📝📥🏢 - Editar Nivel"
   updateLevel(levelID: ID!, objectField: String!, value: String!): Updated
 
-   "📝📦 - Editar Bodega"
-  updateWarehouse(warehouseID: ID!, objectField: String!, value: String!): Updated
+  "📝📦 - Editar Bodega"
+  updateWarehouse(
+    warehouseID: ID!
+    objectField: String!
+    value: String!
+  ): Updated
 
- "📝📦 - Editar Parqueo"
+  "📝📦 - Editar Parqueo"
   updateParking(parkingID: ID!, objectField: String!, value: String!): Updated
 
   "❌👨‍💼👩‍💼 - Eliminar Vendedor"
   deleteSeller(developerID: ID!, userID: ID!): User
 
-    "❌👨‍💼👩‍💼 - Eliminar Apartamento"
+  "❌👨‍💼👩‍💼 - Eliminar Apartamento"
   deleteApartament(apartamentID: String!, levelID: String!): Apartament
 
   "❌📥 - Eliminar Nivel"
   deleteLevel(proyectID: ID!, levelID: ID!): Level
 
-   "❌📥 - Eliminar Bodega"
+  "❌📥 - Eliminar Bodega"
   deleteWareHouse(proyectID: ID!, warehouseID: ID!): Warehouse
 
   "❌📥 - Eliminar Parqueo"
   deleteParking(proyectID: ID!, parkingID: ID!): Parking
-
 
   "💰✂ - Agregar Descuento"
   newDiscountToProyect(
@@ -468,6 +491,9 @@ type Mutation {
   "🗃📃🏢 - Agregar Proyecto a Desarrolladora"
   addProyectToDeveloper(developerID: ID!, proyectID: ID!): Developer
 
+  "💭📃🏢 - Agregar Notificacion a Desarrolladora"
+  addNotificationToDeveloper(developerID: ID!,notifyID: ID! ): Developer
+
   "🚗🏢 - Agregar Parqueo a Proyecto"
   addParkingToProyect(
     number: String!
@@ -489,11 +515,11 @@ type Mutation {
 
   "🏛💵- Agregar un Financiamiento"
   newFinancingToProyect(
-    name: String!, 
-    interest_rate: Float!,
-    years_max: Int!,
+    name: String!
+    interest_rate: Float!
+    years_max: Int!
     proyectID: String!
-    ): Financing
+  ): Financing
 
   "📥🏢 - Agregar Nivel a Proyecto"
   addLevelToProyect(
@@ -516,72 +542,55 @@ type Mutation {
 
   "📃👌 - Nueva Cotización"
   newQuotetoSeller(
-      userID: String!
-      developerCompanyName: String!
-      barCode: String!
-      quote_date_created: String
-      quote_date_limit: String
-      discount_mount: Int
-      reserve_mount: Int
-      promise_sign_mount: Float
-      fraction_total_mount: Float
-      fraction_month_selected: Int
-      fraction_fee_mount: Float
-      property_value: Int
-      parkings_mount: Int
-      warehouses_mount: Int
-      taxes_mount: Float
-      total_mount: Float
-      financing_name: String
-      financing_total_mount: Float
-      financing_interest_rate: Float
-      financing_years_selected: Int
-      financing_fee_mount: Float
-      proyect_name: String
-      living_square_mts: Float
-      bedrooms: Int
-      bathrooms: Int
-      lat: Float
-      long: Float
-      logo_quote_proyect: String
+    userID: String!
+    developerCompanyName: String!
+    barCode: String!
+    quote_date_created: String
+    quote_date_limit: String
+    discount_mount: Int
+    reserve_mount: Int
+    promise_sign_mount: Float
+    fraction_total_mount: Float
+    fraction_month_selected: Int
+    fraction_fee_mount: Float
+    property_value: Int
+    parkings_mount: Int
+    warehouses_mount: Int
+    taxes_mount: Float
+    total_mount: Float
+    financing_name: String
+    financing_total_mount: Float
+    financing_interest_rate: Float
+    financing_years_selected: Int
+    financing_fee_mount: Float
+    proyect_name: String
+    living_square_mts: Float
+    bedrooms: Int
+    bathrooms: Int
+    lat: Float
+    long: Float
+    logo_quote_proyect: String
   ): Quote
 
   "📃🚪 - Agregar Apartamento a Cotización"
-  addApartamentToQuote(
-    quoteID: String!
-    apartamentID: String!
-  ): Apartament
+  addApartamentToQuote(quoteID: String!, apartamentID: String!): Apartament
 
   "📃🚗 - Agregar Parqueo a Cotización"
-  addParkingToQuote(
-    quoteID: String!
-    parkingID: String!
-  ): Parking
+  addParkingToQuote(quoteID: String!, parkingID: String!): Parking
 
   "📃📦 - Agregar Bodega a Cotización"
-  addWarehouseToQuote(
-    quoteID: String!
-    warehouseID: String!
-  ): Warehouse
+  addWarehouseToQuote(quoteID: String!, warehouseID: String!): Warehouse
 
   "📃🦸‍♂️ - Agregar Cliente a Cotización"
-  addClientToQuote(
-    quoteID: String!
-    clientID: String!
-  ): Warehouse
+  addClientToQuote(quoteID: String!, clientID: String!): Warehouse
 
   "👨‍💼👩‍💼❌ - Bloquear Usuario"
-  blockUser(
-    userID: String!
-  ): User
+  blockUser(userID: String!): User
 
+  "👨‍💼👩‍💼✔ - Activar Usuario"
+  activateUser(userID: String!): User
 
-
-
- "👨‍💼👩‍💼✔ - Activar Usuario"
-  activateUser(
-    userID: String!
-  ): User
+  
 }
 
 type Updated {
