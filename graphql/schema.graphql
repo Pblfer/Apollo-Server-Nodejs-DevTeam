@@ -68,8 +68,10 @@ type Notify {
   name: String
   description: String
   slack_id: String
-  estado: String
+  icon: String
+  type: String
   date_created: String
+  estado: String
 }
 
 type User {
@@ -85,6 +87,8 @@ type User {
   requestPassChange: String
   blocked: UserStatus
   quotes: [Quote]
+  notification: [Notify]
+
 }
 
 type Quote {
@@ -267,7 +271,9 @@ type Query {
 
   "💭💭💭 - Todas las notificaciones por id de la desarrolladora"
   getNotifyDevelopers: [Notify]
-  
+
+  "💭💭💭 - Todas las notificacion por id"
+  getNotify(id: ID!): Notify
 
   "☝👨‍💻 - Obtener Usuario por ID"
   getUser(id: ID!): User
@@ -328,7 +334,8 @@ type Mutation {
     name: String!
     description: String!
     slack_id: String
-    estado: String
+    icon: String!
+    type: String
     date_created: String!
   ): Notify
   "👨‍💼 - Crear Usuario"
@@ -371,7 +378,7 @@ type Mutation {
 
   "📝👨‍💼 - Editar perfil de Usuario"
   updateUserProfile(ID: ID!, objectField: String!, value: String!): Updated
-
+  
   "🔐👨‍💼⛓ - Update Password and Hashit "
   updateUserPassword(ID: ID!, newPass: String!): User
 
