@@ -54,6 +54,23 @@ module.exports = {
                 console.log(err)
             }
             return clientData
+        },
+       notification: async ({notification}) => {
+            let db
+            let notyData
+            let ids
+            try {
+                db = await connectDB()
+                ids = notification ? notification.map(id => ObjectID(id)):[]
+                notyData = ids.length > 0 ?
+                await db.collection('notificationes').find(
+                    {_id: {$in: ids}}
+                ).toArray()
+                : []
+            } catch(error){
+                console.log(error)
+            }
+            return notyData
         }
     },
 
