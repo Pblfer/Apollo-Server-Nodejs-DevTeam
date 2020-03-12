@@ -364,6 +364,8 @@ type Mutation {
 
   "🏢📝actulizar estado de notificacion"
   updateStateNotification(userID: ID!): User
+  "👨🏢‍ - Agregar Admin a Desarrolladora"
+  addAdminToDeveloper(developerID: ID!, userID: ID!): Developer
 
   "🏢📝 - Actualizar perfil de Desarrolladora"
   updataDeveloperProfile(
