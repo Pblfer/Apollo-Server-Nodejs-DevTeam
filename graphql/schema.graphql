@@ -24,6 +24,7 @@ enum ActualState {
 enum UserStatus {
   Activo
   Bloqueado
+  Pago_Pendiente
 }
 
 enum Etapas {
