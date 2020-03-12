@@ -597,6 +597,35 @@ module.exports = {
 
     return desarrolladora;
   },
+  updateStateNotification: async (root, { userID }) => {
+    let db;
+    let usuarios;
+    try {
+      db = await connectDB();
+
+      usuarios = await db
+        .collection("users")
+        .findOne({ _id: ObjectID(userID) });
+
+      let nusuarios;
+
+      nusuarios = usuarios.notification;
+
+      for (var i = 0; i < nusuarios.length; i++) {
+        await db.collection("users").updateOne(
+          { _id: ObjectID(userID), "notification.estado": 0 },
+          {
+            $set: {
+              "notification.$.estado": 1
+            }
+          }
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return usuarios;
+  },
 
   addImageToProyect: async (
     root,
