@@ -332,6 +332,9 @@ type Mutation {
   "👨‍💼💼 - Agregar Usuario a Equipo de Ventas"
   addUserToSellersTeam(developerID: ID!, userID: ID!): Developer
 
+  "👨🏢‍ - Agregar Admin a Desarrolladora"
+  addAdminToDeveloper(developerID: ID!, userID: ID!): Developer
+
   "🏢📝 - Actualizar perfil de Desarrolladora"
   updataDeveloperProfile(
     developerID: ID!

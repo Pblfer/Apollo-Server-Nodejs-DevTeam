@@ -207,6 +207,33 @@ module.exports = {
     return desarrolladora;
   },
 
+  addAdminToDeveloper: async (root, { developerID, userID }) => {
+    let db;
+    let desarrolladora;
+    let usuario;
+    try {
+      db = await connectDB();
+      //buscar Desarrolladora
+      desarrolladora = await db
+        .collection("realStateDevelopers")
+        .findOne({ _id: ObjectID(developerID) });
+      //buscar admin
+      usuario = await db.collection("users").findOne({ _id: ObjectID(userID) });
+      if (!desarrolladora || !usuario) {
+        throw new Error("La desarrolladora o el Usuario no existen.");
+      }
+      await db
+        .collection("realStateDevelopers")
+        .updateOne(
+          { _id: ObjectID(developerID) },
+          { $addToSet: { admins_team: ObjectID(userID) } }
+        );
+    } catch (error) {
+      console.log(error);
+    }
+    return desarrolladora;
+  },
+
   newQuotetoSeller: async (
     root,
     {
