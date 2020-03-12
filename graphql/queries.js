@@ -20,21 +20,26 @@ module.exports = {
   getNotifyDevelopers: async () => {
     let db;
     let notificaciones = [];
-    try{
+    try {
       db = await connectDB();
-      notificaciones = await db.collection("notificationes").find().toArray();
-    } catch(error){
+      notificaciones = await db
+        .collection("notificationes")
+        .find()
+        .toArray();
+    } catch (error) {
       console.log(error);
     }
     return notificaciones;
   },
-  getNotify: async (root,{id}) => {
+  getNotify: async (root, { id }) => {
     let db;
     let notificaciones = [];
-    try{
+    try {
       db = await connectDB();
-      notificaciones = await db.collection("notificationes").findOne({ _id: ObjectID(id) });
-    } catch(error){
+      notificaciones = await db
+        .collection("notificationes")
+        .findOne({ _id: ObjectID(id) });
+    } catch (error) {
       console.log(error);
     }
     return notificaciones;
@@ -52,7 +57,7 @@ module.exports = {
     }
     return desarrolladora;
   },
-  
+
   getAllUsers: async () => {
     let db;
     let usuarios = [];
@@ -110,7 +115,9 @@ module.exports = {
     let apartament;
     try {
       db = await connectDB();
-      apartament = await db.collection("apartaments").findOne({ _id: ObjectID(apartamentID) });
+      apartament = await db
+        .collection("apartaments")
+        .findOne({ _id: ObjectID(apartamentID) });
     } catch (err) {
       console.log(err);
     }
@@ -134,14 +141,47 @@ module.exports = {
     let warehouse;
     try {
       db = await connectDB();
-      warehouse = await db.collection("warehouses").findOne({ _id: ObjectID(warehouseID) });
+      warehouse = await db
+        .collection("warehouses")
+        .findOne({ _id: ObjectID(warehouseID) });
     } catch (err) {
       console.log(err);
     }
     return warehouse;
   },
+  getNotifyState: async (root, { id }) => {
+    let db;
+    let notificaciones;
+    let notificacionesArray = []
+    let array = [];
+    let DatosFiltrados;
+    let valuePush = {};
+    try {
+      db = await connectDB();
+      notificaciones = await db.collection("users").findOne({
+        _id: ObjectID(id)
+      });
+      function esDato(dato){
+        return dato.estado === 0
+      }
+      
+      notificacionesArray.push(notificaciones);
+      DatosFiltrados = notificaciones.notification.filter(esDato);
 
+      DatosFiltrados.forEach(function(e){
+       array.push(e)
+      });
+      valuePush = array;
+      
+      var nuevoValor = valuePush;
 
+      notificacionesArray.forEach(function(item){
+        item.notification = nuevoValor;
+      })
+    } catch (error) {
+      console.log(error);
+    }
 
-
+    return notificaciones;
+  }
 };

@@ -273,6 +273,9 @@ type Query {
   "💭💭💭 - Todas las notificaciones por id de la desarrolladora"
   getNotifyDevelopers: [Notify]
 
+  "Obtener todas las notificaciones por estados"
+  getNotifyState(id: ID!): User
+
   "💭💭💭 - Todas las notificacion por id"
   getNotify(id: ID!): Notify
 
@@ -360,6 +363,8 @@ type Mutation {
   "👨‍💼💼 - Agregar Usuario a Equipo de Ventas"
   addUserToSellersTeam(developerID: ID!, userID: ID!): Developer
 
+  "🏢📝actulizar estado de notificacion"
+  updateStateNotification(userID: ID!): User
   "👨🏢‍ - Agregar Admin a Desarrolladora"
   addAdminToDeveloper(developerID: ID!, userID: ID!): Developer
 
