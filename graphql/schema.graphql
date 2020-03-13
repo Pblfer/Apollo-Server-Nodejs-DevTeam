@@ -72,6 +72,7 @@ type Notify {
   type: String
   date_created: String
   estado: String
+  company_id: String
 }
 
 type User {
@@ -340,6 +341,7 @@ type Mutation {
     icon: String!
     type: String
     date_created: String!
+    company_id: String!
   ): Notify
   "👨‍💼 - Crear Usuario"
   newUser(

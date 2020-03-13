@@ -46,7 +46,7 @@ module.exports = {
   },
   newNotification: async (
     root,
-    { name, description, slack_id, icon, type, date_created }
+    { name, description, slack_id, icon, type, date_created,company_id }
   ) => {
     if (type == null) {
       type = "primary";
@@ -59,7 +59,8 @@ module.exports = {
       slack_id,
       icon,
       type,
-      date_created
+      date_created,
+      company_id
     };
     const nuevaNotificacion = Object.assign(defaults);
     let db;
