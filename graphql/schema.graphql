@@ -68,7 +68,6 @@ type Notify {
   _id: ID!
   name: String
   description: String
-  slack_id: String
   icon: String
   type: String
   date_created: String
@@ -346,7 +345,6 @@ type Mutation {
   newNotification(
     name: String!
     description: String!
-    slack_id: String
     icon: String!
     type: String
     date_created: String!
