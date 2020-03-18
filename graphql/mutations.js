@@ -1058,7 +1058,7 @@ module.exports = {
       const options = {
         hostname: "dev.flattlo.com",
         port: 443,
-        path: "/webhook/7/webhook/email-flattlo",
+        path: "/webhook-test/7/webhook/email-flattlo",
         method: "POST",
         headers: {
           "Content-Type": "application/json"
