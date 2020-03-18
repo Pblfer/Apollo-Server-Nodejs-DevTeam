@@ -46,7 +46,7 @@ module.exports = {
   },
   newNotification: async (
     root,
-    { name, description, slack_id, icon, type, date_created,company_id }
+    { name, description, slack_id, icon, type, date_created, company_id }
   ) => {
     if (type == null) {
       type = "primary";
@@ -557,7 +557,7 @@ module.exports = {
       desarrolladora = await db
         .collection("realStateDevelopers")
         .findOne({ _id: ObjectID(developerID) });
-      //buscar Vendedor
+
       noficacion = await db
         .collection("notificationes")
         .findOne({ _id: ObjectID(notifyID) });
@@ -625,6 +625,85 @@ module.exports = {
 
     return desarrolladora;
   },
+  newNotificationSlack: async (
+    root,
+    { name, description, icon, type, date_created }
+  ) => {
+    if (type == null) {
+      type = "primary";
+    } else {
+      type = type;
+    }
+    date_created = Date.now();
+    icon = "AlertOctagonIcon";
+    type = "primary";
+    const defaults = {
+      name,
+      description,
+      icon,
+      type,
+      date_created
+    };
+    const nuevaNotificacion = Object.assign(defaults);
+    let db;
+    let notificaciones;
+    let desarrolladora;
+
+    try {
+
+      db = await connectDB();
+      nuevaNotificacion = await db
+        .collection("notificationes")
+        .insertOne(nuevaNotificacion);
+      nuevaNotificacion._id = notificaciones.insertedId;
+    } catch (error) {
+      console.log(error);
+    }
+     //buscar Desarrolladora
+    desarrolladora = db.collection("realStateDevelopers").find();
+    desarrolladora.forEach(function(e) {
+      e.sellers_team.forEach(function(e2) {
+        db.collection("users").updateOne(
+          { _id: ObjectID(e2) },
+          {
+            $addToSet: {
+              notification: {
+                _id: ObjectID(nuevaNotificacion._id),
+                name: nuevaNotificacion.name,
+                description: nuevaNotificacion.description,
+                date_created: nuevaNotificacion.date_created,
+                icon: nuevaNotificacion.icon,
+                type: nuevaNotificacion.type,
+                estado: 0
+              }
+            }
+          }
+        );
+      });
+
+      e.admins_team.forEach(function(e3) {
+        db.collection("users").updateOne(
+          { _id: ObjectID(e3) },
+          {
+            $addToSet: {
+              notification: {
+                _id: ObjectID(nuevaNotificacion._id),
+                name: nuevaNotificacion.name,
+                description: nuevaNotificacion.description,
+                date_created: nuevaNotificacion.date_created,
+                icon: nuevaNotificacion.icon,
+                type: nuevaNotificacion.type,
+                estado: 0
+              }
+            }
+          }
+        );
+      });
+    });
+
+    return nuevaNotificacion;
+  },
+
   updateStateNotification: async (root, { userID }) => {
     let db;
     let usuarios;

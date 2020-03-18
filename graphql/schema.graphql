@@ -75,6 +75,15 @@ type Notify {
   estado: String
   company_id: String
 }
+type NotifySlack {
+  _id: ID!
+  name: String
+  description: String
+  icon: String
+  type: String
+  date_created: String
+  estado: String
+}
 
 type User {
   _id: ID!
@@ -90,7 +99,6 @@ type User {
   blocked: UserStatus
   quotes: [Quote]
   notification: [Notify]
-
 }
 
 type Quote {
@@ -344,6 +352,16 @@ type Mutation {
     date_created: String!
     company_id: String!
   ): Notify
+
+  "nueva notificacion Slak"
+  newNotificationSlack(
+    name: String
+    description: String
+    icon: String
+    type: String
+    date_created: String
+    estado: String
+  ): NotifySlack
   "👨‍💼 - Crear Usuario"
   newUser(
     email: String!
@@ -389,7 +407,7 @@ type Mutation {
 
   "📝👨‍💼 - Editar perfil de Usuario"
   updateUserProfile(ID: ID!, objectField: String!, value: String!): Updated
-  
+
   "🔐👨‍💼⛓ - Update Password and Hashit "
   updateUserPassword(ID: ID!, newPass: String!): User
 
@@ -510,7 +528,7 @@ type Mutation {
   addProyectToDeveloper(developerID: ID!, proyectID: ID!): Developer
 
   "💭📃🏢 - Agregar Notificacion a Desarrolladora"
-  addNotificationToDeveloper(developerID: ID!,notifyID: ID! ): Developer
+  addNotificationToDeveloper(developerID: ID!, notifyID: ID!): Developer
 
   "🚗🏢 - Agregar Parqueo a Proyecto"
   addParkingToProyect(
@@ -607,8 +625,6 @@ type Mutation {
 
   "👨‍💼👩‍💼✔ - Activar Usuario"
   activateUser(userID: String!): User
-
-  
 }
 
 type Updated {
