@@ -97,7 +97,7 @@ type User {
   requestPassChange: String
   blocked: UserStatus
   quotes: [Quote]
-  notification: [Notify]
+  notifications: [Notify]
 }
 
 type Quote {
