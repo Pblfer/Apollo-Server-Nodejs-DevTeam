@@ -102,7 +102,8 @@ module.exports = {
         "https://firebasestorage.googleapis.com/v0/b/cotizador-conversion.appspot.com/o/stockImages%2FuserDefaultPic.jpg?alt=media&token=7bacc009-b998-4abf-8722-79a5dae8f6c8",
       roll,
       blocked,
-      quotes: []
+      quotes: [],
+      notifications: []
     };
     const nuevoUsuario = Object.assign(newUser);
     let db;
