@@ -568,7 +568,7 @@ module.exports = {
         .collection("realStateDevelopers")
         .updateOne(
           { _id: ObjectID(developerID) },
-          { $addToSet: { notification: ObjectID(notifyID) } }
+          { $addToSet: { notifications: ObjectID(notifyID) } }
         );
     } catch (error) {
       console.log(error);
