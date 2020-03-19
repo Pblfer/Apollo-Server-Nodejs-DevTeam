@@ -601,7 +601,7 @@ module.exports = {
           { _id: ObjectID(e) },
           {
             $addToSet: {
-              notification: {
+              notifications: {
                 _id: ObjectID(notifyID),
                 estado: 0
               }
@@ -657,7 +657,7 @@ module.exports = {
           { _id: ObjectID(e2) },
           {
             $addToSet: {
-              notification: {
+              notifications: {
                 _id: ObjectID(nuevaNotificacion._id),
                 name: nuevaNotificacion.name,
                 description: nuevaNotificacion.description,
@@ -676,7 +676,7 @@ module.exports = {
           { _id: ObjectID(e3) },
           {
             $addToSet: {
-              notification: {
+              notifications: {
                 _id: ObjectID(nuevaNotificacion._id),
                 name: nuevaNotificacion.name,
                 description: nuevaNotificacion.description,
@@ -706,14 +706,14 @@ module.exports = {
 
       let nusuarios;
 
-      nusuarios = usuarios.notification;
+      nusuarios = usuarios.notifications;
 
       for (var i = 0; i < nusuarios.length; i++) {
         await db.collection("users").updateOne(
-          { _id: ObjectID(userID), "notification.estado": 0 },
+          { _id: ObjectID(userID), "notifications.estado": 0 },
           {
             $set: {
-              "notification.$.estado": 1
+              "notifications.$.estado": 1
             }
           }
         );

@@ -55,13 +55,13 @@ module.exports = {
             }
             return clientData
         },
-       notification: async ({notification}) => {
+       notifications: async ({notifications}) => {
             let db
             let notyData
             let ids
             try {
                 db = await connectDB()
-                ids = notification ? notification.map(id => ObjectID(id)):[]
+                ids = notifications ? notifications.map(id => ObjectID(id)):[]
                 notyData = ids.length > 0 ?
                 await db.collection('notificationes').find(
                     {_id: {$in: ids}}
@@ -221,7 +221,7 @@ module.exports = {
             }
             return quotesData
         },
-        notification: async ({notification,id}) => {
+        notifications: async ({notifications}) => {
             let db
             let notificationData
             let ids
@@ -230,17 +230,17 @@ module.exports = {
            
             try{
                 db = await connectDB()
-                ids = notification ? notification.map(id => ObjectID(id._id)): []
+                ids = notifications ? notifications.map(id => ObjectID(id._id)): []
                 notificationData = ids.length > 0 ?
                 await db.collection('notificaciones').find(
                     {_id: {$in: ids}}
                 ).toArray()
                 :[]
                         
-            notification.forEach(function(item){
+            notifications.forEach(function(item){
                 estado  =item.estado
             });
-            
+
             notificationData.forEach(function(item){
                 item.estado = estado
             });

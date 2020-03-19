@@ -60,7 +60,7 @@ type Developer {
   admins_team: [User]
   admin_email: String
   sellers_team: [User]
-  notification: [Notify]
+  notifications: [Notify]
   clients: [Client]
 }
 
@@ -97,7 +97,7 @@ type User {
   requestPassChange: String
   blocked: UserStatus
   quotes: [Quote]
-  notification: [Notify]
+  notifications: [Notify]
 }
 
 type Quote {

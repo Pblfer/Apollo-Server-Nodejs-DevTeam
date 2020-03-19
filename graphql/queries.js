@@ -166,7 +166,7 @@ module.exports = {
       }
       
       notificacionesArray.push(notificaciones);
-      DatosFiltrados = notificaciones.notification.filter(esDato);
+      DatosFiltrados = notificaciones.notifications.filter(esDato);
 
       DatosFiltrados.forEach(function(e){
        array.push(e)
@@ -176,7 +176,7 @@ module.exports = {
       var nuevoValor = valuePush;
 
       notificacionesArray.forEach(function(item){
-        item.notification = nuevoValor;
+        item.notifications = nuevoValor;
       })
     } catch (error) {
       console.log(error);
