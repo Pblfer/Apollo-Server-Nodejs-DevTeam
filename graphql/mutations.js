@@ -68,7 +68,7 @@ module.exports = {
     try {
       db = await connectDB();
       nuevaNotificacion = await db
-        .collection("notificationes")
+        .collection("notificaciones")
         .insertOne(nuevaNotificacion);
       nuevaNotificacion._id = notificaciones.insertedId;
     } catch (error) {}
@@ -558,7 +558,7 @@ module.exports = {
         .findOne({ _id: ObjectID(developerID) });
 
       noficacion = await db
-        .collection("notificationes")
+        .collection("notificaciones")
         .findOne({ _id: ObjectID(notifyID) });
       if (!desarrolladora || !noficacion) {
         throw new Error("La desarrolladora o el Vendedor no existen.");
@@ -584,11 +584,6 @@ module.exports = {
             $addToSet: {
               notification: {
                 _id: ObjectID(notifyID),
-                name: noficacion.name,
-                description: noficacion.description,
-                date_created: noficacion.date_created,
-                icon: noficacion.icon,
-                type: noficacion.type,
                 estado: 0
               }
             }
@@ -607,11 +602,6 @@ module.exports = {
             $addToSet: {
               notification: {
                 _id: ObjectID(notifyID),
-                name: noficacion.name,
-                description: noficacion.description,
-                date_created: noficacion.date_created,
-                icon: noficacion.icon,
-                type: noficacion.type,
                 estado: 0
               }
             }
@@ -652,7 +642,7 @@ module.exports = {
 
       db = await connectDB();
       nuevaNotificacion = await db
-        .collection("notificationes")
+        .collection("notificaciones")
         .insertOne(nuevaNotificacion);
       nuevaNotificacion._id = notificaciones.insertedId;
     } catch (error) {

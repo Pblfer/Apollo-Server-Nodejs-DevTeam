@@ -220,6 +220,36 @@ module.exports = {
                 console.log(err)
             }
             return quotesData
+        },
+        notification: async ({notification,id}) => {
+            let db
+            let notificationData
+            let ids
+            let estado 
+           
+           
+            try{
+                db = await connectDB()
+                ids = notification ? notification.map(id => ObjectID(id._id)): []
+                notificationData = ids.length > 0 ?
+                await db.collection('notificaciones').find(
+                    {_id: {$in: ids}}
+                ).toArray()
+                :[]
+                        
+            notification.forEach(function(item){
+                estado  =item.estado
+            });
+            
+            notificationData.forEach(function(item){
+                item.estado = estado
+            });
+            
+            } catch(err){
+                console.log(err)
+            }
+
+            return notificationData
         }
     },
 

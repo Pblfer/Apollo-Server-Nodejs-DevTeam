@@ -23,7 +23,7 @@ module.exports = {
     try {
       db = await connectDB();
       notificaciones = await db
-        .collection("notificationes")
+        .collection("notificaciones")
         .find()
         .toArray();
     } catch (error) {
@@ -37,7 +37,7 @@ module.exports = {
     try {
       db = await connectDB();
       notificaciones = await db
-        .collection("notificationes")
+        .collection("notificaciones")
         .findOne({ _id: ObjectID(id) });
     } catch (error) {
       console.log(error);
