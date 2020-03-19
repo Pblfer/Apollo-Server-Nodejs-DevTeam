@@ -583,7 +583,7 @@ module.exports = {
           { _id: ObjectID(e) },
           {
             $addToSet: {
-              notification: {
+              notifications: {
                 _id: ObjectID(notifyID),
                 estado: 0
               }
