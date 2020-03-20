@@ -659,11 +659,6 @@ module.exports = {
             $addToSet: {
               notifications: {
                 _id: ObjectID(nuevaNotificacion._id),
-                name: nuevaNotificacion.name,
-                description: nuevaNotificacion.description,
-                date_created: nuevaNotificacion.date_created,
-                icon: nuevaNotificacion.icon,
-                type: nuevaNotificacion.type,
                 estado: 0
               }
             }
@@ -678,11 +673,6 @@ module.exports = {
             $addToSet: {
               notifications: {
                 _id: ObjectID(nuevaNotificacion._id),
-                name: nuevaNotificacion.name,
-                description: nuevaNotificacion.description,
-                date_created: nuevaNotificacion.date_created,
-                icon: nuevaNotificacion.icon,
-                type: nuevaNotificacion.type,
                 estado: 0
               }
             }
