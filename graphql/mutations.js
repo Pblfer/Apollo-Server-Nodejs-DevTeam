@@ -615,18 +615,10 @@ module.exports = {
 
     return desarrolladora;
   },
-  newNotificationSlack: async (
+  newNotificationGitRelease: async (
     root,
     { name, description, icon, type, date_created }
   ) => {
-    if (type == null) {
-      type = "primary";
-    } else {
-      type = type;
-    }
-    date_created = Date.now();
-    icon = "AlertOctagonIcon";
-    type = "primary";
     const defaults = {
       name,
       description,

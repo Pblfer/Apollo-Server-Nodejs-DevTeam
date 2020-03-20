@@ -74,7 +74,7 @@ type Notify {
   estado: String
   company_id: String
 }
-type NotifySlack {
+type NotifyRelease {
   _id: ID!
   name: String
   description: String
@@ -352,14 +352,14 @@ type Mutation {
   ): Notify
 
   "nueva notificacion Slak"
-  newNotificationSlack(
+  newNotificationGitRelease(
     name: String
     description: String
     icon: String
     type: String
     date_created: String
     estado: String
-  ): NotifySlack
+  ): NotifyRelease
   "👨‍💼 - Crear Usuario"
   newUser(
     email: String!
