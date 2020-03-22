@@ -1061,7 +1061,6 @@ module.exports = {
         },
         { $addToSet: { inventory: ObjectID(ingresarApartamento._id) } }
       );
-      return ingresarApartamento;
     }
     try {
       db = await connectDB();
@@ -1074,6 +1073,7 @@ module.exports = {
     } catch (error) {
      throw(error) 
     }
+    return ingresarApartamento;
   },
 
   login: async (root, { username, password }) => {
