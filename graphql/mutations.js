@@ -930,6 +930,7 @@ module.exports = {
     let apartament;
     let db;
     let addTolevel;
+    let addToInventory;
     const nuevoApartament = {
       proyect_name,
       plane_img,
