@@ -72,13 +72,13 @@ module.exports = {
             }
             return notyData
         },
-        total_inventory: async ({apartament}) =>{
+        total_inventory: async ({apartaments}) =>{
             let db
             let apartamentData
             let ids
             try {
                 db = await connectDB()
-                ids= apartament ? apartament.map(id => ObjectID(id)) : []
+                ids= apartaments ? apartaments.map(id => ObjectID(id)) : []
                 apartamentData = ids.length > 0 ?
                 await db.collection('apartaments').find(
                     {_id: {$in: ids}}
