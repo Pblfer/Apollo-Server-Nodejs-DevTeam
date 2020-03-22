@@ -62,7 +62,7 @@ type Developer {
   sellers_team: [User]
   notifications: [Notify]
   clients: [Client]
-  total_inventory: [Apartament]
+  apartaments: [Apartament]
 }
 
 type Notify {

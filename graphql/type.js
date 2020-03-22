@@ -72,7 +72,7 @@ module.exports = {
             }
             return notyData
         },
-        total_inventory: async ({apartaments}) =>{
+        apartaments: async ({apartaments}) =>{
             let db
             let apartamentData
             let ids

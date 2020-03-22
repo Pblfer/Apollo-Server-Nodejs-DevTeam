@@ -30,7 +30,7 @@ module.exports = {
       admins_team: [],
       sellers_team: [],
       clients: [],
-      total_inventory: []
+      apartaments: []
 
     };
     const nuevaDesarrolladora = Object.assign(defaults);
@@ -981,7 +981,7 @@ module.exports = {
         .collection("realStateDevelopers")
         .updateOne(
           { _id: ObjectID(developer_id) },
-          { $addToSet: { total_inventory: ObjectID(ingresarApartamento._id) } } 
+          { $addToSet: { apartaments: ObjectID(ingresarApartamento._id) } } 
         );
     } catch (error) {
      throw(error) 
@@ -1069,7 +1069,7 @@ module.exports = {
         .collection("realStateDevelopers")
         .updateOne(
           { _id: ObjectID(developer_id) },
-          { $addToSet: { total_inventory: ObjectID(ingresarApartamento._id) } } 
+          { $addToSet: { apartaments: ObjectID(ingresarApartamento._id) } } 
         );
     } catch (error) {
      throw(error) 
