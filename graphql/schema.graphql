@@ -430,7 +430,7 @@ type Mutation {
   deleteSeller(developerID: ID!, userID: ID!): User
 
   "❌👨‍💼👩‍💼 - Eliminar Apartamento"
-  deleteApartament(apartamentID: String!, levelID: String!): Apartament
+  deleteApartament(apartamentID: String!, levelID: String!, developerID: String!): Apartament
 
   "❌📥 - Eliminar Nivel"
   deleteLevel(proyectID: ID!, levelID: ID!): Level

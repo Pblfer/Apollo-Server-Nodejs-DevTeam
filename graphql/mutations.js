@@ -1297,10 +1297,11 @@ module.exports = {
     };
   },
 
-  deleteApartament: async (root, { apartamentID, levelID }) => {
+  deleteApartament: async (root, { apartamentID, levelID, developerID }) => {
     let db;
     let deleteApartament;
     let removeFromLevel;
+    let removeFromInventory;
     try {
       db = await connectDB();
       deleteApartament = await db
@@ -1316,6 +1317,15 @@ module.exports = {
         .updateOne(
           { _id: ObjectID(levelID) },
           { $pull: { inventory: ObjectID(apartamentID) } }
+        );
+    } catch (error) {}
+    try {
+      db = await connectDB();
+      removeFromInventory = await db
+        .collection("realStateDevelopers")
+        .updateOne(
+          { _id: ObjectID(developerID) },
+          { $pull: { apartaments: ObjectID(apartamentID) } }
         );
     } catch (error) {}
   },
