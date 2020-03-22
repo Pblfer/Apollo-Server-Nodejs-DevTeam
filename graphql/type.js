@@ -71,7 +71,24 @@ module.exports = {
                 console.log(error)
             }
             return notyData
-        }
+        },
+        total_inventory: async ({apartament}) =>{
+            let db
+            let apartamentData
+            let ids
+            try {
+                db = await connectDB()
+                ids= apartament ? apartament.map(id => ObjectID(id)) : []
+                apartamentData = ids.length > 0 ?
+                await db.collection('apartaments').find(
+                    {_id: {$in: ids}}
+                ).toArray()
+                : []
+            } catch (err) {
+                console.log(err)
+            }
+            return apartamentData
+        },
     },
 
     Proyect:{

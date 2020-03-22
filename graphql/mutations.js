@@ -29,7 +29,9 @@ module.exports = {
       proyects: [],
       admins_team: [],
       sellers_team: [],
-      clients: []
+      clients: [],
+      total_inventory: []
+
     };
     const nuevaDesarrolladora = Object.assign(defaults);
     let db;
@@ -1015,6 +1017,7 @@ module.exports = {
     let apartament;
     let db;
     let addTolevel;
+    let addToInventory;
     const newApartament = {
       proyect_name,
       plane_img:
@@ -1059,6 +1062,17 @@ module.exports = {
         { $addToSet: { inventory: ObjectID(ingresarApartamento._id) } }
       );
       return ingresarApartamento;
+    }
+    try {
+      db = await connectDB();
+      addToInventory = await db
+        .collection("realStateDevelopers")
+        .updateOne(
+          { _id: ObjectID(developer_id) },
+          { $addToSet: { total_inventory: ObjectID(ingresarApartamento._id) } } 
+        );
+    } catch (error) {
+     throw(error) 
     }
   },
 
