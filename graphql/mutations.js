@@ -642,6 +642,51 @@ module.exports = {
 
     return desarrolladora;
   },
+  addNotificationUserNewToDeveloper: async ( root, {developerID, notifyID, userID}) => {
+    let db;
+    let desarrolladora;
+    let usuarios;
+    let noficacion;
+    try {
+      db = await connectDB();
+      //buscar Desarrolladora
+      desarrolladora = await db
+        .collection("realStateDevelopers")
+        .findOne({ _id: ObjectID(developerID) });
+
+      noficacion = await db
+        .collection("notificaciones")
+        .findOne({ _id: ObjectID(notifyID) });
+      if (!desarrolladora || !noficacion) {
+        throw new Error("La desarrolladora o el Vendedor no existen.");
+      }
+      await db
+        .collection("realStateDevelopers")
+        .updateOne(
+          { _id: ObjectID(developerID) },
+          { $addToSet: { notifications: ObjectID(notifyID) } }
+        );
+    } catch (error) {
+      console.log(error);
+    }
+
+      try {
+        db.collection("users").updateOne(
+          { _id: ObjectID(userID) },
+          {
+            $addToSet: {
+              notifications: {
+                _id: ObjectID(notifyID),
+                estado: 0
+              }
+            }
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    return desarrolladora;
+  },
   newNotificationGitRelease: async (
     root,
     { name, description, icon, type, date_created }

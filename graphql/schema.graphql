@@ -539,6 +539,9 @@ type Mutation {
   "💭📃🏢 - Agregar Notificacion a Desarrolladora"
   addNotificationToDeveloper(developerID: ID!, notifyID: ID!): Developer
 
+  "💭📃🏢 - Agregar Notificacion de usuario nuevo a Desarrolladora"
+  addNotificationUserNewToDeveloper(developerID: ID!, notifyID: ID!, userID: ID!): Developer
+
   "🚗🏢 - Agregar Parqueo a Proyecto"
   addParkingToProyect(
     number: String!
