@@ -145,6 +145,7 @@ type Client {
   last_name: String
   phone: String
   nit: String
+  UID: String
 }
 
 type Discount {
@@ -402,6 +403,15 @@ type Mutation {
     last_name: String!
     phone: String!
     nit: String!
+  ): Client
+
+  "👌👨‍💼🌐 - Nuevo cliente flattlo app"
+  newClientFlattlo(
+    email: String!
+    first_name: String!
+    last_name: String!
+    phone: String!
+    UID: String!
   ): Client
 
   "📝👨‍💼 - Editar perfil de Usuario"

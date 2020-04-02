@@ -388,6 +388,31 @@ module.exports = {
     }
   },
 
+  newClientFlattlo: async (
+    root,
+    { email, first_name, last_name, phone, UID }
+  ) => {
+    let db;
+    let cliente;
+    const newClient = {
+      email,
+      first_name,
+      last_name,
+      phone,
+      UID
+    };
+    const ingresarCliente = Object.assign(newClient);
+    try {
+      db = await connectDB();
+      ingresarCliente = await db
+        .collection("clients")
+        .insertOne(ingresarCliente);
+      ingresarCliente._id = cliente.insertedId;
+    } catch (err) {
+      return ingresarCliente;
+    }
+  },
+
   addApartamentToQuote: async (root, { quoteID, apartamentID }) => {
     let db;
     let cotizacion;
