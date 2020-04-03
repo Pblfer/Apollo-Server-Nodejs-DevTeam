@@ -390,7 +390,7 @@ module.exports = {
 
   newClientFlattlo: async (
     root,
-    { email, first_name, last_name, phone, UID }
+    { email, first_name, last_name, phone, userUID }
   ) => {
     let db;
     let cliente;
@@ -399,7 +399,7 @@ module.exports = {
       first_name,
       last_name,
       phone,
-      UID
+      userUID
     };
     const ingresarCliente = Object.assign(newClient);
     try {

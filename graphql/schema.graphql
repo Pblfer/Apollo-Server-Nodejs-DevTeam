@@ -148,6 +148,16 @@ type Client {
   UID: String
 }
 
+type FlattloAppClient {
+  _id:String
+  email: String!
+  first_name: String!
+  last_name: String!
+  phone: String!
+  userUID: String!
+}
+
+
 type Discount {
   _id: ID!
   name: String!
@@ -309,6 +319,10 @@ type Query {
 
   "☝📦 - Obtener 1 Bodega por ID "
   getWarehouseByID(warehouseID: ID!): Warehouse
+
+   "☝🌐👨👩 - Obtener Cliente Flattlo App"
+  getFlattloAppUser(userUID: String!): FlattloAppClient
+
 }
 
 input DeveloperInput {
@@ -411,8 +425,8 @@ type Mutation {
     first_name: String!
     last_name: String!
     phone: String!
-    UID: String!
-  ): Client
+    userUID: String!
+  ): FlattloAppClient
 
   "📝👨‍💼 - Editar perfil de Usuario"
   updateUserProfile(ID: ID!, objectField: String!, value: String!): Updated
