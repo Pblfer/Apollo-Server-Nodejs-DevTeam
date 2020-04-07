@@ -110,6 +110,19 @@ module.exports = {
     return usuario;
   },
 
+  getFlattloAppUser: async (root, { userUID }) => {
+    let db;
+    let flattloUser;
+    try {
+      db = await connectDB();
+      flattloUser = await db.collection("clients").findOne({ userUID: userUID });
+    } catch (error) {
+      console.log(error);
+    }
+ 
+    return flattloUser;
+  },
+
   getProyect: async (root, { proyectID }) => {
     let db;
     let proyect;
