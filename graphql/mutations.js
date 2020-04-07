@@ -302,6 +302,9 @@ module.exports = {
     let db;
     let cotizacion;
     let vendendor;
+
+    quote_date_created = new Date();
+    
     const nuevaCotizacion = {
       userID,
       developerCompanyName,

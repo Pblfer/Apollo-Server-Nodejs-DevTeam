@@ -292,6 +292,9 @@ type Query {
   "☝👨‍💻 - Obtener Usuario por ID"
   getUser(id: ID!): User
 
+  "☝👨‍💻 - Obtener Fecha de cotizacion por ID de usuario"
+  getQuoteDate(id: ID!): [Quote]
+
   "👨‍💻👩‍💻👩‍💼👨‍💼🦸‍🦸‍ - Obtener Todos los Usuarios"
   getAllUsers: [User]
 

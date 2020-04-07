@@ -22,10 +22,7 @@ module.exports = {
     let notificaciones = [];
     try {
       db = await connectDB();
-      notificaciones = await db
-        .collection("notificaciones")
-        .find()
-        .toArray();
+      notificaciones = await db.collection("notificaciones").find().toArray();
     } catch (error) {
       console.log(error);
     }
@@ -63,10 +60,7 @@ module.exports = {
     let usuarios = [];
     try {
       db = await connectDB();
-      usuarios = await db
-        .collection("users")
-        .find()
-        .toArray();
+      usuarios = await db.collection("users").find().toArray();
     } catch (error) {
       console.log(error);
     }
@@ -78,6 +72,38 @@ module.exports = {
     try {
       db = await connectDB();
       usuario = await db.collection("users").findOne({ _id: ObjectID(id) });
+    } catch (error) {
+      console.log(error);
+    }
+    return usuario;
+  },
+  getQuoteDate: async (root, { id }) => {
+    let db;
+    let usuario;
+
+    let newDate = new Date();
+    let d = newDate.getDate();
+    let m = newDate.getMonth() + 1;
+    let y = newDate.getFullYear();
+
+    if (d < 10) {
+      d = "0" + d;
+    }
+
+    if (m < 10) {
+      m = "0" + m;
+    }
+    let datefull = y + "-" + m + "-" + "01";
+    try {
+      db = await connectDB();
+      usuario = await db
+        .collection("quotes")
+        .find({
+          userID: id,
+          quote_date_created: { $gte: new Date(datefull) },
+        })
+        .toArray();
+      console.log(datefull);
     } catch (error) {
       console.log(error);
     }
@@ -152,36 +178,36 @@ module.exports = {
   getNotifyState: async (root, { id }) => {
     let db;
     let notificaciones;
-    let notificacionesArray = []
+    let notificacionesArray = [];
     let array = [];
     let DatosFiltrados;
     let valuePush = {};
     try {
       db = await connectDB();
       notificaciones = await db.collection("users").findOne({
-        _id: ObjectID(id)
+        _id: ObjectID(id),
       });
-      function esDato(dato){
-        return dato.estado === 0
+      function esDato(dato) {
+        return dato.estado === 0;
       }
-      
+
       notificacionesArray.push(notificaciones);
       DatosFiltrados = notificaciones.notifications.filter(esDato);
 
-      DatosFiltrados.forEach(function(e){
-       array.push(e)
+      DatosFiltrados.forEach(function (e) {
+        array.push(e);
       });
       valuePush = array;
-      
+
       var nuevoValor = valuePush;
 
-      notificacionesArray.forEach(function(item){
+      notificacionesArray.forEach(function (item) {
         item.notifications = nuevoValor;
-      })
+      });
     } catch (error) {
       console.log(error);
     }
 
     return notificaciones;
-  }
+  },
 };
