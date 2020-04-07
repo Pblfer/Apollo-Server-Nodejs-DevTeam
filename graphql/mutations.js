@@ -638,6 +638,45 @@ module.exports = {
     }
     return cliente;
   },
+
+  addQuoteToFlattloUser: async (root, { quoteID, userUID }) => {
+    let db;
+    let cotizacion;
+    let flattloUser;
+    try {
+      db = await connectDB();
+      //buscar Cotizacion
+      cotizacion = await db
+        .collection("quotes")
+        .findOne({ _id: ObjectID(quoteID) });
+      //buscar cliente
+      flattloUser = await db
+        .collection("clients")
+        .findOne({ userUID: userUID });
+      if (!cotizacion || !flattloUser) {
+        throw new Error("El cliente o la cotizacion no existen.");
+      }
+      await db.collection("quotes").updateOne(
+        { _id: ObjectID(quoteID) },
+        {
+          $addToSet: {
+            client: userUID
+          }
+        }
+      );
+      await db.collection("clients").updateOne(
+        { userUID: userUID },
+        {
+          $addToSet: {
+            quotes: ObjectID(quoteID)
+          }
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    return flattloUser;
+  },
   
 
   addProyectToDeveloper: async (root, { developerID, proyectID }) => {
