@@ -244,6 +244,28 @@ module.exports = {
     }
   },
 
+  FlattloAppClient:{
+    quotes: async ({ quotes }) => {
+      let db;
+      let quotesData;
+      let ids;
+      try {
+        db = await connectDB();
+        ids = quotes ? quotes.map(id => ObjectID(id)) : [];
+        quotesData =
+          ids.length > 0
+            ? await db
+                .collection("quotes")
+                .find({ _id: { $in: ids } })
+                .toArray()
+            : [];
+      } catch (err) {
+        console.log(err);
+      }
+      return quotesData;
+    },
+  },
+
   User: {
     quotes: async ({ quotes }) => {
       let db;

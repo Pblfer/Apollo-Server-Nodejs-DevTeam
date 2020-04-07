@@ -155,6 +155,7 @@ type FlattloAppClient {
   last_name: String!
   phone: String!
   userUID: String!
+  quotes:[Quote]
 }
 
 
