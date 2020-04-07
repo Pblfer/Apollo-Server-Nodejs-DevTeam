@@ -357,6 +357,97 @@ module.exports = {
     }
   },
 
+  newQuotetoFlattloUser: async (
+    root,
+    {
+      userUID,
+      developerCompanyName,
+      barCode,
+      quote_date_created,
+      quote_date_limit,
+      discount_mount,
+      reserve_mount,
+      promise_sign_mount,
+      fraction_total_mount,
+      fraction_month_selected,
+      fraction_fee_mount,
+      property_value,
+      parkings_mount,
+      warehouses_mount,
+      taxes_mount,
+      total_mount,
+      financing_name,
+      financing_total_mount,
+      financing_interest_rate,
+      financing_years_selected,
+      financing_fee_mount,
+      proyect_name,
+      living_square_mts,
+      bedrooms,
+      bathrooms,
+      lat,
+      long,
+      logo_quote_proyect
+    }
+  ) => {
+    let db;
+    let cotizacion;
+    let flattloUser;
+
+    quote_date_created = new Date();
+    
+    const nuevaCotizacion = {
+      userUID,
+      developerCompanyName,
+      barCode,
+      quote_date_created,
+      quote_date_limit,
+      discount_mount,
+      reserve_mount,
+      promise_sign_mount,
+      fraction_total_mount,
+      fraction_month_selected,
+      fraction_fee_mount,
+      property_value,
+      parkings_mount,
+      warehouses_mount,
+      taxes_mount,
+      total_mount,
+      financing_name,
+      financing_total_mount,
+      financing_interest_rate,
+      financing_years_selected,
+      financing_fee_mount,
+      proyect_name,
+      living_square_mts,
+      bedrooms,
+      bathrooms,
+      logo_quote_proyect,
+      client: [],
+      apartaments: [],
+      parkings: [],
+      warehouses: [],
+      point: [long, lat]
+    };
+    const ingresarCotizacion = Object.assign(nuevaCotizacion);
+    try {
+      db = await connectDB();
+      ingresarCotizacion = await db
+        .collection("quotes")
+        .insertOne(ingresarCotizacion);
+      ingresarCotizacion._id = cotizacion.insertedId;
+    } catch (err) {
+      db = await connectDB();
+      flattloUser = await db
+        .collection("clients")
+        .updateOne(
+          { userUID: userUID },
+          { $addToSet: { quotes: ObjectID(ingresarCotizacion._id) } }
+        );
+      return ingresarCotizacion;
+    }
+  },
+
   newClientToDeveloper: async (
     root,
     { email, developerID, first_name, last_name, phone, nit }
@@ -547,6 +638,7 @@ module.exports = {
     }
     return cliente;
   },
+  
 
   addProyectToDeveloper: async (root, { developerID, proyectID }) => {
     let db;
