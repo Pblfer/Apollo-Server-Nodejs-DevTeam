@@ -155,6 +155,7 @@ type FlattloAppClient {
   last_name: String!
   phone: String!
   userUID: String!
+  quotes:[Quote]
 }
 
 
@@ -643,6 +644,38 @@ type Mutation {
     logo_quote_proyect: String
   ): Quote
 
+   "📃👌🌐 - Nueva Cotización para usuario flattlo"
+  newQuotetoFlattloUser(
+    userUID: String!
+    developerCompanyName: String!
+    barCode: String!
+    quote_date_created: String
+    quote_date_limit: String
+    discount_mount: Int
+    reserve_mount: Int
+    promise_sign_mount: Float
+    fraction_total_mount: Float
+    fraction_month_selected: Int
+    fraction_fee_mount: Float
+    property_value: Int
+    parkings_mount: Int
+    warehouses_mount: Int
+    taxes_mount: Float
+    total_mount: Float
+    financing_name: String
+    financing_total_mount: Float
+    financing_interest_rate: Float
+    financing_years_selected: Int
+    financing_fee_mount: Float
+    proyect_name: String
+    living_square_mts: Float
+    bedrooms: Int
+    bathrooms: Int
+    lat: Float
+    long: Float
+    logo_quote_proyect: String
+  ): Quote
+
   "📃🚪 - Agregar Apartamento a Cotización"
   addApartamentToQuote(quoteID: String!, apartamentID: String!): Apartament
 
@@ -653,7 +686,10 @@ type Mutation {
   addWarehouseToQuote(quoteID: String!, warehouseID: String!): Warehouse
 
   "📃🦸‍♂️ - Agregar Cliente a Cotización"
-  addClientToQuote(quoteID: String!, clientID: String!): Warehouse
+  addClientToQuote(quoteID: String!, clientID: String!): Client
+
+   "📃🦸‍♂️🌐 - Agregar Cliente de flattlo a Cotización"
+  addQuoteToFlattloUser(quoteID: String!, userUID: String!): Client
 
   "👨‍💼👩‍💼❌ - Bloquear Usuario"
   blockUser(userID: String!): User
