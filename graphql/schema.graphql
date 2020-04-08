@@ -305,6 +305,12 @@ type Query {
   "☝👨‍💻 - Obtener Fecha de cotizacion por ID de usuario"
   getQuoteDate(id: ID!): [Quote]
 
+"☝👨‍💻 - Obtener Fecha de cotizacion vencidas por ID de usuario"
+  getQuoteExpires(id: ID!): [Quote]
+
+  "☝👨‍💻 - Obtener Fecha de cotizacion verdes por ID de usuario"
+  getQuoteGreen(id: ID!): [Quote]
+
   "👨‍💻👩‍💻👩‍💼👨‍💼🦸‍🦸‍ - Obtener Todos los Usuarios"
   getAllUsers: [User]
 

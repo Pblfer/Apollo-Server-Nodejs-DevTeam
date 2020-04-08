@@ -103,11 +103,96 @@ module.exports = {
           quote_date_created: { $gte: new Date(datefull) },
         })
         .toArray();
-      console.log(datefull);
     } catch (error) {
       console.log(error);
     }
     return usuario;
+  },
+  getQuoteExpires: async (root, { id }) => {
+    let db;
+    let usuario;
+    let expires = [];
+    let newDate = new Date();
+    let d = newDate.getDate();
+    let m = newDate.getMonth() + 1;
+    let y = newDate.getFullYear();
+
+    if (d < 10) {
+      d = "0" + d;
+    }
+
+    if (m < 10) {
+      m = "0" + m;
+    }
+    let datefull = y + "-" + m + "-" + "01";
+    let datefullDay = y + "-" + m + "-" + d;
+    try {
+      db = await connectDB();
+      usuario = await db
+        .collection("quotes")
+        .find({
+          userID: id,
+          quote_date_created: { $gte: new Date(datefull) },
+        })
+        .toArray();
+    } catch (error) {
+      console.log(error);
+    }
+
+    usuario.forEach(function(e){
+  
+        let fecha1 = new Date(e.quote_date_limit)
+        let fecha2 = new Date(datefullDay);
+
+        if(fecha1 < fecha2){
+           expires.push(e);
+        }
+    });
+
+    return expires;
+  },
+  getQuoteGreen: async (root, { id }) => {
+    let db;
+    let usuario;
+    let expires = [];
+    let newDate = new Date();
+    let d = newDate.getDate();
+    let m = newDate.getMonth() + 1;
+    let y = newDate.getFullYear();
+
+    if (d < 10) {
+      d = "0" + d;
+    }
+
+    if (m < 10) {
+      m = "0" + m;
+    }
+    let datefull = y + "-" + m + "-" + "01";
+    let datefullDay = y + "-" + m + "-" + d;
+    try {
+      db = await connectDB();
+      usuario = await db
+        .collection("quotes")
+        .find({
+          userID: id,
+          quote_date_created: { $gte: new Date(datefull) },
+        })
+        .toArray();
+    } catch (error) {
+      console.log(error);
+    }
+
+    usuario.forEach(function(e){
+  
+        let fecha1 = new Date(e.quote_date_limit)
+        let fecha2 = new Date(datefullDay);
+
+        if(fecha1 > fecha2){
+           expires.push(e);
+        }
+    });
+
+    return expires;
   },
 
   getFlattloAppUser: async (root, { userUID }) => {
@@ -115,11 +200,13 @@ module.exports = {
     let flattloUser;
     try {
       db = await connectDB();
-      flattloUser = await db.collection("clients").findOne({ userUID: userUID });
+      flattloUser = await db
+        .collection("clients")
+        .findOne({ userUID: userUID });
     } catch (error) {
       console.log(error);
     }
- 
+
     return flattloUser;
   },
 
