@@ -137,6 +137,42 @@ type Quote {
   warehouses: [Warehouse]
 }
 
+type FlattloUserQuote {
+  _id: ID!
+  userID: String!
+  developerCompanyName: String!
+  barCode: String!
+  quote_date_created: String
+  quote_date_limit: String
+  discount_mount: Int
+  reserve_mount: Int
+  promise_sign_mount: Float
+  fraction_total_mount: Float
+  fraction_month_selected: Int
+  fraction_fee_mount: Float
+  property_value: Int
+  parkings_mount: Int
+  warehouses_mount: Int
+  taxes_mount: Float
+  total_mount: Float
+  financing_name: String
+  financing_total_mount: Float
+  financing_interest_rate: Float
+  financing_years_selected: Int
+  financing_fee_mount: Float
+  proyect_name: String
+  living_square_mts: Float
+  bedrooms: Int
+  bathrooms: Int
+  lat: Float
+  long: Float
+  logo_quote_proyect: String
+  client: [Client]
+  apartaments: [Apartament]
+  parkings: [Parking]
+  warehouses: [Warehouse]
+}
+
 type Client {
   _id: ID!
   email: String!
@@ -320,6 +356,9 @@ type Query {
 
   "☝📃 - Obtener 1 Cotizacion por ID "
   getQuoteByID(quoteID: ID!): Quote
+
+  "☝📃 - Obtener 1 Cotizacion por ID "
+  getFlattloQuoteByID(quoteID: ID!): FlattloUserQuote
 
   "☝📦 - Obtener 1 Bodega por ID "
   getWarehouseByID(warehouseID: ID!): Warehouse

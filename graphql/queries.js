@@ -175,6 +175,18 @@ module.exports = {
     return quote;
   },
 
+  getFlattloQuoteByID: async (root, { quoteID }) => {
+    let db;
+    let quote;
+    try {
+      db = await connectDB();
+      quote = await db.collection("quotes").findOne({ _id: ObjectID(quoteID) });
+    } catch (err) {
+      console.log(err);
+    }
+    return quote;
+  },
+
   getWarehouseByID: async (root, { warehouseID }) => {
     let db;
     let warehouse;

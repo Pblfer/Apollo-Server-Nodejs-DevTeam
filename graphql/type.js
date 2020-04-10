@@ -318,6 +318,106 @@ module.exports = {
     }
   },
 
+  FlattloUserQuote:{
+    client: async ({ client }) => {
+      let db;
+      let clientData;
+      let ids;
+      try {
+        db = await connectDB();
+        ids = client ? client.map(userUID => userUID) : [];
+        clientData =
+          ids.length > 0
+            ? await db
+                .collection("clients")
+                .find({ userUID: { $in: ids } })
+                .toArray()
+            : [];
+      } catch (err) {
+        console.log(err);
+      }
+      return clientData;
+    },
+    apartaments: async ({ apartaments }) => {
+      let db;
+      let apartamentsData;
+      let ids;
+      try {
+        db = await connectDB();
+        ids = apartaments ? apartaments.map(id => ObjectID(id)) : [];
+        apartamentsData =
+          ids.length > 0
+            ? await db
+                .collection("apartaments")
+                .find({ _id: { $in: ids } })
+                .toArray()
+            : [];
+      } catch (err) {
+        console.log(err);
+      }
+      return apartamentsData;
+    },
+    parkings: async ({ parkings }) => {
+      let db;
+      let parkingsData;
+      let ids;
+      try {
+        db = await connectDB();
+        ids = parkings ? parkings.map(id => ObjectID(id)) : [];
+        parkingsData =
+          ids.length > 0
+            ? await db
+                .collection("parkings")
+                .find({ _id: { $in: ids } })
+                .toArray()
+            : [];
+      } catch (err) {
+        console.log(err);
+      }
+      return parkingsData;
+    },
+    warehouses: async ({ warehouses }) => {
+      let db;
+      let warehousesData;
+      let ids;
+      try {
+        db = await connectDB();
+        ids = warehouses ? warehouses.map(id => ObjectID(id)) : [];
+        warehousesData =
+          ids.length > 0
+            ? await db
+                .collection("warehouses")
+                .find({ _id: { $in: ids } })
+                .toArray()
+            : [];
+      } catch (err) {
+        console.log(err);
+      }
+      return warehousesData;
+    }
+  },
+  Apartament: {
+    financing_types: async ({ financing_types }) => {
+      let db;
+      let financingData;
+      let ids;
+      try {
+        db = await connectDB();
+        ids = financing_types ? financing_types.map(id => ObjectID(id)) : [];
+        financingData =
+          ids.length > 0
+            ? await db
+                .collection("financing_types")
+                .find({ _id: { $in: ids } })
+                .toArray()
+            : [];
+      } catch (err) {
+        console.log(err);
+      }
+      return financingData;
+    }
+  },
+
   Quote: {
     client: async ({ client }) => {
       let db;
