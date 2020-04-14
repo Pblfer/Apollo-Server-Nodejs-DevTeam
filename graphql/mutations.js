@@ -83,21 +83,46 @@ module.exports = {
       date_created,
       quote: [ObjectID(quotesID)],
     };
-    
 
     const nuevaReserva = Object.assign(defaults);
     let db;
     let Reservas;
     let quoteData;
+    let parkingData;
+    let warehouseData;
 
-    quoteData  = await db.collection("quotes").find({_id: {$in: ObjectID(quotesID)}});
+    db = await connectDB();
 
-    try {
-      db = await connectDB();
-      nuevaReserva = await db.collection("reserves").insertOne(nuevaReserva);
-      nuevaReserva._id = Reservas.insertedId;
+    quoteData = await db
+      .collection("quotes")
+      .findOne({ _id: ObjectID(quotesID) });
+      
+      
+      
+      let idParkings = quoteData.parkings[0]
+      let idwareHouse = quoteData.warehouses[0]
 
-    } catch (error) {}
+
+    parkingData =  await db
+      .collection("parkings")
+      .findOne({ _id: ObjectID(idParkings) });
+
+    warehouseData =  await db
+      .collection("warehouses")
+      .findOne({ _id: ObjectID(idwareHouse) });
+   
+    if (
+      parkingData.actual_state == "Disponible" &&
+      warehouseData.actual_state == "Disponible"
+    ) {
+      try {
+        nuevaReserva = await db.collection("reserves").insertOne(nuevaReserva);
+        nuevaReserva._id = Reservas.insertedId;
+      } catch (error) {}
+    } else {
+      throw new Error("EL parqueo o la bodega no esta disponibles");
+    }
+
     return nuevaReserva;
   },
   newUser: async (
@@ -411,10 +436,6 @@ module.exports = {
       lat,
       long,
       logo_quote_proyect,
-<<<<<<< HEAD
-=======
-      deposit_percent
->>>>>>> f80aa104ba04960946dedb4584a71f78f5cea959
     }
   ) => {
     let db;
@@ -734,25 +755,31 @@ module.exports = {
     }
     return desarrolladora;
   },
-  addReserveToDeveloper: async (root, {developerID, reserveID}) => {
+  addReserveToDeveloper: async (root, { developerID, reserveID }) => {
     let db;
     let desarrolladora;
     let reservas;
 
-    try{
+    try {
       db = await connectDB();
-      desarrolladora = await db.collection("realStateDevelopers").findOne({_id : ObjectID(developerID)});
+      desarrolladora = await db
+        .collection("realStateDevelopers")
+        .findOne({ _id: ObjectID(developerID) });
 
-      reservas = await db.collection("reserves").findOne({_id: ObjectID(reserveID)});
-      if(!desarrolladora || !reservas){
+      reservas = await db
+        .collection("reserves")
+        .findOne({ _id: ObjectID(reserveID) });
+      if (!desarrolladora || !reservas) {
         throw new Error("La desarrolladora o la reserva no existe.");
       }
 
-      await db.collection('realStateDevelopers').updateOne(
-        {_id: ObjectID(developerID)},
-        {$addToSet: {reserves: ObjectID(reserveID)}}
-      )
-    }catch(err){
+      await db
+        .collection("realStateDevelopers")
+        .updateOne(
+          { _id: ObjectID(developerID) },
+          { $addToSet: { reserves: ObjectID(reserveID) } }
+        );
+    } catch (err) {
       console.log(err);
     }
     return desarrolladora;
