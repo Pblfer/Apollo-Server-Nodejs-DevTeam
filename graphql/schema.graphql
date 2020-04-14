@@ -708,6 +708,7 @@ type Mutation {
   newQuotetoFlattloUser(
     userUID: String!
     developerCompanyName: String!
+    deposit_percent: Int!
     barCode: String!
     quote_date_created: String
     quote_date_limit: String
