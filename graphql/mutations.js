@@ -411,6 +411,10 @@ module.exports = {
       lat,
       long,
       logo_quote_proyect,
+<<<<<<< HEAD
+=======
+      deposit_percent
+>>>>>>> f80aa104ba04960946dedb4584a71f78f5cea959
     }
   ) => {
     let db;
@@ -446,6 +450,7 @@ module.exports = {
       bedrooms,
       bathrooms,
       logo_quote_proyect,
+      deposit_percent,
       client: [],
       apartaments: [],
       parkings: [],
