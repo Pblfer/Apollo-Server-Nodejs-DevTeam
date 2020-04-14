@@ -10,7 +10,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = sellers_team ? sellers_team.map(id => ObjectID(id)) : [];
+        ids = sellers_team ? sellers_team.map((id) => ObjectID(id)) : [];
         sellersData =
           ids.length > 0
             ? await db
@@ -29,7 +29,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = proyects ? proyects.map(id => ObjectID(id)) : [];
+        ids = proyects ? proyects.map((id) => ObjectID(id)) : [];
         proyectData =
           ids.length > 0
             ? await db
@@ -48,7 +48,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = clients ? clients.map(id => ObjectID(id)) : [];
+        ids = clients ? clients.map((id) => ObjectID(id)) : [];
         clientData =
           ids.length > 0
             ? await db
@@ -67,7 +67,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = notifications ? notifications.map(id => ObjectID(id)) : [];
+        ids = notifications ? notifications.map((id) => ObjectID(id)) : [];
         notyData =
           ids.length > 0
             ? await db
@@ -86,7 +86,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = apartaments ? apartaments.map(id => ObjectID(id)) : [];
+        ids = apartaments ? apartaments.map((id) => ObjectID(id)) : [];
         apartamentData =
           ids.length > 0
             ? await db
@@ -98,7 +98,26 @@ module.exports = {
         console.log(err);
       }
       return apartamentData;
-    }
+    },
+    reserves: async ({ reserves }) => {
+      let db;
+      let reserveData;
+      let ids;
+      try {
+        db = await connectDB();
+        ids = reserves ? reserves.map((id) => ObjectID(id)) : [];
+        reserveData =
+          ids.length > 0
+            ? await db
+                .collection("reserves")
+                .find({ _id: { $in: ids } })
+                .toArray()
+            : [];
+      } catch (err) {
+        console.log(err);
+      }
+      return reserveData;
+    },
   },
 
   Proyect: {
@@ -108,7 +127,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = levels ? levels.map(id => ObjectID(id)) : [];
+        ids = levels ? levels.map((id) => ObjectID(id)) : [];
         levelsData =
           ids.length > 0
             ? await db
@@ -128,7 +147,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = parkings ? parkings.map(id => ObjectID(id)) : [];
+        ids = parkings ? parkings.map((id) => ObjectID(id)) : [];
         parkingData =
           ids.length > 0
             ? await db
@@ -148,7 +167,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = gallery ? gallery.map(id => ObjectID(id)) : [];
+        ids = gallery ? gallery.map((id) => ObjectID(id)) : [];
         imgData =
           ids.length > 0
             ? await db
@@ -168,7 +187,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = warehouses ? warehouses.map(id => ObjectID(id)) : [];
+        ids = warehouses ? warehouses.map((id) => ObjectID(id)) : [];
         warehouseData =
           ids.length > 0
             ? await db
@@ -188,7 +207,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = discounts ? discounts.map(id => ObjectID(id)) : [];
+        ids = discounts ? discounts.map((id) => ObjectID(id)) : [];
         discountData =
           ids.length > 0
             ? await db
@@ -207,7 +226,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = financing_types ? financing_types.map(id => ObjectID(id)) : [];
+        ids = financing_types ? financing_types.map((id) => ObjectID(id)) : [];
         financingData =
           ids.length > 0
             ? await db
@@ -219,7 +238,7 @@ module.exports = {
         console.log(err);
       }
       return financingData;
-    }
+    },
   },
 
   Level: {
@@ -229,7 +248,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = inventory ? inventory.map(id => ObjectID(id)) : [];
+        ids = inventory ? inventory.map((id) => ObjectID(id)) : [];
         ApartamentsData =
           ids.length > 0
             ? await db
@@ -241,17 +260,17 @@ module.exports = {
         console.log(err);
       }
       return ApartamentsData;
-    }
+    },
   },
 
-  FlattloAppClient:{
+  FlattloAppClient: {
     quotes: async ({ quotes }) => {
       let db;
       let quotesData;
       let ids;
       try {
         db = await connectDB();
-        ids = quotes ? quotes.map(id => ObjectID(id)) : [];
+        ids = quotes ? quotes.map((id) => ObjectID(id)) : [];
         quotesData =
           ids.length > 0
             ? await db
@@ -273,7 +292,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = quotes ? quotes.map(id => ObjectID(id)) : [];
+        ids = quotes ? quotes.map((id) => ObjectID(id)) : [];
         quotesData =
           ids.length > 0
             ? await db
@@ -294,7 +313,7 @@ module.exports = {
 
       try {
         db = await connectDB();
-        ids = notifications ? notifications.map(id => ObjectID(id._id)) : [];
+        ids = notifications ? notifications.map((id) => ObjectID(id._id)) : [];
         notificationData =
           ids.length > 0
             ? await db
@@ -303,11 +322,11 @@ module.exports = {
                 .toArray()
             : [];
 
-        notifications.forEach(function(item) {
+        notifications.forEach(function (item) {
           estado = item.estado;
         });
 
-        notificationData.forEach(function(item) {
+        notificationData.forEach(function (item) {
           item.estado = estado;
         });
       } catch (err) {
@@ -315,17 +334,17 @@ module.exports = {
       }
 
       return notificationData;
-    }
+    },
   },
 
-  FlattloUserQuote:{
+  FlattloUserQuote: {
     client: async ({ client }) => {
       let db;
       let clientData;
       let ids;
       try {
         db = await connectDB();
-        ids = client ? client.map(userUID => userUID) : [];
+        ids = client ? client.map((userUID) => userUID) : [];
         clientData =
           ids.length > 0
             ? await db
@@ -344,7 +363,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = apartaments ? apartaments.map(id => ObjectID(id)) : [];
+        ids = apartaments ? apartaments.map((id) => ObjectID(id)) : [];
         apartamentsData =
           ids.length > 0
             ? await db
@@ -363,7 +382,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = parkings ? parkings.map(id => ObjectID(id)) : [];
+        ids = parkings ? parkings.map((id) => ObjectID(id)) : [];
         parkingsData =
           ids.length > 0
             ? await db
@@ -382,7 +401,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = warehouses ? warehouses.map(id => ObjectID(id)) : [];
+        ids = warehouses ? warehouses.map((id) => ObjectID(id)) : [];
         warehousesData =
           ids.length > 0
             ? await db
@@ -394,7 +413,7 @@ module.exports = {
         console.log(err);
       }
       return warehousesData;
-    }
+    },
   },
   Apartament: {
     financing_types: async ({ financing_types }) => {
@@ -403,7 +422,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = financing_types ? financing_types.map(id => ObjectID(id)) : [];
+        ids = financing_types ? financing_types.map((id) => ObjectID(id)) : [];
         financingData =
           ids.length > 0
             ? await db
@@ -415,7 +434,7 @@ module.exports = {
         console.log(err);
       }
       return financingData;
-    }
+    },
   },
 
   Quote: {
@@ -425,7 +444,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = client ? client.map(id => ObjectID(id)) : [];
+        ids = client ? client.map((id) => ObjectID(id)) : [];
         clientData =
           ids.length > 0
             ? await db
@@ -444,7 +463,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = apartaments ? apartaments.map(id => ObjectID(id)) : [];
+        ids = apartaments ? apartaments.map((id) => ObjectID(id)) : [];
         apartamentsData =
           ids.length > 0
             ? await db
@@ -463,7 +482,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = parkings ? parkings.map(id => ObjectID(id)) : [];
+        ids = parkings ? parkings.map((id) => ObjectID(id)) : [];
         parkingsData =
           ids.length > 0
             ? await db
@@ -482,7 +501,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = warehouses ? warehouses.map(id => ObjectID(id)) : [];
+        ids = warehouses ? warehouses.map((id) => ObjectID(id)) : [];
         warehousesData =
           ids.length > 0
             ? await db
@@ -494,7 +513,7 @@ module.exports = {
         console.log(err);
       }
       return warehousesData;
-    }
+    },
   },
   Apartament: {
     financing_types: async ({ financing_types }) => {
@@ -503,7 +522,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = financing_types ? financing_types.map(id => ObjectID(id)) : [];
+        ids = financing_types ? financing_types.map((id) => ObjectID(id)) : [];
         financingData =
           ids.length > 0
             ? await db
@@ -515,6 +534,27 @@ module.exports = {
         console.log(err);
       }
       return financingData;
-    }
-  }
+    },
+  },
+  Reserve: {
+    quote: async ({ quote }) => {
+      let db;
+      let quoteData;
+      let ids;
+      try {
+        db = await connectDB();
+        ids = quote ? quote.map((id) => ObjectID(id)) : [];
+        quoteData =
+          ids.length > 0
+            ? await db
+                .collection("quotes")
+                .find({ _id: { $in: ids } })
+                .toArray()
+            : [];
+      } catch (err) {
+        console.log(err);
+      }
+      return quoteData;
+    },
+  },
 };

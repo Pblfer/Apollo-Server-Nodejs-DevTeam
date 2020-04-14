@@ -63,6 +63,7 @@ type Developer {
   notifications: [Notify]
   clients: [Client]
   apartaments: [Apartament]
+  reserves: [Reserve]
 }
 
 type Notify {
@@ -137,6 +138,13 @@ type Quote {
   warehouses: [Warehouse]
 }
 
+type Reserve {
+  _id: ID!
+  userID: String!
+  date_created: String
+  quote: [Quote]
+}
+
 type FlattloUserQuote {
   _id: ID!
   userID: String!
@@ -185,15 +193,14 @@ type Client {
 }
 
 type FlattloAppClient {
-  _id:String
+  _id: String
   email: String!
   first_name: String!
   last_name: String!
   phone: String!
   userUID: String!
-  quotes:[Quote]
+  quotes: [Quote]
 }
-
 
 type Discount {
   _id: ID!
@@ -342,7 +349,7 @@ type Query {
   "☝👨‍💻 - Obtener Fecha de cotizacion por ID de usuario"
   getQuoteDate(id: ID!): [Quote]
 
-"☝👨‍💻 - Obtener Fecha de cotizacion vencidas por ID de usuario"
+  "☝👨‍💻 - Obtener Fecha de cotizacion vencidas por ID de usuario"
   getQuoteExpires(id: ID!): [Quote]
 
   "☝👨‍💻 - Obtener Fecha de cotizacion verdes por ID de usuario"
@@ -369,9 +376,8 @@ type Query {
   "☝📦 - Obtener 1 Bodega por ID "
   getWarehouseByID(warehouseID: ID!): Warehouse
 
-   "☝🌐👨👩 - Obtener Cliente Flattlo App"
+  "☝🌐👨👩 - Obtener Cliente Flattlo App"
   getFlattloAppUser(userUID: String!): FlattloAppClient
-
 }
 
 input DeveloperInput {
@@ -415,6 +421,9 @@ type Mutation {
     date_created: String!
     company_id: String!
   ): Notify
+
+  "Nueva Reserva"
+  newReserve(userID: String!, date_created: String, quotesID: String!): Reserve
 
   "nueva notificacion Slak"
   newNotificationGitRelease(
@@ -503,7 +512,11 @@ type Mutation {
   deleteSeller(developerID: ID!, userID: ID!): User
 
   "❌👨‍💼👩‍💼 - Eliminar Apartamento"
-  deleteApartament(apartamentID: String!, levelID: String!, developerID: String!): Apartament
+  deleteApartament(
+    apartamentID: String!
+    levelID: String!
+    developerID: String!
+  ): Apartament
 
   "❌📥 - Eliminar Nivel"
   deleteLevel(proyectID: ID!, levelID: ID!): Level
@@ -602,8 +615,15 @@ type Mutation {
   "💭📃🏢 - Agregar Notificacion a Desarrolladora"
   addNotificationToDeveloper(developerID: ID!, notifyID: ID!): Developer
 
+  "💭📃🏢 - Agregar Reserva a Desarrolladora"
+  addReserveToDeveloper(developerID: ID!, reserveID: ID!): Developer
+
   "💭📃🏢 - Agregar Notificacion de usuario nuevo a Desarrolladora"
-  addNotificationUserNewToDeveloper(developerID: ID!, notifyID: ID!, userID: ID!): Developer
+  addNotificationUserNewToDeveloper(
+    developerID: ID!
+    notifyID: ID!
+    userID: ID!
+  ): Developer
 
   "🚗🏢 - Agregar Parqueo a Proyecto"
   addParkingToProyect(
@@ -683,7 +703,7 @@ type Mutation {
     logo_quote_proyect: String
   ): Quote
 
-   "📃👌🌐 - Nueva Cotización para usuario flattlo"
+  "📃👌🌐 - Nueva Cotización para usuario flattlo"
   newQuotetoFlattloUser(
     userUID: String!
     developerCompanyName: String!
@@ -727,7 +747,7 @@ type Mutation {
   "📃🦸‍♂️ - Agregar Cliente a Cotización"
   addClientToQuote(quoteID: String!, clientID: String!): Client
 
-   "📃🦸‍♂️🌐 - Agregar Cliente de flattlo a Cotización"
+  "📃🦸‍♂️🌐 - Agregar Cliente de flattlo a Cotización"
   addQuoteToFlattloUser(quoteID: String!, userUID: String!): Client
 
   "👨‍💼👩‍💼❌ - Bloquear Usuario"

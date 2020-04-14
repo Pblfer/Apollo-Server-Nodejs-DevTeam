@@ -30,8 +30,7 @@ module.exports = {
       admins_team: [],
       sellers_team: [],
       clients: [],
-      apartaments: []
-
+      apartaments: [],
     };
     const nuevaDesarrolladora = Object.assign(defaults);
     let db;
@@ -61,7 +60,7 @@ module.exports = {
       icon,
       type,
       date_created,
-      company_id
+      company_id,
     };
     const nuevaNotificacion = Object.assign(defaults);
     let db;
@@ -76,7 +75,31 @@ module.exports = {
     } catch (error) {}
     return nuevaNotificacion;
   },
+  newReserve: async (root, { userID, date_created, quotesID }) => {
+    date_created = new Date();
 
+    const defaults = {
+      userID,
+      date_created,
+      quote: [ObjectID(quotesID)],
+    };
+    
+
+    const nuevaReserva = Object.assign(defaults);
+    let db;
+    let Reservas;
+    let quoteData;
+
+    quoteData  = await db.collection("quotes").find({_id: {$in: ObjectID(quotesID)}});
+
+    try {
+      db = await connectDB();
+      nuevaReserva = await db.collection("reserves").insertOne(nuevaReserva);
+      nuevaReserva._id = Reservas.insertedId;
+
+    } catch (error) {}
+    return nuevaReserva;
+  },
   newUser: async (
     root,
     {
@@ -88,7 +111,7 @@ module.exports = {
       company_id,
       phone,
       roll,
-      blocked
+      blocked,
     }
   ) => {
     const hashPassword = await bcrypt.hash(password, 10);
@@ -105,7 +128,7 @@ module.exports = {
       roll,
       blocked,
       quotes: [],
-      notifications: []
+      notifications: [],
     };
     const nuevoUsuario = Object.assign(newUser);
     let db;
@@ -136,7 +159,7 @@ module.exports = {
       company_id,
       company_name,
       lat,
-      long
+      long,
     }
   ) => {
     let db;
@@ -169,7 +192,7 @@ module.exports = {
       quote_logo: "",
       quote_banner: "",
       max_days_limit_for_quote: 15,
-      etapa
+      etapa,
     };
     const ingresarProyecto = Object.assign(newProyect);
     try {
@@ -296,7 +319,7 @@ module.exports = {
       bathrooms,
       lat,
       long,
-      logo_quote_proyect
+      logo_quote_proyect,
     }
   ) => {
     let db;
@@ -304,7 +327,7 @@ module.exports = {
     let vendendor;
 
     quote_date_created = new Date();
-    
+
     const nuevaCotizacion = {
       userID,
       developerCompanyName,
@@ -336,7 +359,7 @@ module.exports = {
       apartaments: [],
       parkings: [],
       warehouses: [],
-      point: [long, lat]
+      point: [long, lat],
     };
     const ingresarCotizacion = Object.assign(nuevaCotizacion);
     try {
@@ -387,7 +410,7 @@ module.exports = {
       bathrooms,
       lat,
       long,
-      logo_quote_proyect
+      logo_quote_proyect,
     }
   ) => {
     let db;
@@ -395,7 +418,7 @@ module.exports = {
     let flattloUser;
 
     quote_date_created = new Date();
-    
+
     const nuevaCotizacion = {
       userUID,
       developerCompanyName,
@@ -427,7 +450,7 @@ module.exports = {
       apartaments: [],
       parkings: [],
       warehouses: [],
-      point: [long, lat]
+      point: [long, lat],
     };
     const ingresarCotizacion = Object.assign(nuevaCotizacion);
     try {
@@ -461,7 +484,7 @@ module.exports = {
       first_name,
       last_name,
       phone,
-      nit
+      nit,
     };
     const ingresarCliente = Object.assign(newClient);
     try {
@@ -493,7 +516,7 @@ module.exports = {
       first_name,
       last_name,
       phone,
-      userUID
+      userUID,
     };
     const ingresarCliente = Object.assign(newClient);
     try {
@@ -528,8 +551,8 @@ module.exports = {
         { _id: ObjectID(quoteID) },
         {
           $addToSet: {
-            apartaments: ObjectID(apartamentID)
-          }
+            apartaments: ObjectID(apartamentID),
+          },
         }
       );
     } catch (error) {
@@ -559,8 +582,8 @@ module.exports = {
         { _id: ObjectID(quoteID) },
         {
           $addToSet: {
-            parkings: ObjectID(parkingID)
-          }
+            parkings: ObjectID(parkingID),
+          },
         }
       );
     } catch (error) {
@@ -590,8 +613,8 @@ module.exports = {
         { _id: ObjectID(quoteID) },
         {
           $addToSet: {
-            warehouses: ObjectID(warehouseID)
-          }
+            warehouses: ObjectID(warehouseID),
+          },
         }
       );
     } catch (error) {
@@ -621,16 +644,16 @@ module.exports = {
         { _id: ObjectID(quoteID) },
         {
           $addToSet: {
-            client: ObjectID(clientID)
-          }
+            client: ObjectID(clientID),
+          },
         }
       );
       await db.collection("clients").updateOne(
         { _id: ObjectID(clientID) },
         {
           $addToSet: {
-            quotes: ObjectID(quoteID)
-          }
+            quotes: ObjectID(quoteID),
+          },
         }
       );
     } catch (error) {
@@ -660,16 +683,16 @@ module.exports = {
         { _id: ObjectID(quoteID) },
         {
           $addToSet: {
-            client: userUID
-          }
+            client: userUID,
+          },
         }
       );
       await db.collection("clients").updateOne(
         { userUID: userUID },
         {
           $addToSet: {
-            quotes: ObjectID(quoteID)
-          }
+            quotes: ObjectID(quoteID),
+          },
         }
       );
     } catch (error) {
@@ -677,7 +700,6 @@ module.exports = {
     }
     return flattloUser;
   },
-  
 
   addProyectToDeveloper: async (root, { developerID, proyectID }) => {
     let db;
@@ -704,6 +726,29 @@ module.exports = {
         );
     } catch (error) {
       console.log(error);
+    }
+    return desarrolladora;
+  },
+  addReserveToDeveloper: async (root, {developerID, reserveID}) => {
+    let db;
+    let desarrolladora;
+    let reservas;
+
+    try{
+      db = await connectDB();
+      desarrolladora = await db.collection("realStateDevelopers").findOne({_id : ObjectID(developerID)});
+
+      reservas = await db.collection("reserves").findOne({_id: ObjectID(reserveID)});
+      if(!desarrolladora || !reservas){
+        throw new Error("La desarrolladora o la reserva no existe.");
+      }
+
+      await db.collection('realStateDevelopers').updateOne(
+        {_id: ObjectID(developerID)},
+        {$addToSet: {reserves: ObjectID(reserveID)}}
+      )
+    }catch(err){
+      console.log(err);
     }
     return desarrolladora;
   },
@@ -738,7 +783,7 @@ module.exports = {
     usuarios = await db
       .collection("realStateDevelopers")
       .findOne({ _id: ObjectID(developerID) });
-    usuarios.sellers_team.forEach(function(e) {
+    usuarios.sellers_team.forEach(function (e) {
       try {
         db.collection("users").updateOne(
           { _id: ObjectID(e) },
@@ -746,9 +791,9 @@ module.exports = {
             $addToSet: {
               notifications: {
                 _id: ObjectID(notifyID),
-                estado: 0
-              }
-            }
+                estado: 0,
+              },
+            },
           }
         );
       } catch (error) {
@@ -756,7 +801,7 @@ module.exports = {
       }
     });
 
-    usuarios.admins_team.forEach(function(e) {
+    usuarios.admins_team.forEach(function (e) {
       try {
         db.collection("users").updateOne(
           { _id: ObjectID(e) },
@@ -764,9 +809,9 @@ module.exports = {
             $addToSet: {
               notifications: {
                 _id: ObjectID(notifyID),
-                estado: 0
-              }
-            }
+                estado: 0,
+              },
+            },
           }
         );
       } catch (error) {
@@ -776,7 +821,10 @@ module.exports = {
 
     return desarrolladora;
   },
-  addNotificationUserNewToDeveloper: async ( root, {developerID, notifyID, userID}) => {
+  addNotificationUserNewToDeveloper: async (
+    root,
+    { developerID, notifyID, userID }
+  ) => {
     let db;
     let desarrolladora;
     let usuarios;
@@ -804,21 +852,21 @@ module.exports = {
       console.log(error);
     }
 
-      try {
-        db.collection("users").updateOne(
-          { _id: ObjectID(userID) },
-          {
-            $addToSet: {
-              notifications: {
-                _id: ObjectID(notifyID),
-                estado: 0
-              }
-            }
-          }
-        );
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      db.collection("users").updateOne(
+        { _id: ObjectID(userID) },
+        {
+          $addToSet: {
+            notifications: {
+              _id: ObjectID(notifyID),
+              estado: 0,
+            },
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
     return desarrolladora;
   },
   newNotificationGitRelease: async (
@@ -830,7 +878,7 @@ module.exports = {
       description,
       icon,
       type,
-      date_created
+      date_created,
     };
     const nuevaNotificacion = Object.assign(defaults);
     let db;
@@ -838,7 +886,6 @@ module.exports = {
     let desarrolladora;
 
     try {
-
       db = await connectDB();
       nuevaNotificacion = await db
         .collection("notificaciones")
@@ -847,33 +894,33 @@ module.exports = {
     } catch (error) {
       console.log(error);
     }
-     //buscar Desarrolladora
+    //buscar Desarrolladora
     desarrolladora = db.collection("realStateDevelopers").find();
-    desarrolladora.forEach(function(e) {
-      e.sellers_team.forEach(function(e2) {
+    desarrolladora.forEach(function (e) {
+      e.sellers_team.forEach(function (e2) {
         db.collection("users").updateOne(
           { _id: ObjectID(e2) },
           {
             $addToSet: {
               notifications: {
                 _id: ObjectID(nuevaNotificacion._id),
-                estado: 0
-              }
-            }
+                estado: 0,
+              },
+            },
           }
         );
       });
 
-      e.admins_team.forEach(function(e3) {
+      e.admins_team.forEach(function (e3) {
         db.collection("users").updateOne(
           { _id: ObjectID(e3) },
           {
             $addToSet: {
               notifications: {
                 _id: ObjectID(nuevaNotificacion._id),
-                estado: 0
-              }
-            }
+                estado: 0,
+              },
+            },
           }
         );
       });
@@ -901,8 +948,8 @@ module.exports = {
           { _id: ObjectID(userID), "notifications.estado": 0 },
           {
             $set: {
-              "notifications.$.estado": 1
-            }
+              "notifications.$.estado": 1,
+            },
           }
         );
       }
@@ -925,7 +972,7 @@ module.exports = {
       proyect_name,
       point: [long, lat],
       img_url,
-      gallery_type
+      gallery_type,
     };
     const ingresarImage = Object.assign(newImage);
     try {
@@ -956,7 +1003,7 @@ module.exports = {
       company_id,
       proyect_id,
       discount_amount,
-      active
+      active,
     };
     const ingresarDescuento = Object.assign(nuevoDescuento);
     try {
@@ -988,7 +1035,7 @@ module.exports = {
       name,
       interest_rate,
       years_max,
-      proyectID
+      proyectID,
     };
     const ingresarFinanciamiento = Object.assign(nuevoFinanciamiento);
     try {
@@ -1002,7 +1049,7 @@ module.exports = {
       proyecto = await db.collection("proyects").updateOne(
         { _id: ObjectID(proyectID) },
         {
-          $addToSet: { financing_types: ObjectID(ingresarFinanciamiento._id) }
+          $addToSet: { financing_types: ObjectID(ingresarFinanciamiento._id) },
         }
       );
       return ingresarFinanciamiento;
@@ -1021,7 +1068,7 @@ module.exports = {
       price,
       actual_state,
       proyectID,
-      developerID
+      developerID,
     };
     const ingresarParqueo = Object.assign(newParking);
     try {
@@ -1055,7 +1102,7 @@ module.exports = {
       square_mts,
       actual_state,
       proyectID,
-      developerID
+      developerID,
     };
     const ingresarBodega = Object.assign(newWarehouse);
     try {
@@ -1088,7 +1135,7 @@ module.exports = {
       proyectID,
       number_of_level,
       plane_img_url,
-      inventory: []
+      inventory: [],
     };
     const ingresarNivel = Object.assign(newLevel);
     try {
@@ -1130,7 +1177,7 @@ module.exports = {
       long,
       proyect_id,
       developer_id,
-      reserve_price
+      reserve_price,
     }
   ) => {
     let apartament;
@@ -1160,7 +1207,7 @@ module.exports = {
       long,
       reserve_price,
       point: [long, lat],
-      financing_types: []
+      financing_types: [],
     };
     const ingresarApartamento = Object.assign(nuevoApartament);
     try {
@@ -1175,20 +1222,21 @@ module.exports = {
         {
           developerID: developer_id,
           proyectID: proyect_id,
-          number_of_level: level
+          number_of_level: level,
         },
         { $addToSet: { inventory: ObjectID(ingresarApartamento._id) } }
       );
-    }try {
+    }
+    try {
       db = await connectDB();
       addToInventory = await db
         .collection("realStateDevelopers")
         .updateOne(
           { _id: ObjectID(developer_id) },
-          { $addToSet: { apartaments: ObjectID(ingresarApartamento._id) } } 
+          { $addToSet: { apartaments: ObjectID(ingresarApartamento._id) } }
         );
     } catch (error) {
-     throw(error) 
+      throw error;
     }
     return ingresarApartamento;
   },
@@ -1215,7 +1263,7 @@ module.exports = {
       long,
       proyect_id,
       developer_id,
-      reserve_price
+      reserve_price,
     }
   ) => {
     let apartament;
@@ -1246,7 +1294,7 @@ module.exports = {
       long,
       reserve_price,
       point: [long, lat],
-      financing_types: []
+      financing_types: [],
     };
     const ingresarApartamento = Object.assign(newApartament);
     try {
@@ -1261,7 +1309,7 @@ module.exports = {
         {
           developerID: developer_id,
           proyectID: proyect_id,
-          number_of_level: level
+          number_of_level: level,
         },
         { $addToSet: { inventory: ObjectID(ingresarApartamento._id) } }
       );
@@ -1272,10 +1320,10 @@ module.exports = {
         .collection("realStateDevelopers")
         .updateOne(
           { _id: ObjectID(developer_id) },
-          { $addToSet: { apartaments: ObjectID(ingresarApartamento._id) } } 
+          { $addToSet: { apartaments: ObjectID(ingresarApartamento._id) } }
         );
     } catch (error) {
-     throw(error) 
+      throw error;
     }
     return ingresarApartamento;
   },
@@ -1301,16 +1349,16 @@ module.exports = {
     const token = jwt.sign(
       {
         userID: user.id,
-        email: user.email
+        email: user.email,
       },
       "67D89823E8A7382CC78D5285B1C42",
       {
-        expiresIn: "12h" // token will expire in 30days
+        expiresIn: "12h", // token will expire in 30days
       }
     );
     return {
       token,
-      user
+      user,
     };
   },
 
@@ -1334,7 +1382,7 @@ module.exports = {
         userName: user.first_name,
         userLast: user.last_name,
         userCompany: user.company,
-        userID: user._id
+        userID: user._id,
       });
       const options = {
         hostname: "dev.flattlo.com",
@@ -1342,16 +1390,16 @@ module.exports = {
         path: "/webhook/7/webhook/email-flattlo",
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       };
-      const req = https.request(options, res => {
-        res.on("data", d => {
+      const req = https.request(options, (res) => {
+        res.on("data", (d) => {
           process.stdout.write(d);
         });
       });
 
-      req.on("error", error => {
+      req.on("error", (error) => {
         console.error(error);
       });
 
@@ -1362,7 +1410,7 @@ module.exports = {
     }
 
     return {
-      user
+      user,
     };
   },
 
@@ -1382,7 +1430,7 @@ module.exports = {
     }
     return {
       objectField,
-      value
+      value,
     };
   },
 
@@ -1399,7 +1447,7 @@ module.exports = {
     }
     return {
       objectField,
-      value
+      value,
     };
   },
 
@@ -1433,7 +1481,7 @@ module.exports = {
     }
     return {
       objectField,
-      value
+      value,
     };
   },
 
@@ -1450,7 +1498,7 @@ module.exports = {
     }
     return {
       objectField,
-      value
+      value,
     };
   },
 
@@ -1470,7 +1518,7 @@ module.exports = {
     }
     return {
       objectField,
-      value
+      value,
     };
   },
 
@@ -1497,7 +1545,7 @@ module.exports = {
     } catch (error) {}
     return {
       deleteUser,
-      removeFromCompany
+      removeFromCompany,
     };
   },
 
@@ -1601,5 +1649,5 @@ module.exports = {
           { $pull: { parkings: ObjectID(parkingID) } }
         );
     } catch (error) {}
-  }
+  },
 };
