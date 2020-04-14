@@ -167,6 +167,7 @@ type FlattloUserQuote {
   lat: Float
   long: Float
   logo_quote_proyect: String
+  deposit_percent: Int
   client: [Client]
   apartaments: [Apartament]
   parkings: [Parking]
