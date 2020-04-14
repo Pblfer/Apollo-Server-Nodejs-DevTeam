@@ -410,6 +410,7 @@ module.exports = {
     {
       userUID,
       developerCompanyName,
+      deposit_percent,
       barCode,
       quote_date_created,
       quote_date_limit,
@@ -447,6 +448,7 @@ module.exports = {
     const nuevaCotizacion = {
       userUID,
       developerCompanyName,
+      deposit_percent,
       barCode,
       quote_date_created,
       quote_date_limit,
@@ -471,7 +473,6 @@ module.exports = {
       bedrooms,
       bathrooms,
       logo_quote_proyect,
-      deposit_percent,
       client: [],
       apartaments: [],
       parkings: [],
