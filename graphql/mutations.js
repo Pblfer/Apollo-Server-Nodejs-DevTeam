@@ -96,21 +96,19 @@ module.exports = {
     quoteData = await db
       .collection("quotes")
       .findOne({ _id: ObjectID(quotesID) });
-      
-      
-      
-      let idParkings = quoteData.parkings[0]
-      let idwareHouse = quoteData.warehouses[0]
 
+    let idParkings = quoteData.parkings[0];
+    let idwareHouse = quoteData.warehouses[0];
+    
 
-    parkingData =  await db
+    parkingData = await db
       .collection("parkings")
       .findOne({ _id: ObjectID(idParkings) });
 
-    warehouseData =  await db
+    warehouseData = await db
       .collection("warehouses")
       .findOne({ _id: ObjectID(idwareHouse) });
-   
+
     if (
       parkingData.actual_state == "Disponible" &&
       warehouseData.actual_state == "Disponible"
