@@ -89,6 +89,8 @@ module.exports = {
     let Reservas;
     let quoteData;
     let parkingData;
+    let parkingArray = [];
+    let warehouseArray = [];
     let warehouseData;
 
     db = await connectDB();
@@ -97,26 +99,51 @@ module.exports = {
       .collection("quotes")
       .findOne({ _id: ObjectID(quotesID) });
 
-    let idParkings = quoteData.parkings[0];
-    let idwareHouse = quoteData.warehouses[0];
-    
+    let idParkings = quoteData.parkings;
+    let idwareHouse = quoteData.warehouses;
 
-    parkingData = await db
-      .collection("parkings")
-      .findOne({ _id: ObjectID(idParkings) });
+    for (let i = 0; i < idParkings.length; i++) {
+      parkingData = await db
+        .collection("parkings")
+        .findOne({ _id: ObjectID(idParkings[i]) });
+      parkingArray.push(parkingData.actual_state);
+    }
+    let resultadoParqueo = parkingArray.filter(
+      (valor) => valor === "Reservado"
+    );
 
-    warehouseData = await db
-      .collection("warehouses")
-      .findOne({ _id: ObjectID(idwareHouse) });
-
-    if (
-      parkingData.actual_state == "Disponible" &&
-      warehouseData.actual_state == "Disponible"
-    ) {
+    for (let a = 0; a < idwareHouse.length; a++) {
+      warehouseData = await db
+        .collection("warehouses")
+        .findOne({ _id: ObjectID(idwareHouse[a]) });
+      warehouseArray.push(warehouseData.actual_state);
+    }
+    let resultadoBodega = warehouseArray.filter(
+      (valor) => valor === "Reservado"
+    );
+    if (resultadoParqueo.length == 0 && resultadoBodega == 0) {
       try {
         nuevaReserva = await db.collection("reserves").insertOne(nuevaReserva);
         nuevaReserva._id = Reservas.insertedId;
       } catch (error) {}
+
+      for (let b = 0; b < idParkings.length; b++) {
+        await db
+          .collection("parkings")
+          .updateOne(
+            { _id: ObjectID(idParkings[b]) },
+            { $set: { actual_state: "Reservado" } }
+          );
+      }
+
+      for (let d = 0; d < idwareHouse.length; d++) {
+        await db
+          .collection("warehouses")
+          .updateOne(
+            { _id: ObjectID(idwareHouse[d]) },
+            { $set: { actual_state: "Reservado" } }
+          );
+      }
     } else {
       throw new Error("EL parqueo o la bodega no esta disponibles");
     }
@@ -444,7 +471,7 @@ module.exports = {
       seller_last_name,
       seller_phone,
       seller_email,
-      seller_pic
+      seller_pic,
     }
   ) => {
     let db;
@@ -495,7 +522,7 @@ module.exports = {
       seller_last_name,
       seller_phone,
       seller_email,
-      seller_pic
+      seller_pic,
     };
     const ingresarCotizacion = Object.assign(nuevaCotizacion);
     try {
