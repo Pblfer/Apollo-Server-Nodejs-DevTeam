@@ -1602,6 +1602,26 @@ module.exports = {
     };
   },
 
+  deleteFlattloUserQuote: async (root, { userUID, quoteID }) => {
+    let db;
+    let deleteQuote;
+    try {
+      db = await connectDB();
+      deleteQuote = await db
+        .collection("clients")
+        .updateOne(
+          { userUID: userUID },
+          { $pull: { quotes: ObjectID(quoteID) } }
+        );
+    } catch (error) {
+      throw error;
+    }
+    
+    return {
+      deleteQuote
+    };
+  },
+
   deleteApartament: async (root, { apartamentID, levelID, developerID }) => {
     let db;
     let deleteApartament;

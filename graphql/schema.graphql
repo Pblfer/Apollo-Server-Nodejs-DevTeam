@@ -538,6 +538,9 @@ type Mutation {
   "❌📥 - Eliminar Parqueo"
   deleteParking(proyectID: ID!, parkingID: ID!): Parking
 
+  "❌🌐📑 - Eliminar Cotización usuario Flattlo"
+  deleteFlattloUserQuote(userUID: String!, quoteID: ID!): FlattloUserQuote
+
   "💰✂ - Agregar Descuento"
   newDiscountToProyect(
     name: String!
