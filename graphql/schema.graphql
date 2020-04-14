@@ -180,6 +180,16 @@ type FlattloUserQuote {
   apartaments: [Apartament]
   parkings: [Parking]
   warehouses: [Warehouse]
+  developer_name: String
+  developer_phone: String
+  developer_email: String
+  developer_website: String
+  developer_address: String
+  seller_first_name: String
+  seller_last_name: String
+  seller_phone: String
+  seller_email: String
+  seller_pic: String 
 }
 
 type Client {
@@ -708,6 +718,7 @@ type Mutation {
   newQuotetoFlattloUser(
     userUID: String!
     developerCompanyName: String!
+    deposit_percent: Int!
     barCode: String!
     quote_date_created: String
     quote_date_limit: String
@@ -734,6 +745,16 @@ type Mutation {
     lat: Float
     long: Float
     logo_quote_proyect: String
+    developer_name: String
+    developer_phone: String
+    developer_email: String
+    developer_website: String
+    developer_address: String
+    seller_first_name: String
+    seller_last_name: String
+    seller_phone: String
+    seller_email: String
+    seller_pic: String
   ): Quote
 
   "📃🚪 - Agregar Apartamento a Cotización"

@@ -408,6 +408,7 @@ module.exports = {
     {
       userUID,
       developerCompanyName,
+      deposit_percent,
       barCode,
       quote_date_created,
       quote_date_limit,
@@ -434,6 +435,16 @@ module.exports = {
       lat,
       long,
       logo_quote_proyect,
+      developer_name,
+      developer_phone,
+      developer_email,
+      developer_website,
+      developer_address,
+      seller_first_name,
+      seller_last_name,
+      seller_phone,
+      seller_email,
+      seller_pic
     }
   ) => {
     let db;
@@ -445,6 +456,7 @@ module.exports = {
     const nuevaCotizacion = {
       userUID,
       developerCompanyName,
+      deposit_percent,
       barCode,
       quote_date_created,
       quote_date_limit,
@@ -469,12 +481,21 @@ module.exports = {
       bedrooms,
       bathrooms,
       logo_quote_proyect,
-      deposit_percent,
       client: [],
       apartaments: [],
       parkings: [],
       warehouses: [],
       point: [long, lat],
+      developer_name,
+      developer_phone,
+      developer_email,
+      developer_website,
+      developer_address,
+      seller_first_name,
+      seller_last_name,
+      seller_phone,
+      seller_email,
+      seller_pic
     };
     const ingresarCotizacion = Object.assign(nuevaCotizacion);
     try {
