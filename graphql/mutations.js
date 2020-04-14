@@ -89,6 +89,8 @@ module.exports = {
     let Reservas;
     let quoteData;
     let parkingData;
+    let apartamentData;
+    let apartamentArray = [];
     let parkingArray = [];
     let warehouseArray = [];
     let warehouseData;
@@ -101,6 +103,17 @@ module.exports = {
 
     let idParkings = quoteData.parkings;
     let idwareHouse = quoteData.warehouses;
+    let idsApartament = quoteData.apartaments;
+
+    for (let p = 0; p < idsApartament.length; p++) {
+      apartamentData = await db
+        .collection("apartaments")
+        .findOne({ _id: ObjectID(idsApartament[p]) });
+      apartamentArray.push(apartamentData.actual_state);
+    }
+    let resultadoApartamento = apartamentArray.filter(
+      (valor) => valor == "Reservado"
+    );
 
     for (let i = 0; i < idParkings.length; i++) {
       parkingData = await db
@@ -121,7 +134,7 @@ module.exports = {
     let resultadoBodega = warehouseArray.filter(
       (valor) => valor === "Reservado"
     );
-    if (resultadoParqueo.length == 0 && resultadoBodega == 0) {
+    if (resultadoParqueo.length == 0 && resultadoBodega.length == 0 && resultadoApartamento.length == 0) {
       try {
         nuevaReserva = await db.collection("reserves").insertOne(nuevaReserva);
         nuevaReserva._id = Reservas.insertedId;
@@ -1641,9 +1654,9 @@ module.exports = {
     } catch (error) {
       throw error;
     }
-    
+
     return {
-      deleteQuote
+      deleteQuote,
     };
   },
 
