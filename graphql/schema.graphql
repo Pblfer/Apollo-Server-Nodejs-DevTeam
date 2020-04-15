@@ -136,6 +136,7 @@ type Quote {
   apartaments: [Apartament]
   parkings: [Parking]
   warehouses: [Warehouse]
+  favorite_quote: String
 }
 
 type Reserve {
@@ -189,7 +190,8 @@ type FlattloUserQuote {
   seller_last_name: String
   seller_phone: String
   seller_email: String
-  seller_pic: String 
+  seller_pic: String
+  favorite_quote: String
 }
 
 type Client {
@@ -758,6 +760,7 @@ type Mutation {
     seller_phone: String
     seller_email: String
     seller_pic: String
+    favorite_quote: String
   ): Quote
 
   "📃🚪 - Agregar Apartamento a Cotización"
