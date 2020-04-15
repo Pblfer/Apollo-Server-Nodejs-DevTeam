@@ -423,6 +423,7 @@ module.exports = {
       parkings: [],
       warehouses: [],
       point: [long, lat],
+      favorite_quote: 'false'
     };
     const ingresarCotizacion = Object.assign(nuevaCotizacion);
     try {

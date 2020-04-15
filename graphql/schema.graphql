@@ -136,6 +136,7 @@ type Quote {
   apartaments: [Apartament]
   parkings: [Parking]
   warehouses: [Warehouse]
+  favorite_quote: String
 }
 
 type Reserve {
