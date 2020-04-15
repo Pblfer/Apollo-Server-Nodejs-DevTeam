@@ -536,6 +536,7 @@ module.exports = {
       seller_phone,
       seller_email,
       seller_pic,
+      favorite_quote: 'false'
     };
     const ingresarCotizacion = Object.assign(nuevaCotizacion);
     try {
