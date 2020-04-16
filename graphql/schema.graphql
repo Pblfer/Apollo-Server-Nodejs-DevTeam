@@ -781,8 +781,11 @@ type Mutation {
   "📃🦸‍♂️ - Agregar Cliente a Cotización"
   addClientToQuote(quoteID: String!, clientID: String!): Client
 
-  "📃👩‍💼👨‍💼 - Agregar Cliente a Cotización"
+  "📃👩‍💼👨‍💼 - Agregar Vendedor a Cotización"
   addSellerToQuote(quoteID: String!, sellerID: String!): User
+
+  "📃👩‍💼👨‍💼 - Mostrar cotización a vendedor"
+  showHiddenQuoteToSeller(quoteID: String!, sellerID: String!): User
 
   "📃🦸‍♂️🌐 - Agregar Cliente de flattlo a Cotización"
   addQuoteToFlattloUser(quoteID: String!, userUID: String!): Client
