@@ -54,6 +54,7 @@ module.exports = {
     } else {
       type = type;
     }
+    date_created = new Date();
     const defaults = {
       name,
       description,
