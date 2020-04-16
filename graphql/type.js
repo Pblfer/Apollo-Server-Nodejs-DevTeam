@@ -363,7 +363,7 @@ module.exports = {
       let ids;
       try {
         db = await connectDB();
-        ids = seller ? seller.map((id) => (ObjectID(id))) : [];
+        ids = seller ? seller.map((id) => ObjectID(id)) : [];
         sellerData =
           ids.length > 0
             ? await db
@@ -483,7 +483,7 @@ module.exports = {
       try {
         db = await connectDB();
         ids = seller ? seller.map((id) => ObjectID(id)) : [];
-        clientData =
+        sellerData =
           ids.length > 0
             ? await db
                 .collection("users")
@@ -495,6 +495,7 @@ module.exports = {
       }
       return sellerData;
     },
+    
     apartaments: async ({ apartaments }) => {
       let db;
       let apartamentsData;
