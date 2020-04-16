@@ -778,6 +778,9 @@ type Mutation {
   "📃🦸‍♂️🌐 - Agregar Cliente de flattlo a Cotización"
   addQuoteToFlattloUser(quoteID: String!, userUID: String!): Client
 
+  "📃❤ - Favorite Quote Change Status"
+  changeStatusFavoriteQuote(quoteID: ID!, favorite_quote: String!): Quote
+
   "👨‍💼👩‍💼❌ - Bloquear Usuario"
   blockUser(userID: String!): User
 

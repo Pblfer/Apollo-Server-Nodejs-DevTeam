@@ -648,6 +648,29 @@ module.exports = {
     return cotizacion;
   },
 
+  changeStatusFavoriteQuote: async (root, {quoteID, favorite_quote})=>{
+    let db
+    let quote
+    try {
+      db = await connectDB();
+      //buscar Cotizacion
+      quote = await db
+        .collection("quotes")
+        .findOne({ _id: ObjectID(quoteID) });
+        await db.collection("quotes").updateOne(
+          { _id: ObjectID(quoteID) },
+          {
+            $set: {
+              favorite_quote: favorite_quote,
+            },
+          }
+        );
+    } catch (error) {
+      console.log(error);
+    }
+    return quote;
+},
+
   addParkingToQuote: async (root, { quoteID, parkingID }) => {
     let db;
     let cotizacion;
