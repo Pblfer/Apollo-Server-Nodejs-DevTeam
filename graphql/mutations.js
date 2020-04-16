@@ -790,6 +790,37 @@ module.exports = {
     return cliente;
   },
 
+  showHiddenQuoteToSeller(root, {quoteID, sellerID}){
+    let db;
+    let cotizacion;
+    let seller;
+    try {
+      db = await connectDB();
+      //buscar Cotizacion
+      cotizacion = await db
+        .collection("quotes")
+        .findOne({ _id: ObjectID(quoteID) });
+      //buscar vendedor
+      seller = await db
+        .collection("users")
+        .findOne({ _id: ObjectID(sellerID) });
+      if (!cotizacion || !seller) {
+        throw new Error("El vendedor o la cotizacion no existen.");
+      }
+      await db.collection("users").updateOne(
+        { _id: ObjectID(sellerID) },
+        {
+          $addToSet: {
+            quotes: ObjectID(quoteID),
+          }
+        }
+      )
+    } catch (error) {
+      console.log(error);
+    }
+    return seller;
+  },
+
   addSellerToQuote: async (root, { quoteID, sellerID }) => {
     let db;
     let cotizacion;
