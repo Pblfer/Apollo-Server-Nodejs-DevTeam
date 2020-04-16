@@ -206,6 +206,7 @@ module.exports = {
       blocked,
       quotes: [],
       notifications: [],
+      pipedrive_id: ''
     };
     const nuevoUsuario = Object.assign(newUser);
     let db;

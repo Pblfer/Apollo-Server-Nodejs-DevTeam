@@ -100,6 +100,7 @@ type User {
   blocked: UserStatus
   quotes: [Quote]
   notifications: [Notify]
+  pipedrive_id: String
 }
 
 type Quote {
@@ -458,6 +459,7 @@ type Mutation {
     phone: String!
     roll: Roll!
     blocked: UserStatus!
+    pipedrive_id: String
   ): User
   "🔐 - Login"
   login(username: String!, password: String!): LoginResponse
