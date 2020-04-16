@@ -134,31 +134,45 @@ module.exports = {
     let resultadoBodega = warehouseArray.filter(
       (valor) => valor === "Reservado"
     );
-    if (resultadoParqueo.length == 0 && resultadoBodega.length == 0 && resultadoApartamento.length == 0) {
-      try {
-        nuevaReserva = await db.collection("reserves").insertOne(nuevaReserva);
-        nuevaReserva._id = Reservas.insertedId;
-      } catch (error) {}
+    if (resultadoApartamento.length == 0) {
+      if (resultadoParqueo.length == 0 && resultadoBodega.length == 0) {
+        try {
+          nuevaReserva = await db
+            .collection("reserves")
+            .insertOne(nuevaReserva);
+          nuevaReserva._id = Reservas.insertedId;
+        } catch (error) {}
 
-      for (let b = 0; b < idParkings.length; b++) {
-        await db
-          .collection("parkings")
-          .updateOne(
-            { _id: ObjectID(idParkings[b]) },
-            { $set: { actual_state: "Reservado" } }
-          );
-      }
+        for (let b = 0; b < idParkings.length; b++) {
+          await db
+            .collection("parkings")
+            .updateOne(
+              { _id: ObjectID(idParkings[b]) },
+              { $set: { actual_state: "Reservado" } }
+            );
+        }
 
-      for (let d = 0; d < idwareHouse.length; d++) {
-        await db
-          .collection("warehouses")
-          .updateOne(
-            { _id: ObjectID(idwareHouse[d]) },
-            { $set: { actual_state: "Reservado" } }
-          );
+        for (let d = 0; d < idwareHouse.length; d++) {
+          await db
+            .collection("warehouses")
+            .updateOne(
+              { _id: ObjectID(idwareHouse[d]) },
+              { $set: { actual_state: "Reservado" } }
+            );
+        }
+        for (let t = 0; t < idsApartament.length; t++) {
+          await db
+            .collection("apartaments")
+            .updateOne(
+              { _id: ObjectID(idsApartament[t]) },
+              { $set: { actual_state: "Reservado" } }
+            );
+        }
+      } else {
+        throw new Error("EL parqueo o la bodega no esta disponibles");
       }
     } else {
-      throw new Error("EL parqueo o la bodega no esta disponibles");
+      throw new Error("EL Apartamento ya no esta disponible");
     }
 
     return nuevaReserva;
