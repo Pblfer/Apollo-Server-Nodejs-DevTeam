@@ -790,7 +790,7 @@ module.exports = {
     return cliente;
   },
 
-  showHiddenQuoteToSeller(root, {quoteID, sellerID}){
+  showHiddenQuoteToSeller: async (root, {quoteID, sellerID}) =>{
     let db;
     let cotizacion;
     let seller;
