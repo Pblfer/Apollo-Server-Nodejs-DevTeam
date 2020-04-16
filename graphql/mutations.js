@@ -812,17 +812,9 @@ module.exports = {
         {
           $addToSet: {
             seller: ObjectID(sellerID),
-          },
+          }
         }
-      );
-      await db.collection("users").updateOne(
-        { _id: ObjectID(sellerID) },
-        {
-          $addToSet: {
-            quotes: ObjectID(quoteID),
-          },
-        }
-      );
+      )
     } catch (error) {
       console.log(error);
     }
