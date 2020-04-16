@@ -192,6 +192,7 @@ type FlattloUserQuote {
   seller_phone: String
   seller_email: String
   seller_pic: String
+  seller_pipedrive_id: String
   favorite_quote: String
 }
 
@@ -762,6 +763,7 @@ type Mutation {
     seller_phone: String
     seller_email: String
     seller_pic: String
+    seller_pipedrive_id: String
     favorite_quote: String
   ): Quote
 

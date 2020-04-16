@@ -501,6 +501,7 @@ module.exports = {
       seller_phone,
       seller_email,
       seller_pic,
+      seller_pipedrive_id
     }
   ) => {
     let db;
@@ -552,6 +553,7 @@ module.exports = {
       seller_phone,
       seller_email,
       seller_pic,
+      seller_pipedrive_id,
       favorite_quote: 'false'
     };
     const ingresarCotizacion = Object.assign(nuevaCotizacion);
