@@ -539,6 +539,7 @@ module.exports = {
       bathrooms,
       logo_quote_proyect,
       client: [],
+      seller: [],
       apartaments: [],
       parkings: [],
       warehouses: [],
@@ -787,6 +788,45 @@ module.exports = {
       console.log(error);
     }
     return cliente;
+  },
+
+  addSellerToQuote: async (root, { quoteID, sellerID }) => {
+    let db;
+    let cotizacion;
+    let seller;
+    try {
+      db = await connectDB();
+      //buscar Cotizacion
+      cotizacion = await db
+        .collection("quotes")
+        .findOne({ _id: ObjectID(quoteID) });
+      //buscar bodega
+      seller = await db
+        .collection("users")
+        .findOne({ _id: ObjectID(sellerID) });
+      if (!cotizacion || !seller) {
+        throw new Error("El vendedor o la cotizacion no existen.");
+      }
+      await db.collection("quotes").updateOne(
+        { _id: ObjectID(quoteID) },
+        {
+          $addToSet: {
+            seller: ObjectID(sellerID),
+          },
+        }
+      );
+      await db.collection("users").updateOne(
+        { _id: ObjectID(sellerID) },
+        {
+          $addToSet: {
+            quotes: ObjectID(quoteID),
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    return seller;
   },
 
   addQuoteToFlattloUser: async (root, { quoteID, userUID }) => {

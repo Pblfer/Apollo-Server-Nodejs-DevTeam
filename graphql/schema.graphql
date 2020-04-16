@@ -134,6 +134,7 @@ type Quote {
   long: Float
   logo_quote_proyect: String
   client: [Client]
+  seller: [User]
   apartaments: [Apartament]
   parkings: [Parking]
   warehouses: [Warehouse]
@@ -179,6 +180,7 @@ type FlattloUserQuote {
   logo_quote_proyect: String
   deposit_percent: Int
   client: [Client]
+  seller: [User]
   apartaments: [Apartament]
   parkings: [Parking]
   warehouses: [Warehouse]
@@ -778,6 +780,9 @@ type Mutation {
 
   "📃🦸‍♂️ - Agregar Cliente a Cotización"
   addClientToQuote(quoteID: String!, clientID: String!): Client
+
+  "📃👩‍💼👨‍💼 - Agregar Cliente a Cotización"
+  addSellerToQuote(quoteID: String!, sellerID: String!): User
 
   "📃🦸‍♂️🌐 - Agregar Cliente de flattlo a Cotización"
   addQuoteToFlattloUser(quoteID: String!, userUID: String!): Client

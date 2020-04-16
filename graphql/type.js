@@ -357,6 +357,25 @@ module.exports = {
       }
       return clientData;
     },
+    seller: async ({ seller }) => {
+      let db;
+      let sellerData;
+      let ids;
+      try {
+        db = await connectDB();
+        ids = seller ? seller.map((id) => (ObjectID(id))) : [];
+        sellerData =
+          ids.length > 0
+            ? await db
+                .collection("users")
+                .find({ _id: { $in: ids } })
+                .toArray()
+            : [];
+      } catch (err) {
+        console.log(err);
+      }
+      return sellerData;
+    },
     apartaments: async ({ apartaments }) => {
       let db;
       let apartamentsData;
@@ -456,6 +475,25 @@ module.exports = {
         console.log(err);
       }
       return clientData;
+    },
+    seller: async ({ seller }) => {
+      let db;
+      let sellerData;
+      let ids;
+      try {
+        db = await connectDB();
+        ids = seller ? seller.map((id) => ObjectID(id)) : [];
+        clientData =
+          ids.length > 0
+            ? await db
+                .collection("users")
+                .find({ _id: { $in: ids } })
+                .toArray()
+            : [];
+      } catch (err) {
+        console.log(err);
+      }
+      return sellerData;
     },
     apartaments: async ({ apartaments }) => {
       let db;
