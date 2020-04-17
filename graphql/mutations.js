@@ -76,11 +76,12 @@ module.exports = {
     } catch (error) {}
     return nuevaNotificacion;
   },
-  newReserve: async (root, { userID, date_created, quotesID }) => {
+  newReserve: async (root, { userID,developerID, date_created, quotesID }) => {
     date_created = new Date();
 
     const defaults = {
       userID,
+      developerID,
       date_created,
       quote: [ObjectID(quotesID)],
     };

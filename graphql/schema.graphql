@@ -144,6 +144,7 @@ type Quote {
 type Reserve {
   _id: ID!
   userID: String!
+  developerID: String!
   date_created: String
   quote: [Quote]
 }
@@ -366,6 +367,9 @@ type Query {
   "☝👨‍💻 - Obtener Fecha de cotizacion por ID de usuario"
   getQuoteDate(id: ID!): [Quote]
 
+  "obtener Reservas por mes de la desarrolladora"
+  getReserveDate(id: ID!): [Reserve]
+
   "☝👨‍💻 - Obtener Fecha de cotizacion vencidas por ID de usuario"
   getQuoteExpires(id: ID!): [Quote]
 
@@ -440,7 +444,7 @@ type Mutation {
   ): Notify
 
   "Nueva Reserva"
-  newReserve(userID: String!, date_created: String, quotesID: String!): Reserve
+  newReserve(userID: String!,developerID: String!, date_created: String, quotesID: String!): Reserve
 
   "nueva notificacion Slak"
   newNotificationGitRelease(
