@@ -170,7 +170,7 @@ module.exports = {
             );
         }
       } else {
-        throw new Error("EL parqueo o la bodega no esta disponibles");
+        throw new Error("EL parqueo o la bodega no estan disponibles");
       }
     } else {
       throw new Error("EL Apartamento ya no esta disponible");
