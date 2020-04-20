@@ -76,7 +76,7 @@ module.exports = {
     } catch (error) {}
     return nuevaNotificacion;
   },
-  newReserve: async (root, { userID,developerID, date_created, quotesID }) => {
+  newReserve: async (root, { userID, developerID, date_created, quotesID }) => {
     date_created = new Date();
 
     const defaults = {
@@ -96,6 +96,7 @@ module.exports = {
     let parkingArray = [];
     let warehouseArray = [];
     let warehouseData;
+    let usuarios;
 
     db = await connectDB();
 
@@ -170,6 +171,47 @@ module.exports = {
               { $set: { actual_state: "Reservado" } }
             );
         }
+        //envio de correo de confirmacion
+
+        try {
+          usuarios = await db.collection("users").findOne({
+            _id: ObjectID(userID),
+          });
+          if (!usuarios) {
+            throw new Error("Usuario Invalido");
+          } else {
+            const data = JSON.stringify({
+              userData: usuarios.email,
+              userName: usuarios.first_name,
+              userLast: usuarios.last_name,
+              userCompany: usuarios.company,
+              userID: usuarios._id,
+            });
+            const options = {
+              hostname: "dev.flattlo.com",
+              port: 443,
+              path: "/webhook-test/36/webhook/reserve",
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            };
+            const req = https.request(options, (res) => {
+              res.on("data", (d) => {
+                process.stdout.write(d);
+              });
+            });
+
+            req.on("error", (error) => {
+              console.error(error);
+            });
+
+            req.write(data);
+            req.end();
+          }
+        } catch (error) {
+          throw error;
+        }
       } else {
         throw new Error("EL parqueo o la bodega no estan disponibles");
       }
@@ -208,7 +250,7 @@ module.exports = {
       blocked,
       quotes: [],
       notifications: [],
-      pipedrive_id: ''
+      pipedrive_id: "",
     };
     const nuevoUsuario = Object.assign(newUser);
     let db;
@@ -440,7 +482,7 @@ module.exports = {
       parkings: [],
       warehouses: [],
       point: [long, lat],
-      favorite_quote: 'false'
+      favorite_quote: "false",
     };
     const ingresarCotizacion = Object.assign(nuevaCotizacion);
     try {
@@ -503,7 +545,7 @@ module.exports = {
       seller_phone,
       seller_email,
       seller_pic,
-      seller_pipedrive_id
+      seller_pipedrive_id,
     }
   ) => {
     let db;
@@ -557,7 +599,7 @@ module.exports = {
       seller_email,
       seller_pic,
       seller_pipedrive_id,
-      favorite_quote: 'false'
+      favorite_quote: "false",
     };
     const ingresarCotizacion = Object.assign(nuevaCotizacion);
     try {
@@ -668,28 +710,26 @@ module.exports = {
     return cotizacion;
   },
 
-  changeStatusFavoriteQuote: async (root, {quoteID, favorite_quote})=>{
-    let db
-    let quote
+  changeStatusFavoriteQuote: async (root, { quoteID, favorite_quote }) => {
+    let db;
+    let quote;
     try {
       db = await connectDB();
       //buscar Cotizacion
-      quote = await db
-        .collection("quotes")
-        .findOne({ _id: ObjectID(quoteID) });
-        await db.collection("quotes").updateOne(
-          { _id: ObjectID(quoteID) },
-          {
-            $set: {
-              favorite_quote: favorite_quote,
-            },
-          }
-        );
+      quote = await db.collection("quotes").findOne({ _id: ObjectID(quoteID) });
+      await db.collection("quotes").updateOne(
+        { _id: ObjectID(quoteID) },
+        {
+          $set: {
+            favorite_quote: favorite_quote,
+          },
+        }
+      );
     } catch (error) {
       console.log(error);
     }
     return quote;
-},
+  },
 
   addParkingToQuote: async (root, { quoteID, parkingID }) => {
     let db;
@@ -792,7 +832,7 @@ module.exports = {
     return cliente;
   },
 
-  showHiddenQuoteToSeller: async (root, {quoteID, sellerID}) =>{
+  showHiddenQuoteToSeller: async (root, { quoteID, sellerID }) => {
     let db;
     let cotizacion;
     let seller;
@@ -814,9 +854,9 @@ module.exports = {
         {
           $addToSet: {
             quotes: ObjectID(quoteID),
-          }
+          },
         }
-      )
+      );
     } catch (error) {
       console.log(error);
     }
@@ -845,9 +885,9 @@ module.exports = {
         {
           $addToSet: {
             seller: ObjectID(sellerID),
-          }
+          },
         }
-      )
+      );
     } catch (error) {
       console.log(error);
     }
