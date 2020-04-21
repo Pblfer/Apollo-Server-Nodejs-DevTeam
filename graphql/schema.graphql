@@ -504,6 +504,9 @@ type Mutation {
     userUID: String!
   ): FlattloAppClient
 
+  "📝🌐👨‍💼 - Editar perfil de Usuario"
+  updateFlattloProfile(ID: ID!, objectField: String!, value: String!): FlattloAppClient
+
   "📝👨‍💼 - Editar perfil de Usuario"
   updateUserProfile(ID: ID!, objectField: String!, value: String!): Updated
 
