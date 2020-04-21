@@ -108,6 +108,37 @@ module.exports = {
     }
     return usuario;
   },
+  getReserveDate: async (root, { id }) => {
+    let db;
+    let reservas;
+
+    let newDate = new Date();
+    let d = newDate.getDate();
+    let m = newDate.getMonth() + 1;
+    let y = newDate.getFullYear();
+
+    if (d < 10) {
+      d = "0" + d;
+    }
+
+    if (m < 10) {
+      m = "0" + m;
+    }
+    let datefull = y + "-" + m + "-" + "01";
+    try {
+      db = await connectDB();
+      reservas = await db
+        .collection("reserves")
+        .find({
+          developerID: id,
+          date_created: { $gte: new Date(datefull) },
+        })
+        .toArray();
+    } catch (error) {
+      console.log(error);
+    }
+    return reservas;
+  },
   getQuoteExpires: async (root, { id }) => {
     let db;
     let usuario;
@@ -139,14 +170,13 @@ module.exports = {
       console.log(error);
     }
 
-    usuario.forEach(function(e){
-  
-        let fecha1 = new Date(e.quote_date_limit)
-        let fecha2 = new Date(datefullDay);
+    usuario.forEach(function (e) {
+      let fecha1 = new Date(e.quote_date_limit);
+      let fecha2 = new Date(datefullDay);
 
-        if(fecha1 < fecha2){
-           expires.push(e);
-        }
+      if (fecha1 < fecha2) {
+        expires.push(e);
+      }
     });
 
     return expires;
@@ -182,14 +212,13 @@ module.exports = {
       console.log(error);
     }
 
-    usuario.forEach(function(e){
-  
-        let fecha1 = new Date(e.quote_date_limit)
-        let fecha2 = new Date(datefullDay);
+    usuario.forEach(function (e) {
+      let fecha1 = new Date(e.quote_date_limit);
+      let fecha2 = new Date(datefullDay);
 
-        if(fecha1 > fecha2){
-           expires.push(e);
-        }
+      if (fecha1 > fecha2) {
+        expires.push(e);
+      }
     });
 
     return expires;
