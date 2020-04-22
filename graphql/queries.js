@@ -216,7 +216,7 @@ module.exports = {
       let fecha1 = new Date(e.quote_date_limit);
       let fecha2 = new Date(datefullDay);
 
-      if (fecha1 > fecha2) {
+      if (fecha1 >= fecha2) {
         expires.push(e);
       }
     });
