@@ -190,7 +190,7 @@ module.exports = {
             const options = {
               hostname: "dev.flattlo.com",
               port: 443,
-              path: "/webhook-test/36/webhook/reserve",
+              path: "/webhook/36/webhook/reserve",
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
