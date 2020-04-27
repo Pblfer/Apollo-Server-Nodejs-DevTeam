@@ -546,10 +546,10 @@ type Mutation {
   ): Updated
 
     "📝🏢 - Editar Proyect"
-  editProyectFloatData(
+  editProyectGeoData(
     ID: ID!
-    objectField: String!
-    value: Float!
+    lat: Float!
+    lng: Float!
   ): Updated
 
   "📝📦 - Editar Parqueo"

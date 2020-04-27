@@ -1735,14 +1735,21 @@ module.exports = {
     };
   },
 
-  editProyectFloatData: async (root, { ID, objectField, value }) => {
+  editProyectGeoData: async (root, { ID, lat, lng }) => {
     let db;
     let updateData;
     try {
       db = await connectDB();
       updateData = await db
         .collection("proyects")
-        .updateOne({ _id: ObjectID(ID) }, { $set: { [objectField]: value } });
+        .updateOne({ _id: ObjectID(ID) }, 
+        { $set: { 
+           lat: lat,
+           long: lng,
+           "point.0": lng,
+           "point.1": lat 
+          }}
+      );
     } catch (error) {
       throw error;
     }
