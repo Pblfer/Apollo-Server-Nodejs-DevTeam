@@ -530,6 +530,27 @@ type Mutation {
     value: String!
   ): Updated
 
+  "📝🏢 - Editar Proyect"
+  editProyectStringData(
+    ID: ID!
+    objectField: String!
+    value: String!
+  ): Updated
+
+    "📝🏢 - Editar Proyect"
+  editProyectIntData(
+    ID: ID!
+    objectField: String!
+    value: Int!
+  ): Updated
+
+    "📝🏢 - Editar Proyect"
+  editProyectFloatData(
+    ID: ID!
+    objectField: String!
+    value: Float!
+  ): Updated
+
   "📝📦 - Editar Parqueo"
   updateParking(parkingID: ID!, objectField: String!, value: String!): Updated
 

@@ -1689,6 +1689,54 @@ module.exports = {
     };
   },
 
+  editProyectStringData: async (root, { ID, objectField, value }) => {
+    let db;
+    let updateData;
+    try {
+      db = await connectDB();
+      updateData = await db
+        .collection("proyects")
+        .updateOne({ _id: ObjectID(ID) }, { $set: { [objectField]: value } });
+    } catch (error) {
+      throw error;
+    }
+    return {
+      updateData
+    };
+  },
+
+  editProyectIntData: async (root, { ID, objectField, value }) => {
+    let db;
+    let updateData;
+    try {
+      db = await connectDB();
+      updateData = await db
+        .collection("proyects")
+        .updateOne({ _id: ObjectID(ID) }, { $set: { [objectField]: value } });
+    } catch (error) {
+      throw error;
+    }
+    return {
+      updateData
+    };
+  },
+
+  editProyectFloatData: async (root, { ID, objectField, value }) => {
+    let db;
+    let updateData;
+    try {
+      db = await connectDB();
+      updateData = await db
+        .collection("proyects")
+        .updateOne({ _id: ObjectID(ID) }, { $set: { [objectField]: value } });
+    } catch (error) {
+      throw error;
+    }
+    return {
+      updateData
+    };
+  },
+
   updateFlattloProfile: async (root, { ID, objectField, value }) => {
     let db;
     let updateData;
