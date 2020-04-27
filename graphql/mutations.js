@@ -1675,14 +1675,28 @@ module.exports = {
   updateUserProfile: async (root, { ID, objectField, value }) => {
     let db;
     let updateData;
-    try {
-      db = await connectDB();
-      updateData = await db
-        .collection("users")
-        .updateOne({ _id: ObjectID(ID) }, { $set: { [objectField]: value } });
-    } catch (error) {
-      throw error;
+    db = await connectDB();
+    if (objectField != "proyects") {
+      try {
+        updateData = await db
+          .collection("users")
+          .updateOne({ _id: ObjectID(ID) }, { $set: { [objectField]: value } });
+      } catch (error) {
+        throw error;
+      }
+    } else {
+      try {
+        updateData = await db
+          .collection("users")
+          .updateOne(
+            { _id: ObjectID(ID) },
+            { $addToSet: { proyects: ObjectID(value) } }
+          );
+      } catch (error) {
+        throw error;
+      }
     }
+
     return {
       objectField,
       value,
@@ -1749,7 +1763,7 @@ module.exports = {
       throw error;
     }
     return {
-      updateData
+      updateData,
     };
   },
 

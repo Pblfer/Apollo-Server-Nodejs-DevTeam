@@ -101,6 +101,7 @@ type User {
   quotes: [Quote]
   notifications: [Notify]
   pipedrive_id: String
+  proyects: [Proyect]
 }
 
 type Quote {
