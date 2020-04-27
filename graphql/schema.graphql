@@ -574,6 +574,9 @@ type Mutation {
   "❌📥 - Eliminar Parqueo"
   deleteParking(proyectID: ID!, parkingID: ID!): Parking
 
+  "❌📥 - Eliminar Metodo Financiero"
+  deleteFinancingMethod(proyectID: ID!, financingID: ID!): Financing
+
   "❌🌐📑 - Eliminar Cotización usuario Flattlo"
   deleteFlattloUserQuote(userUID: String!, quoteID: ID!): FlattloUserQuote
 
