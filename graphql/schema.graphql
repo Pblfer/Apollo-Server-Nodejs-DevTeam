@@ -578,7 +578,7 @@ type Mutation {
   deleteFinancingMethod(proyectID: ID!, financingID: ID!): Financing
 
   "❌💸 - Eliminar Descuento"
-  deleteDiscountToProyect(proyectID: ID!, descountID: ID!): Discount
+  deleteDiscountToProyect(proyectID: ID!, discountID: ID!): Discount
 
   "❌🌐📑 - Eliminar Cotización usuario Flattlo"
   deleteFlattloUserQuote(userUID: String!, quoteID: ID!): FlattloUserQuote

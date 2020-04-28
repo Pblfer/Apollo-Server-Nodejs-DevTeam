@@ -2017,29 +2017,6 @@ module.exports = {
     } catch (error) {}
   },
 
-  deleteDiscountOnProyect: async (root, { proyectID, financingID }) => {
-    let db;
-    let deleteFinancing;
-    let removeFromProyect;
-    try {
-      db = await connectDB();
-      deleteFinancing = await db
-        .collection("financing_types")
-        .deleteOne({ _id: ObjectID(financingID) });
-    } catch (error) {
-      throw error;
-    }
-    try {
-      db = await connectDB();
-      removeFromProyect = await db
-        .collection("proyects")
-        .updateOne(
-          { _id: ObjectID(proyectID) },
-          { $pull: { financing_types: ObjectID(financingID) } }
-        );
-    } catch (error) {}
-  },
-
   deleteDiscountToProyect: async (root, { proyectID, discountID }) => {
     let db;
     let deleteDiscount;
