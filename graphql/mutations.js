@@ -24,7 +24,7 @@ module.exports = {
       social_linkedin: "",
       img_logo: "",
       img_header:
-        "https://firebasestorage.googleapis.com/v0/b/cotizador-conversion.appspot.com/o/stockImages%2Fcover.jpg?alt=media&token=67860976-2d6d-4f5b-9b40-9cdc4873d24a",
+        "https://flattlo-app.s3.amazonaws.com/base-stock-images/cover.jpg",
       cc_token: "",
       proyects: [],
       admins_team: [],
@@ -245,7 +245,7 @@ module.exports = {
       company_id,
       phone,
       pic:
-        "https://firebasestorage.googleapis.com/v0/b/cotizador-conversion.appspot.com/o/stockImages%2FuserDefaultPic.jpg?alt=media&token=7bacc009-b998-4abf-8722-79a5dae8f6c8",
+        "https://flattlo-app.s3.amazonaws.com/base-stock-images/userDefaultPic.jpg",
       roll,
       blocked,
       quotes: [],
@@ -1511,7 +1511,7 @@ module.exports = {
     const newApartament = {
       proyect_name,
       plane_img:
-        "https://firebasestorage.googleapis.com/v0/b/cotizador-conversion.appspot.com/o/stockImages%2FsinPLanoAdjunto.jpg?alt=media&token=e4ed2662-d967-4659-af22-1d8f2511c95a",
+        "https://flattlo-app.s3.amazonaws.com/base-stock-images/sinPLanoAdjunto.jpg",
       level,
       number,
       living_square_mts,
