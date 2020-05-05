@@ -184,7 +184,7 @@ module.exports = {
   getQuoteGreen: async (root, { id }) => {
     let db;
     let usuario;
-    let expires = [];
+    let green = [];
     let newDate = new Date();
     let d = newDate.getDate();
     let m = newDate.getMonth() + 1;
@@ -216,11 +216,11 @@ module.exports = {
       let fecha2 = new Date(datefullDay);
 
       if (fecha1 >= fecha2) {
-        expires.push(e);
+        green.push(e);
       }
     });
 
-    return expires;
+    return green;
   },
 
   getFlattloAppUser: async (root, { userUID }) => {
