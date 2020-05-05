@@ -205,7 +205,6 @@ module.exports = {
         .collection("quotes")
         .find({
           userID: id,
-          quote_date_created: { $gte: new Date(datefull) },
         })
         .toArray();
     } catch (error) {
