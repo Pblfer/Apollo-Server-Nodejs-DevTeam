@@ -315,6 +315,7 @@ module.exports = {
       quote_banner: "",
       max_days_limit_for_quote: 15,
       quote_terms: "",
+      quote_bank_calification_requirements: "",
       etapa,
     };
     const ingresarProyecto = Object.assign(newProyect);
