@@ -314,6 +314,7 @@ module.exports = {
       quote_logo: "",
       quote_banner: "",
       max_days_limit_for_quote: 15,
+      quote_terms: "",
       etapa,
     };
     const ingresarProyecto = Object.assign(newProyect);

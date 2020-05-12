@@ -320,6 +320,7 @@ type Proyect {
   website: String
   general_description: String
   general_apartament_description: String
+  quote_terms: String
   total_of_levels: Int
   living_levels: Int
   total_apartaments: Int
