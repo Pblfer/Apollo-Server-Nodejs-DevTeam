@@ -335,6 +335,26 @@ module.exports = {
 
       return notificationData;
     },
+    proyects: async ({proyects}) => {
+      let db;
+      let proyectcsData;
+      let ids;
+      try {
+        db = await connectDB();
+        ids = proyects ? proyects.map((id) => ObjectID(id)) : [];
+        proyectcsData =
+          ids.length > 0
+            ? await db
+                .collection("proyects")
+                .find({ _id: { $in: ids } })
+                .toArray()
+            : [];
+      } catch (err) {
+        console.log(err);
+      }
+      return proyectcsData;
+
+    }
   },
 
   FlattloUserQuote: {
