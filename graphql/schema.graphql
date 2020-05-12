@@ -134,6 +134,8 @@ type Quote {
   lat: Float
   long: Float
   logo_quote_proyect: String
+  quote_terms: String
+  quote_bank_calification_requirements: String
   client: [Client]
   seller: [User]
   apartaments: [Apartament]
@@ -759,6 +761,8 @@ type Mutation {
     lat: Float
     long: Float
     logo_quote_proyect: String
+    quote_terms: String,
+    quote_bank_calification_requirements: String,
   ): Quote
 
   "📃👌🌐 - Nueva Cotización para usuario flattlo"

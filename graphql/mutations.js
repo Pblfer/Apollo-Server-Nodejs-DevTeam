@@ -444,6 +444,8 @@ module.exports = {
       lat,
       long,
       logo_quote_proyect,
+      quote_terms,
+      quote_bank_calification_requirements,
     }
   ) => {
     let db;
@@ -479,12 +481,15 @@ module.exports = {
       bedrooms,
       bathrooms,
       logo_quote_proyect,
+      quote_terms,
+      quote_bank_calification_requirements,
       client: [],
       apartaments: [],
       parkings: [],
       warehouses: [],
       point: [long, lat],
       favorite_quote: "false",
+      
     };
     const ingresarCotizacion = Object.assign(nuevaCotizacion);
     try {
