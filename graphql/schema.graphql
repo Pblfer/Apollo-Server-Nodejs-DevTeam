@@ -136,6 +136,7 @@ type Quote {
   logo_quote_proyect: String
   quote_terms: String
   quote_bank_calification_requirements: String
+  general_apartament_description: String
   client: [Client]
   seller: [User]
   apartaments: [Apartament]
@@ -763,6 +764,7 @@ type Mutation {
     logo_quote_proyect: String
     quote_terms: String,
     quote_bank_calification_requirements: String,
+    general_apartament_description: String
   ): Quote
 
   "📃👌🌐 - Nueva Cotización para usuario flattlo"

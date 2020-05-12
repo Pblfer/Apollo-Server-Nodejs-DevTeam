@@ -446,6 +446,7 @@ module.exports = {
       logo_quote_proyect,
       quote_terms,
       quote_bank_calification_requirements,
+      general_apartament_description
     }
   ) => {
     let db;
@@ -483,6 +484,7 @@ module.exports = {
       logo_quote_proyect,
       quote_terms,
       quote_bank_calification_requirements,
+      general_apartament_description,
       client: [],
       apartaments: [],
       parkings: [],
