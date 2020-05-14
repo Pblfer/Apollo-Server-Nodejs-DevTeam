@@ -491,6 +491,7 @@ module.exports = {
       warehouses: [],
       point: [long, lat],
       favorite_quote: "false",
+      esign: "false",
       
     };
     const ingresarCotizacion = Object.assign(nuevaCotizacion);
@@ -609,6 +610,7 @@ module.exports = {
       seller_pic,
       seller_pipedrive_id,
       favorite_quote: "false",
+      esign: "false",
     };
     const ingresarCotizacion = Object.assign(nuevaCotizacion);
     try {
