@@ -564,6 +564,7 @@ type Mutation {
 
   "❌👨‍💼👩‍💼 - Eliminar Vendedor"
   deleteSeller(developerID: ID!, userID: ID!): User
+  
 
   "❌👨‍💼👩‍💼 - Eliminar Apartamento"
   deleteApartament(
@@ -589,6 +590,16 @@ type Mutation {
 
   "❌🌐📑 - Eliminar Cotización usuario Flattlo"
   deleteFlattloUserQuote(userUID: String!, quoteID: ID!): FlattloUserQuote
+
+ 
+
+   "📝🏢 - Editar Cotización"
+  editStringQuote(
+    ID: ID!
+    objectField: String!
+    value: String!
+  ): Updated
+
 
   "💰✂ - Agregar Descuento"
   newDiscountToProyect(
