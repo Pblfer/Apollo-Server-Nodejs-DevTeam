@@ -373,6 +373,9 @@ type Query {
   "☝👨‍💻 - Obtener Fecha de cotizacion por ID de usuario"
   getQuoteDate(id: ID!): [Quote]
 
+
+  
+
   "obtener Reservas por mes de la desarrolladora"
   getReserveDate(id: ID!): [Reserve]
 
@@ -513,6 +516,11 @@ type Mutation {
     phone: String!
     userUID: String!
   ): FlattloAppClient
+
+"☝👨‍💻 - Obtener rango Fecha de cotizacion por ID de usuario"
+  getQuoteDateRange(id: ID! toDate: String! fromDate: String!): [Quote]
+
+
 
   "📝🌐👨‍💼 - Editar perfil de Usuario"
   updateFlattloProfile(ID: ID!, objectField: String!, value: String!): FlattloAppClient

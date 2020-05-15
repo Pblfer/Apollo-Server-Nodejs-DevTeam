@@ -3,11 +3,11 @@ const { MongoClient } = require("mongodb");
 
 const { DB_USER, DB_PASSWD, DB_HOST, DB_PORT, DB_NAME } = process.env;
 
-const mongoUrl = `mongodb+srv://${DB_USER}:${DB_PASSWD}@${DB_HOST}/test?retryWrites=true&w=majority`;
+//const mongoUrl = `mongodb+srv://${DB_USER}:${DB_PASSWD}@${DB_HOST}/test?retryWrites=true&w=majority`;
 
-/*
+
 const mongoUrl = `mongodb://localhost:27017/api_flattlo`;
-*/
+
 let connection;
 
 async function connectDB() {
