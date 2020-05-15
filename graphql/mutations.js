@@ -491,6 +491,11 @@ module.exports = {
       warehouses: [],
       point: [long, lat],
       favorite_quote: "false",
+<<<<<<< HEAD
+=======
+      esign: "false",
+      
+>>>>>>> e3c1ff22b6e0bc14344a75593bceb84b9014a72c
     };
     const ingresarCotizacion = Object.assign(nuevaCotizacion);
     try {
@@ -608,6 +613,7 @@ module.exports = {
       seller_pic,
       seller_pipedrive_id,
       favorite_quote: "false",
+      esign: "false",
     };
     const ingresarCotizacion = Object.assign(nuevaCotizacion);
     try {
@@ -1724,6 +1730,22 @@ module.exports = {
     }
     return {
       updateData,
+    };
+  },
+
+  editStringQuote: async (root, { ID, objectField, value }) => {
+    let db;
+    let updateData;
+    try {
+      db = await connectDB();
+      updateData = await db
+        .collection("quotes")
+        .updateOne({ _id: ObjectID(ID) }, { $set: { [objectField]: value } });
+    } catch (error) {
+      throw error;
+    }
+    return {
+      updateData
     };
   },
 

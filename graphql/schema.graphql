@@ -143,6 +143,7 @@ type Quote {
   parkings: [Parking]
   warehouses: [Warehouse]
   favorite_quote: String
+  esign: String
 }
 
 type Reserve {
@@ -201,6 +202,7 @@ type FlattloUserQuote {
   seller_pic: String
   seller_pipedrive_id: String
   favorite_quote: String
+  esign: String
 }
 
 type Client {
@@ -570,6 +572,7 @@ type Mutation {
 
   "❌👨‍💼👩‍💼 - Eliminar Vendedor"
   deleteSeller(developerID: ID!, userID: ID!): User
+  
 
   "❌👨‍💼👩‍💼 - Eliminar Apartamento"
   deleteApartament(
@@ -595,6 +598,16 @@ type Mutation {
 
   "❌🌐📑 - Eliminar Cotización usuario Flattlo"
   deleteFlattloUserQuote(userUID: String!, quoteID: ID!): FlattloUserQuote
+
+ 
+
+   "📝🏢 - Editar Cotización"
+  editStringQuote(
+    ID: ID!
+    objectField: String!
+    value: String!
+  ): Updated
+
 
   "💰✂ - Agregar Descuento"
   newDiscountToProyect(
@@ -772,7 +785,8 @@ type Mutation {
     logo_quote_proyect: String
     quote_terms: String,
     quote_bank_calification_requirements: String,
-    general_apartament_description: String
+    general_apartament_description: String,
+    esign: String
   ): Quote
 
   "📃👌🌐 - Nueva Cotización para usuario flattlo"
@@ -818,6 +832,7 @@ type Mutation {
     seller_pic: String
     seller_pipedrive_id: String
     favorite_quote: String
+    esign: String
   ): Quote
 
   "📃🚪 - Agregar Apartamento a Cotización"
