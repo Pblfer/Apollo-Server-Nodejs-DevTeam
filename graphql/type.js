@@ -615,5 +615,24 @@ module.exports = {
       }
       return quoteData;
     },
+    users: async ({users}) => {
+      let db;
+      let userData;
+      let ids;
+      try {
+        db = await connectDB();
+        ids = users ? users.map((id) => ObjectID(id)) : [];
+        userData =
+          ids.length > 0
+            ? await db
+                .collection("users")
+                .find({ _id: { $in: ids } })
+                .toArray()
+            : [];
+      } catch (err) {
+        console.log(err);
+      }
+      return userData;
+    }
   },
 };

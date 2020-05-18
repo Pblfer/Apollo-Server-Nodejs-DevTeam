@@ -78,9 +78,8 @@ module.exports = {
   },
   newReserve: async (root, { userID, developerID, date_created, quotesID }) => {
     date_created = new Date();
-
     const defaults = {
-      userID,
+      users: [ObjectID(userID)],
       developerID,
       date_created,
       quote: [ObjectID(quotesID)],
@@ -491,11 +490,8 @@ module.exports = {
       warehouses: [],
       point: [long, lat],
       favorite_quote: "false",
-<<<<<<< HEAD
-=======
       esign: "false",
       
->>>>>>> e3c1ff22b6e0bc14344a75593bceb84b9014a72c
     };
     const ingresarCotizacion = Object.assign(nuevaCotizacion);
     try {

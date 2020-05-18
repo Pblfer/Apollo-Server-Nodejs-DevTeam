@@ -148,7 +148,7 @@ type Quote {
 
 type Reserve {
   _id: ID!
-  userID: String!
+  users: [User]
   developerID: String!
   date_created: String
   quote: [Quote]
