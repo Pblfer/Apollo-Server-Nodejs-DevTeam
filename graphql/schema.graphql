@@ -390,6 +390,9 @@ type Query {
   "👨‍💻👩‍💻👩‍💼👨‍💼🦸‍🦸‍ - Obtener Todos los Usuarios"
   getAllUsers: [User]
 
+   "👨‍💻👩‍💻👩‍💼👨‍💼🦸‍🦸‍ - Obtener Todos los Usuarios"
+  getAllSeller(developerID: String!): [User]
+
   "📥🏢 - Obtener Todos los Niveles de un Proyecto"
   getProyect(proyectID: String!): Proyect
 

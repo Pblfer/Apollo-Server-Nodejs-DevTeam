@@ -66,6 +66,17 @@ module.exports = {
     }
     return usuarios;
   },
+  getAllSeller: async (root,{developerID}) => {
+    let db;
+    let seller = []
+    try{
+      db = await connectDB();
+      seller = await db.collection("users").find({company_id: developerID}).toArray();
+    }catch(error){
+      console.log(error)
+    }
+    return seller;
+  },
   getUser: async (root, { id }) => {
     let db;
     let usuario;
