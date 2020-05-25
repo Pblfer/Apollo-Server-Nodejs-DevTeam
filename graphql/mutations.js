@@ -78,9 +78,8 @@ module.exports = {
   },
   newReserve: async (root, { userID, developerID, date_created, quotesID }) => {
     date_created = new Date();
-
     const defaults = {
-      userID,
+      users: [ObjectID(userID)],
       developerID,
       date_created,
       quote: [ObjectID(quotesID)],
@@ -446,7 +445,7 @@ module.exports = {
       logo_quote_proyect,
       quote_terms,
       quote_bank_calification_requirements,
-      general_apartament_description
+      general_apartament_description,
     }
   ) => {
     let db;
@@ -1742,7 +1741,7 @@ module.exports = {
       throw error;
     }
     return {
-      updateData
+      updateData,
     };
   },
 
@@ -1774,7 +1773,7 @@ module.exports = {
       throw error;
     }
     return {
-      updateData
+      updateData,
     };
   },
 
@@ -1783,21 +1782,22 @@ module.exports = {
     let updateData;
     try {
       db = await connectDB();
-      updateData = await db
-        .collection("proyects")
-        .updateOne({ _id: ObjectID(ID) }, 
-        { $set: { 
-           lat: lat,
-           long: lng,
-           "point.0": lng,
-           "point.1": lat 
-          }}
+      updateData = await db.collection("proyects").updateOne(
+        { _id: ObjectID(ID) },
+        {
+          $set: {
+            lat: lat,
+            long: lng,
+            "point.0": lng,
+            "point.1": lat,
+          },
+        }
       );
     } catch (error) {
       throw error;
     }
     return {
-      updateData
+      updateData,
     };
   },
 
@@ -2081,5 +2081,26 @@ module.exports = {
           { $pull: { discounts: ObjectID(discountID) } }
         );
     } catch (error) {}
+  },
+  getQuoteDateRange: async (root, { id, toDate, fromDate }) => {
+    let db;
+    let usuario;
+
+    try {
+      db = await connectDB();
+      usuario = await db
+        .collection("quotes")
+        .find({
+          userID: id,
+          quote_date_created: {
+            '$gte': new Date(toDate),
+            '$lte': new Date(fromDate),
+          },
+        })
+        .toArray();
+    } catch (error) {
+      console.log(error);
+    }
+    return usuario;
   },
 };

@@ -148,7 +148,7 @@ type Quote {
 
 type Reserve {
   _id: ID!
-  userID: String!
+  users: [User]
   developerID: String!
   date_created: String
   quote: [Quote]
@@ -375,6 +375,9 @@ type Query {
   "☝👨‍💻 - Obtener Fecha de cotizacion por ID de usuario"
   getQuoteDate(id: ID!): [Quote]
 
+
+  
+
   "obtener Reservas por mes de la desarrolladora"
   getReserveDate(id: ID!): [Reserve]
 
@@ -386,6 +389,9 @@ type Query {
 
   "👨‍💻👩‍💻👩‍💼👨‍💼🦸‍🦸‍ - Obtener Todos los Usuarios"
   getAllUsers: [User]
+
+   "👨‍💻👩‍💻👩‍💼👨‍💼🦸‍🦸‍ - Obtener Todos los Usuarios"
+  getAllSeller(developerID: String!): [User]
 
   "📥🏢 - Obtener Todos los Niveles de un Proyecto"
   getProyect(proyectID: String!): Proyect
@@ -515,6 +521,11 @@ type Mutation {
     phone: String!
     userUID: String!
   ): FlattloAppClient
+
+"☝👨‍💻 - Obtener rango Fecha de cotizacion por ID de usuario"
+  getQuoteDateRange(id: ID! toDate: String! fromDate: String!): [Quote]
+
+
 
   "📝🌐👨‍💼 - Editar perfil de Usuario"
   updateFlattloProfile(ID: ID!, objectField: String!, value: String!): FlattloAppClient
