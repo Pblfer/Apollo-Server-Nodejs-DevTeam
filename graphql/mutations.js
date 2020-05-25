@@ -651,18 +651,33 @@ module.exports = {
       db = await connectDB();
       ingresarCliente = await db
         .collection("clients")
-        .insertOne(ingresarCliente);
+        .findOneAndUpdate(
+          {"email": email},
+          {
+            $set:{"email": email,
+            "developerID": developerID,
+            "first_name": first_name,
+            "last_name": last_name,
+            "phone": phone,
+            "nit": nit
+            }
+          },
+   {
+     upsert: true,
+     returnNewDocument: true
+   })
       ingresarCliente._id = cliente.insertedId;
-    } catch (err) {
+    } catch (err) {}
+    try {
       db = await connectDB();
       Developer = await db
         .collection("realStateDevelopers")
         .updateOne(
           { _id: ObjectID(developerID) },
-          { $addToSet: { clients: ObjectID(ingresarCliente._id) } }
+          { $addToSet: { clients: ingresarCliente._id } }
         );
       return ingresarCliente;
-    }
+    } catch (error) {}
   },
 
   newClientFlattlo: async (
@@ -1435,6 +1450,7 @@ module.exports = {
     let addToInventory;
     const nuevoApartament = {
       proyect_name,
+      proyect_id,
       plane_img,
       level,
       number,
