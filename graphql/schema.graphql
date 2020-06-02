@@ -648,6 +648,7 @@ type Mutation {
     quote_logo: String
     quote_banner: String
     fraction_reserved: Int!
+    parkings_assign: Parking_type!
     etapa: Etapas!
   ): Proyect
 
