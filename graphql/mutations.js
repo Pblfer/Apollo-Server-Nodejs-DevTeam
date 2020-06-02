@@ -281,6 +281,7 @@ module.exports = {
       company_name,
       lat,
       long,
+      parkings_assign
     }
   ) => {
     let db;
@@ -316,6 +317,7 @@ module.exports = {
       quote_terms: "",
       quote_bank_calification_requirements: "",
       etapa,
+      parkings_assign
     };
     const ingresarProyecto = Object.assign(newProyect);
     try {

@@ -40,6 +40,11 @@ enum OpcionBool {
   Opcional
 }
 
+enum Parking_type{
+  FREE
+  PRE
+}
+
 type Developer {
   _id: ID!
   name: String!
@@ -347,6 +352,7 @@ type Proyect {
   max_days_limit_for_quote: Int
   quote_banner: String
   etapa: Etapas!
+  parkings_assign: Parking_type!
 }
 
 """
