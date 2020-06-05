@@ -381,9 +381,6 @@ type Query {
   "☝👨‍💻 - Obtener Fecha de cotizacion por ID de usuario"
   getQuoteDate(id: ID!): [Quote]
 
-
-  
-
   "obtener Reservas por mes de la desarrolladora"
   getReserveDate(id: ID!): [Reserve]
 

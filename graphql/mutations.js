@@ -1482,17 +1482,7 @@ module.exports = {
         .collection("apartaments")
         .insertOne(ingresarApartamento);
       ingresarApartamento._id = apartament.insertedId;
-    } catch (err) {
-      db = await connectDB();
-      addTolevel = await db.collection("levels").updateOne(
-        {
-          developerID: developer_id,
-          proyectID: proyect_id,
-          number_of_level: level,
-        },
-        { $addToSet: { inventory: ObjectID(ingresarApartamento._id) } }
-      );
-    }
+    } catch (err) {}
     try {
       db = await connectDB();
       addToInventory = await db
