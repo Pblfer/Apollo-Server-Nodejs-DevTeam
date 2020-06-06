@@ -2,24 +2,13 @@ const httpStatus = require("http-status");
 const router = require("express").Router({ mergeParams: true });
 const basicAuth = require("./../auth/basicAuth");
 
+const getQuoteByUser = require("../services/getQuotes");
+
 router.use(basicAuth);
 
-// [GET] :id
+// [GET] quotes
 router.get("/", (req, res) => {
-  res.status(httpStatus.OK).json({
-    data: [
-      {
-        id: 1,
-        header: "User #1",
-        link: "https://www.google.com",
-        total: {
-          code: "USD",
-          value: 100.33333,
-        },
-        date: "2019-10-01T19:20:11+02:00",
-      },
-    ],
-  });
+  res.status(httpStatus.OK).json(getQuoteByUser(req));
 });
 
 module.exports = router;
