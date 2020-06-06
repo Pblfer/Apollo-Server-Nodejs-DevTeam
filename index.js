@@ -7,12 +7,17 @@ const helmet = require("helmet");
 const httpStatus = require("http-status");
 const morgan = require("morgan");
 
-const { ApolloServer } = require("apollo-server-express");
+const { ApolloServer, gql } = require("apollo-server-express");
 const { readFileSync } = require("fs");
+const { buildFederatedSchema } = require("@apollo/federation");
+
 const { join } = require("path");
 
-// Quotes Endpoint
-const { quotationsRoute } = require("./src/app");
+// GraphQL Modules
+const modules = require("./src/app/graphql/resolvers");
+
+// Rest Endpoint
+const { quotationsRoute } = require("./src/app/rest");
 
 // Express
 const app = express();
@@ -46,9 +51,16 @@ const typeDefs = readFileSync(
 
 const resolvers = require("./graphql/resolvers");
 
-const server = new ApolloServer({
-  typeDefs,
+const flattloModule = {
+  typeDefs: gql`
+    ${typeDefs}
+  `,
   resolvers,
+};
+const schema = [...modules, flattloModule];
+
+const server = new ApolloServer({
+  schema: buildFederatedSchema(schema),
   playground: true,
   introspection: true,
 });
