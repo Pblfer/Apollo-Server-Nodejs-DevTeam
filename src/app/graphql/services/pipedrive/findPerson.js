@@ -1,6 +1,6 @@
 const { pipedrive } = require("@infrastructure");
 
-const searchPersons = async (term, organizationId, searchByEmail = false) => {
+const findPersons = async (term, organizationId, searchByEmail = false) => {
   const filters = {
     term,
     orgId: organizationId,
@@ -21,20 +21,22 @@ const searchPersons = async (term, organizationId, searchByEmail = false) => {
     if (personsResponse.success) {
       const persons = personsResponse.data;
 
-      return persons.map((person) => ({
-        id: person.id,
-        name: person.name,
-        email: [
-          {
-            value: person.email,
-          },
-        ],
-        phone: [
-          {
-            value: person.phone,
-          },
-        ],
-      }));
+      return persons
+        ? persons.map((person) => ({
+            id: person.id,
+            name: person.name,
+            email: [
+              {
+                value: person.email,
+              },
+            ],
+            phone: [
+              {
+                value: person.phone,
+              },
+            ],
+          }))
+        : [];
     }
 
     return null;
@@ -43,4 +45,4 @@ const searchPersons = async (term, organizationId, searchByEmail = false) => {
   }
 };
 
-module.exports = searchPersons;
+module.exports = findPersons;
