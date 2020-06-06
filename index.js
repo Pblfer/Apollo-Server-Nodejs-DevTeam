@@ -12,7 +12,7 @@ const { readFileSync } = require("fs");
 const { join } = require("path");
 
 // Quotes Endpoint
-const { quotesRoute } = require("./src/REST");
+const { quotesRoute } = require("./src/app");
 
 // Express
 const app = express();

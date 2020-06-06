@@ -1,6 +1,6 @@
 const httpStatus = require("http-status");
 const router = require("express").Router({ mergeParams: true });
-const basicAuth = require("./../auth/basicAuth");
+const basicAuth = require("../auth/basicAuth");
 
 const getQuoteByUser = require("../services/getQuotes");
 

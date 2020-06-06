@@ -1,3 +1,6 @@
+const personMockData = require("./mock_data_person.json");
+const dealMockData = require("./mock_data_deal.json");
+
 const parseRequest = (query) => {
   const { selectedIds, companyId, resource } = query;
 
@@ -21,30 +24,20 @@ const parseRequest = (query) => {
 
 const getQuotes = (filters) => {
   // Fake Data
-  return {
-    data: [
-      {
-        id: 1,
-        header: "Quote #1",
-        link: process.env.FLATTLO_URI + "quotes/1",
-        total: {
-          code: "USD",
-          value: 100.33,
-        },
-        date: "2019-10-01T19:20:11+02:00",
-      },
-      {
-        id: 2,
-        header: "Quote #2",
-        link: process.env.FLATTLO_URI + "quotes/2",
-        total: {
-          code: "USD",
-          value: 100.33,
-        },
-        date: "2019-10-01T19:20:11+02:00",
-      },
-    ],
-  };
+
+  switch (filters.resource) {
+    case "person": {
+      return {
+        data: personMockData,
+      };
+    }
+
+    case "deal": {
+      return {
+        data: dealMockData,
+      };
+    }
+  }
 };
 
 const getQuoteByUser = (req) => {

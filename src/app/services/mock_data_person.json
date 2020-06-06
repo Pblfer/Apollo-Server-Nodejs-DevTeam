@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "header": "Quote #1",
+    "link": "https://flattlo.com/quotes/1",
+    "total": {
+      "code": "USD",
+      "value": 100.33
+    },
+    "date": "2019-10-01T19:20:11+02:00"
+  },
+  {
+    "id": 2,
+    "header": "Quote #2",
+    "link": "https://flattlo.com/quotes/2",
+    "total": {
+      "code": "USD",
+      "value": 100.33
+    },
+    "date": "2019-10-01T19:20:11+02:00"
+  }
+]
