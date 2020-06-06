@@ -1,7 +1,7 @@
 const personMockData = require("./mock_data_person.json");
 const dealMockData = require("./mock_data_deal.json");
 
-const parseRequest = (query) => {
+const validateRequest = (query) => {
   const { selectedIds, companyId, resource } = query;
 
   if (
@@ -13,8 +13,6 @@ const parseRequest = (query) => {
     throw new Error("Invalid request");
   }
 
-  console.log(query);
-
   return {
     resource,
     id: selectedIds,
@@ -22,7 +20,7 @@ const parseRequest = (query) => {
   };
 };
 
-const getQuotes = (filters) => {
+const getQuotations = (filters) => {
   // Fake Data
 
   switch (filters.resource) {
@@ -40,13 +38,11 @@ const getQuotes = (filters) => {
   }
 };
 
-const getQuoteByUser = (req) => {
+module.exports = (req) => {
   try {
-    const filters = parseRequest(req.query);
-    return getQuotes(filters);
+    const filters = validateRequest(req.query);
+    return getQuotations(filters);
   } catch {
     return { data: [] };
   }
 };
-
-module.exports = getQuoteByUser;

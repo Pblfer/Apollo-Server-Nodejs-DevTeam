@@ -12,7 +12,7 @@ const { readFileSync } = require("fs");
 const { join } = require("path");
 
 // Quotes Endpoint
-const { quotesRoute } = require("./src/app");
+const { quotationsRoute } = require("./src/app");
 
 // Express
 const app = express();
@@ -36,7 +36,7 @@ app.get("/rest", (req, res) => {
   });
 });
 
-app.use("/rest/quotes", quotesRoute);
+app.use("/rest/quotations", quotationsRoute);
 
 // graphQl
 const typeDefs = readFileSync(

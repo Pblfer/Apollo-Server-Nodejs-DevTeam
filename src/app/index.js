@@ -1,5 +1,5 @@
-const quotesRoute = require("./routes/quotes.route");
+const quotationsRoute = require("./routes/quotations.route");
 
 module.exports = {
-  quotesRoute,
+  quotationsRoute,
 };
