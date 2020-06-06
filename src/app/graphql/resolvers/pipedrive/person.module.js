@@ -1,6 +1,16 @@
 const { gql } = require("apollo-server-express");
 
+const searchPersons = require("@app/graphql/services/pipedrive/findPerson");
+
 const typeDefs = gql`
+  extend type Query {
+    PipedrivePerson(
+      term: String!
+      organizationId: Int!
+      searchByEmail: Boolean
+    ): [PipedrivePerson]
+  }
+
   type PipedrivePerson {
     id: ID!
     name: String
@@ -15,4 +25,12 @@ const typeDefs = gql`
   }
 `;
 
-module.exports = { typeDefs };
+const resolvers = {
+  Query: {
+    async PipedrivePerson(_, { term, organizationId, searchByEmail }) {
+      return searchPersons(term, organizationId, searchByEmail);
+    },
+  },
+};
+
+module.exports = { typeDefs, resolvers };

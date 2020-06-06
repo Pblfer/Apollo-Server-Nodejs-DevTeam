@@ -4,7 +4,7 @@ const getDeal = require("@app/graphql/services/pipedrive/getDeal");
 
 const typeDefs = gql`
   extend type Query {
-    pipedriveDeal(id: Int!): PipedriveDeal
+    PipedriveDeal(id: Int!): PipedriveDeal
   }
 
   type PipedriveDeal {
@@ -17,7 +17,7 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    async pipedriveDeal(_, { id }) {
+    async PipedriveDeal(_, { id }) {
       return getDeal(id);
     },
   },
