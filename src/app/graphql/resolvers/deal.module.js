@@ -9,6 +9,7 @@ const typeDefs = gql`
 
   type PipedriveDeal {
     id: ID!
+    companyId: ID
     organization: PipedriveOrganization
     person: PipedrivePerson
   }
