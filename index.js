@@ -1,4 +1,5 @@
 require("dotenv").config();
+require("module-alias/register");
 
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -14,10 +15,10 @@ const { buildFederatedSchema } = require("@apollo/federation");
 const { join } = require("path");
 
 // GraphQL Modules
-const modules = require("./src/app/graphql/resolvers");
+const modules = require("@app/graphql/resolvers");
 
 // Rest Endpoint
-const { quotationsRoute } = require("./src/app/rest");
+const { quotationsRoute } = require("@app/rest");
 
 // Express
 const app = express();
@@ -43,7 +44,7 @@ app.get("/rest", (req, res) => {
 
 app.use("/rest/quotations", quotationsRoute);
 
-// graphQl
+// GraphQl
 const typeDefs = readFileSync(
   join(__dirname, "graphql", "schema.graphql"),
   "utf-8"

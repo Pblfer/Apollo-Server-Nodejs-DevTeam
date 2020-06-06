@@ -1,4 +1,4 @@
-const { pipedrive } = require("../../../infrastructure");
+const { pipedrive } = require("@infrastructure");
 
 const getDeal = async (dealId) => {
   try {

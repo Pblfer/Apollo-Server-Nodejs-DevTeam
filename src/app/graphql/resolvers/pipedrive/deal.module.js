@@ -1,6 +1,6 @@
 const { gql } = require("apollo-server-express");
 
-const getDeal = require("../services/getDeal");
+const getDeal = require("@app/graphql/services/pipedrive/getDeal");
 
 const typeDefs = gql`
   extend type Query {

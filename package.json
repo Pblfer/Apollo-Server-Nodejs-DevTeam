@@ -18,9 +18,15 @@
     "helmet": "^3.22.0",
     "http-status": "^1.4.2",
     "jsonwebtoken": "^8.5.1",
+    "module-alias": "^2.2.2",
     "mongodb": "^3.3.2",
     "morgan": "^1.10.0",
     "nodemon": "^1.17.5",
     "pipedrive": "^10.4.3"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@infrastructure": "src/infrastructure",
+    "@app": "src/app"
   }
 }
