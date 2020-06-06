@@ -16,7 +16,7 @@ const typeDefs = gql`
   extend type Query {
     PipedrivePerson(
       term: String!
-      organizationId: Int!
+      organizationId: Int
       searchByEmail: Boolean
     ): [PipedrivePerson]
   }

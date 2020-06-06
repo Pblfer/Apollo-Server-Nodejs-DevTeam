@@ -3,7 +3,7 @@ const { pipedrive } = require("@infrastructure");
 const findPersons = async (term, organizationId, searchByEmail = false) => {
   const filters = {
     term,
-    orgId: organizationId,
+    ...(organizationId && { orgId: organizationId }),
     ...(searchByEmail && searchByEmail),
   };
 
