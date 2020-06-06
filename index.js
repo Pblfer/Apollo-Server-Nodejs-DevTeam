@@ -50,6 +50,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   playground: true,
+  introspection: true,
 });
 
 server.applyMiddleware({ app, path: "/" });
