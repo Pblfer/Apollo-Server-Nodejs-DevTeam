@@ -281,7 +281,6 @@ module.exports = {
       company_name,
       lat,
       long,
-      parkings_assign
     }
   ) => {
     let db;
@@ -317,7 +316,6 @@ module.exports = {
       quote_terms: "",
       quote_bank_calification_requirements: "",
       etapa,
-      parkings_assign
     };
     const ingresarProyecto = Object.assign(newProyect);
     try {
@@ -493,7 +491,6 @@ module.exports = {
       point: [long, lat],
       favorite_quote: "false",
       esign: "false",
-      
     };
     const ingresarCotizacion = Object.assign(nuevaCotizacion);
     try {
@@ -652,33 +649,18 @@ module.exports = {
       db = await connectDB();
       ingresarCliente = await db
         .collection("clients")
-        .findOneAndUpdate(
-          {"email": email},
-          {
-            $set:{"email": email,
-            "developerID": developerID,
-            "first_name": first_name,
-            "last_name": last_name,
-            "phone": phone,
-            "nit": nit
-            }
-          },
-   {
-     upsert: true,
-     returnNewDocument: true
-   })
+        .insertOne(ingresarCliente);
       ingresarCliente._id = cliente.insertedId;
-    } catch (err) {}
-    try {
+    } catch (err) {
       db = await connectDB();
       Developer = await db
         .collection("realStateDevelopers")
         .updateOne(
           { _id: ObjectID(developerID) },
-          { $addToSet: { clients: ingresarCliente._id } }
+          { $addToSet: { clients: ObjectID(ingresarCliente._id) } }
         );
       return ingresarCliente;
-    } catch (error) {}
+    }
   },
 
   newClientFlattlo: async (
@@ -1451,7 +1433,6 @@ module.exports = {
     let addToInventory;
     const nuevoApartament = {
       proyect_name,
-      proyect_id,
       plane_img,
       level,
       number,
@@ -1482,7 +1463,17 @@ module.exports = {
         .collection("apartaments")
         .insertOne(ingresarApartamento);
       ingresarApartamento._id = apartament.insertedId;
-    } catch (err) {}
+    } catch (err) {
+      db = await connectDB();
+      addTolevel = await db.collection("levels").updateOne(
+        {
+          developerID: developer_id,
+          proyectID: proyect_id,
+          number_of_level: level,
+        },
+        { $addToSet: { inventory: ObjectID(ingresarApartamento._id) } }
+      );
+    }
     try {
       db = await connectDB();
       addToInventory = await db
@@ -1704,12 +1695,14 @@ module.exports = {
       }
     } else {
       try {
-        updateData = await db
+        /*updateData = await db
           .collection("users")
           .updateOne(
             { _id: ObjectID(ID) },
             { $addToSet: { proyects: ObjectID(value) } }
-          );
+          );*/
+
+        console.log(value);
       } catch (error) {
         throw error;
       }
@@ -1719,6 +1712,37 @@ module.exports = {
       objectField,
       value,
     };
+  },
+  addproyectToUser: async (root, { userID, proyectID }) => {
+    let db;
+    let usuario;
+    let proyecto;
+    try {
+      db = await connectDB();
+      //buscar Cotizacion
+      usuario = await db
+        .collection("users")
+        .findOne({ _id: ObjectID(userID) });
+      //buscar Parqueo
+      proyecto = await db
+        .collection("proyects")
+        .findOne({ _id: ObjectID(proyectID) });
+      if (!usuario || !proyecto) {
+        throw new Error("El Proyecto no existe");
+      }
+      await db.collection("users").updateOne(
+        { _id: ObjectID(userID) },
+        {
+          $addToSet: {
+            proyects: ObjectID(proyectID),
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    return proyecto;
+
   },
 
   editProyectStringData: async (root, { ID, objectField, value }) => {
@@ -1749,7 +1773,7 @@ module.exports = {
       throw error;
     }
     return {
-      updateData
+      updateData,
     };
   },
 
@@ -2085,8 +2109,8 @@ module.exports = {
         .find({
           userID: id,
           quote_date_created: {
-            '$gte': new Date(toDate),
-            '$lte': new Date(fromDate),
+            $gte: new Date(toDate),
+            $lte: new Date(fromDate),
           },
         })
         .toArray();

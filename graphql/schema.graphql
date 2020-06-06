@@ -536,6 +536,7 @@ type Mutation {
   "📝👨‍💼 - Editar perfil de Usuario"
   updateUserProfile(ID: ID!, objectField: String!, value: String!): Updated
 
+
   "🔐👨‍💼⛓ - Update Password and Hashit "
   updateUserPassword(ID: ID!, newPass: String!): User
 
@@ -847,6 +848,9 @@ type Mutation {
 
   "📃🚗 - Agregar Parqueo a Cotización"
   addParkingToQuote(quoteID: String!, parkingID: String!): Parking
+
+   "📃🚗 - Agregar Proyecto a usuario"
+  addproyectToUser(userID: String!, proyectID: String!): Proyect
 
   "📃📦 - Agregar Bodega a Cotización"
   addWarehouseToQuote(quoteID: String!, warehouseID: String!): Warehouse
