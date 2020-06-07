@@ -1,0 +1,25 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["id", "header", "total", "link", "date"],
+    "properties": {
+      "id": {
+        "$ref": "#/definitions/numerical"
+      },
+      "header": {
+        "$ref": "#/definitions/header"
+      },
+      "total": {
+        "$ref": "#/definitions/currency"
+      },
+      "link": {
+        "$ref": "#/definitions/link"
+      },
+      "date": {
+        "label": "Created",
+        "$ref": "#/definitions/date-time"
+      }
+    }
+  }
+}

@@ -5,9 +5,6 @@ const { DB_USER, DB_PASSWD, DB_HOST, DB_PORT, DB_NAME } = process.env;
 
 const mongoUrl = `mongodb+srv://${DB_USER}:${DB_PASSWD}@${DB_HOST}/test?retryWrites=true&w=majority`;
 
-
-//const mongoUrl = `mongodb://localhost:27017/api_flattlo`;
-
 let connection;
 
 async function connectDB() {
@@ -18,7 +15,7 @@ async function connectDB() {
     client = await MongoClient.connect(mongoUrl, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      poolSize: 10
+      poolSize: 10,
     });
     connection = client.db(DB_NAME);
   } catch (error) {
