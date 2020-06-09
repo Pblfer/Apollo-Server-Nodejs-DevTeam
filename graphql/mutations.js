@@ -643,6 +643,8 @@ module.exports = {
       last_name,
       phone,
       nit,
+      pipedrive_id,
+      pipedrive_orgId,
     };
     const ingresarCliente = Object.assign(newClient);
     try {
@@ -665,7 +667,7 @@ module.exports = {
 
   newClientFlattlo: async (
     root,
-    { email, first_name, last_name, phone, userUID }
+    { email, first_name, last_name, phone, userUID, pipedrive_id, pipedrive_orgId }
   ) => {
     let db;
     let cliente;
@@ -675,6 +677,8 @@ module.exports = {
       last_name,
       phone,
       userUID,
+      pipedrive_id,
+      pipedrive_orgId
     };
     const ingresarCliente = Object.assign(newClient);
     try {
@@ -839,6 +843,38 @@ module.exports = {
       console.log(error);
     }
     return cliente;
+  },
+
+  addClientToDeveloper: async (root, { developerID, clientID }) => {
+    let db;
+    let desarrollador;
+    let cliente;
+    try {
+      db = await connectDB();
+      //buscar Desarrollador
+      desarrollador = await db
+        .collection("realStateDevelopers")
+        .findOne({ _id: ObjectID(developerID) });
+      //buscar cliente
+      cliente = await db
+        .collection("clients")
+        .findOne({ _id: ObjectID(clientID) });
+      if (!desarrollador || !cliente) {
+        throw new Error("El cliente o la desarrolladora no existen.");
+      }
+      await db.collection("realStateDevelopers").updateOne(
+        { _id: ObjectID(developerID) },
+        {
+          $addToSet: {
+            clients: ObjectID(clientID),
+          },
+        }
+      );
+      
+    } catch (error) {
+      console.log(error);
+    }
+    return desarrollador;
   },
 
   showHiddenQuoteToSeller: async (root, { quoteID, sellerID }) => {

@@ -54,6 +54,19 @@ module.exports = {
     }
     return desarrolladora;
   },
+  getFlattloClientByID: async (root, { clientID }) => {
+    let db;
+    let cliente;
+    try {
+      db = await connectDB();
+      cliente = await db
+        .collection("clients")
+        .findOne({ _id: ObjectID(clientID) });
+    } catch (error) {
+      console.log(error);
+    }
+    return cliente;
+  },
 
   getAllUsers: async () => {
     let db;
